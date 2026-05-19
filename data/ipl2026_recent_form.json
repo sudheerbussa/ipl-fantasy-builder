@@ -1,0 +1,3675 @@
+{
+  "season": 2026,
+  "window_size": 5,
+  "last_updated": "2026-04-21",
+  "match_history": [
+    {
+      "match_id": "IPL2026-001",
+      "date": "2026-03-28",
+      "team_a": "Royal Challengers Bengaluru",
+      "team_b": "Sunrisers Hyderabad",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-002",
+      "date": "2026-03-29",
+      "team_a": "Mumbai Indians",
+      "team_b": "Kolkata Knight Riders",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-003",
+      "date": "2026-03-30",
+      "team_a": "Rajasthan Royals",
+      "team_b": "Chennai Super Kings",
+      "player_stats_count": 23
+    },
+    {
+      "match_id": "IPL2026-004",
+      "date": "2026-03-31",
+      "team_a": "Punjab Kings",
+      "team_b": "Gujarat Titans",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-005",
+      "date": "2026-04-01",
+      "team_a": "Lucknow Super Giants",
+      "team_b": "Delhi Capitals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-006",
+      "date": "2026-04-02",
+      "team_a": "Kolkata Knight Riders",
+      "team_b": "Sunrisers Hyderabad",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-007",
+      "date": "2026-04-03",
+      "team_a": "Chennai Super Kings",
+      "team_b": "Punjab Kings",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-008",
+      "date": "2026-04-04",
+      "team_a": "Delhi Capitals",
+      "team_b": "Mumbai Indians",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-009",
+      "date": "2026-04-04",
+      "team_a": "Gujarat Titans",
+      "team_b": "Rajasthan Royals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-010",
+      "date": "2026-04-05",
+      "team_a": "Sunrisers Hyderabad",
+      "team_b": "Lucknow Super Giants",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-011",
+      "date": "2026-04-05",
+      "team_a": "Royal Challengers Bengaluru",
+      "team_b": "Chennai Super Kings",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-012",
+      "date": "2026-04-06",
+      "team_a": "Kolkata Knight Riders",
+      "team_b": "Punjab Kings",
+      "player_stats_count": 22
+    },
+    {
+      "match_id": "IPL2026-013",
+      "date": "2026-04-07",
+      "team_a": "Rajasthan Royals",
+      "team_b": "Mumbai Indians",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-014",
+      "date": "2026-04-08",
+      "team_a": "Delhi Capitals",
+      "team_b": "Gujarat Titans",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-015",
+      "date": "2026-04-09",
+      "team_a": "Kolkata Knight Riders",
+      "team_b": "Lucknow Super Giants",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-016",
+      "date": "2026-04-10",
+      "team_a": "Rajasthan Royals",
+      "team_b": "Royal Challengers Bengaluru",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-017",
+      "date": "2026-04-11",
+      "team_a": "Punjab Kings",
+      "team_b": "Sunrisers Hyderabad",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-018",
+      "date": "2026-04-11",
+      "team_a": "Chennai Super Kings",
+      "team_b": "Delhi Capitals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-019",
+      "date": "2026-04-12",
+      "team_a": "Lucknow Super Giants",
+      "team_b": "Gujarat Titans",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-020",
+      "date": "2026-04-12",
+      "team_a": "Mumbai Indians",
+      "team_b": "Royal Challengers Bengaluru",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-021",
+      "date": "2026-04-13",
+      "team_a": "Sunrisers Hyderabad",
+      "team_b": "Rajasthan Royals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-022",
+      "date": "2026-04-14",
+      "team_a": "Chennai Super Kings",
+      "team_b": "Kolkata Knight Riders",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-023",
+      "date": "2026-04-15",
+      "team_a": "Royal Challengers Bengaluru",
+      "team_b": "Lucknow Super Giants",
+      "player_stats_count": 25
+    },
+    {
+      "match_id": "IPL2026-024",
+      "date": "2026-04-16",
+      "team_a": "Mumbai Indians",
+      "team_b": "Punjab Kings",
+      "player_stats_count": 23
+    },
+    {
+      "match_id": "IPL2026-025",
+      "date": "2026-04-17",
+      "team_a": "Gujarat Titans",
+      "team_b": "Kolkata Knight Riders",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-026",
+      "date": "2026-04-18",
+      "team_a": "Royal Challengers Bengaluru",
+      "team_b": "Delhi Capitals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-027",
+      "date": "2026-04-18",
+      "team_a": "Sunrisers Hyderabad",
+      "team_b": "Chennai Super Kings",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-028",
+      "date": "2026-04-19",
+      "team_a": "Kolkata Knight Riders",
+      "team_b": "Rajasthan Royals",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-029",
+      "date": "2026-04-19",
+      "team_a": "Punjab Kings",
+      "team_b": "Lucknow Super Giants",
+      "player_stats_count": 24
+    },
+    {
+      "match_id": "IPL2026-030",
+      "date": "2026-04-20",
+      "team_a": "Gujarat Titans",
+      "team_b": "Mumbai Indians",
+      "player_stats_count": 25
+    }
+  ],
+  "player_form": {
+    "Sunrisers Hyderabad": {
+      "Harsh Dubey": {
+        "last_fantasy_points": [
+          28,
+          40,
+          58,
+          30,
+          0
+        ],
+        "last_runs": [
+          3,
+          9,
+          0,
+          1,
+          0
+        ],
+        "last_wickets": [
+          1,
+          1,
+          2,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Harshal Patel": {
+        "last_fantasy_points": [
+          -2,
+          13,
+          -2
+        ],
+        "last_runs": [
+          0,
+          4,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Heinrich Klaasen": {
+        "last_fantasy_points": [
+          72,
+          87,
+          50,
+          59,
+          127
+        ],
+        "last_runs": [
+          52,
+          62,
+          39,
+          40,
+          59
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "David Payne": {
+        "last_fantasy_points": [
+          56,
+          -2
+        ],
+        "last_runs": [
+          6,
+          0
+        ],
+        "last_wickets": [
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Nitish Kumar Reddy": {
+        "last_fantasy_points": [
+          107,
+          85,
+          0,
+          46,
+          90
+        ],
+        "last_runs": [
+          39,
+          56,
+          0,
+          28,
+          12
+        ],
+        "last_wickets": [
+          2,
+          0,
+          0,
+          0,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Abhishek Sharma": {
+        "last_fantasy_points": [
+          74,
+          2,
+          113,
+          2,
+          125
+        ],
+        "last_runs": [
+          48,
+          0,
+          74,
+          0,
+          59
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Eshan Malinga": {
+        "last_fantasy_points": [
+          56,
+          29,
+          -2,
+          54,
+          98
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          2,
+          1,
+          0,
+          2,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Aniket Verma": {
+        "last_fantasy_points": [
+          5,
+          6,
+          25,
+          11,
+          14
+        ],
+        "last_runs": [
+          1,
+          2,
+          18,
+          6,
+          2
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Ishan Kishan": {
+        "last_fantasy_points": [
+          21,
+          5,
+          40,
+          129,
+          2
+        ],
+        "last_runs": [
+          14,
+          1,
+          27,
+          91,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Travis Head": {
+        "last_fantasy_points": [
+          72,
+          12,
+          57,
+          25,
+          45
+        ],
+        "last_runs": [
+          46,
+          7,
+          38,
+          18,
+          23
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Jaydev Unadkat": {
+        "last_fantasy_points": [
+          33,
+          85,
+          -2,
+          -2
+        ],
+        "last_runs": [
+          4,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          3,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 4
+      },
+      "Salil Arora": {
+        "last_fantasy_points": [
+          15,
+          2,
+          15,
+          40,
+          33
+        ],
+        "last_runs": [
+          9,
+          0,
+          9,
+          24,
+          13
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Shivang Kumar": {
+        "last_fantasy_points": [
+          7,
+          35,
+          83,
+          4,
+          58
+        ],
+        "last_runs": [
+          4,
+          5,
+          0,
+          0,
+          12
+        ],
+        "last_wickets": [
+          0,
+          1,
+          3,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Liam Livingstone": {
+        "last_fantasy_points": [
+          18,
+          21
+        ],
+        "last_runs": [
+          14,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Sakib Hussain": {
+        "last_fantasy_points": [
+          116,
+          42
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          4,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Praful Hinge": {
+        "last_fantasy_points": [
+          112,
+          28
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          4,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      }
+    },
+    "Royal Challengers Bengaluru": {
+      "Rajat Patidar": {
+        "last_fantasy_points": [
+          75,
+          91,
+          85,
+          71,
+          18
+        ],
+        "last_runs": [
+          48,
+          63,
+          53,
+          27,
+          8
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Devdutt Padikkal": {
+        "last_fantasy_points": [
+          77,
+          21,
+          4,
+          26,
+          34
+        ],
+        "last_runs": [
+          50,
+          14,
+          0,
+          10,
+          18
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Tim David": {
+        "last_fantasy_points": [
+          107,
+          19,
+          56,
+          36,
+          56
+        ],
+        "last_runs": [
+          70,
+          13,
+          34,
+          14,
+          26
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Romario Shepherd": {
+        "last_fantasy_points": [
+          4,
+          36,
+          6,
+          28,
+          5
+        ],
+        "last_runs": [
+          0,
+          22,
+          2,
+          14,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Krunal Pandya": {
+        "last_fantasy_points": [
+          48,
+          55,
+          31,
+          72,
+          54
+        ],
+        "last_runs": [
+          0,
+          1,
+          0,
+          0,
+          12
+        ],
+        "last_wickets": [
+          2,
+          2,
+          1,
+          2,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Suyash Sharma": {
+        "last_fantasy_points": [
+          29,
+          33,
+          50,
+          4,
+          2
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          1,
+          2,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Virat Kohli": {
+        "last_fantasy_points": [
+          40,
+          53,
+          71,
+          89,
+          45
+        ],
+        "last_runs": [
+          28,
+          32,
+          50,
+          49,
+          19
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Bhuvneshwar Kumar": {
+        "last_fantasy_points": [
+          81,
+          14,
+          4,
+          108,
+          111
+        ],
+        "last_runs": [
+          0,
+          9,
+          0,
+          0,
+          3
+        ],
+        "last_wickets": [
+          3,
+          0,
+          0,
+          3,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Jitesh Sharma": {
+        "last_fantasy_points": [
+          4,
+          9,
+          15,
+          55,
+          28
+        ],
+        "last_runs": [
+          0,
+          5,
+          10,
+          23,
+          14
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Jacob Duffy": {
+        "last_fantasy_points": [
+          87,
+          48,
+          23
+        ],
+        "last_runs": [
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          3,
+          2,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Abhinandan Singh": {
+        "last_fantasy_points": [
+          23,
+          54,
+          -2
+        ],
+        "last_runs": [
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Venkatesh Iyer": {
+        "last_fantasy_points": [
+          44
+        ],
+        "last_runs": [
+          29
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Josh Hazlewood": {
+        "last_fantasy_points": [
+          50,
+          46,
+          4
+        ],
+        "last_runs": [
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          2,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Phil Salt": {
+        "last_fantasy_points": [
+          23,
+          121
+        ],
+        "last_runs": [
+          7,
+          63
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Rasikh Salam": {
+        "last_fantasy_points": [
+          150,
+          2
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          4,
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      }
+    },
+    "Kolkata Knight Riders": {
+      "Varun Chakravarthy": {
+        "last_fantasy_points": [
+          -2,
+          -2,
+          4,
+          64,
+          112
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          2,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 4
+      },
+      "Sunil Narine": {
+        "last_fantasy_points": [
+          20,
+          35,
+          92,
+          34,
+          74
+        ],
+        "last_runs": [
+          12,
+          0,
+          24,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          1,
+          1,
+          1,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Anukul Roy": {
+        "last_fantasy_points": [
+          4,
+          54,
+          37,
+          11,
+          59
+        ],
+        "last_runs": [
+          0,
+          0,
+          1,
+          9,
+          29
+        ],
+        "last_wickets": [
+          0,
+          2,
+          1,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Rinku Singh": {
+        "last_fantasy_points": [
+          4,
+          8,
+          6,
+          13,
+          101
+        ],
+        "last_runs": [
+          0,
+          4,
+          6,
+          1,
+          53
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Kartik Tyagi": {
+        "last_fantasy_points": [
+          4,
+          27,
+          72,
+          30,
+          102
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          6,
+          0
+        ],
+        "last_wickets": [
+          0,
+          1,
+          2,
+          0,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Finn Allen": {
+        "last_fantasy_points": [
+          61,
+          40,
+          11,
+          15,
+          5
+        ],
+        "last_runs": [
+          37,
+          28,
+          6,
+          9,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Cameron Green": {
+        "last_fantasy_points": [
+          9,
+          66,
+          -4,
+          165,
+          65
+        ],
+        "last_runs": [
+          4,
+          32,
+          0,
+          79,
+          27
+        ],
+        "last_wickets": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Ajinkya Rahane": {
+        "last_fantasy_points": [
+          13,
+          63,
+          48,
+          2,
+          10
+        ],
+        "last_runs": [
+          8,
+          41,
+          28,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Blessing Muzarabani": {
+        "last_fantasy_points": [
+          0,
+          110
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          4
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Vaibhav Arora": {
+        "last_fantasy_points": [
+          4,
+          54,
+          36,
+          34,
+          16
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          2,
+          1,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Ramandeep Singh": {
+        "last_fantasy_points": [
+          4,
+          4,
+          77,
+          65,
+          20
+        ],
+        "last_runs": [
+          0,
+          0,
+          35,
+          17,
+          10
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 7
+      },
+      "Angkrish Raghuvanshi": {
+        "last_fantasy_points": [
+          11,
+          64,
+          55,
+          20,
+          22
+        ],
+        "last_runs": [
+          7,
+          45,
+          27,
+          8,
+          10
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Navdeep Saini": {
+        "last_fantasy_points": [
+          4,
+          -2
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Rovman Powell": {
+        "last_fantasy_points": [
+          4,
+          59,
+          65,
+          57,
+          41
+        ],
+        "last_runs": [
+          0,
+          39,
+          31,
+          27,
+          23
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Tim Seifert": {
+        "last_fantasy_points": [
+          39,
+          28
+        ],
+        "last_runs": [
+          19,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      }
+    },
+    "Mumbai Indians": {
+      "Trent Boult": {
+        "last_fantasy_points": [
+          4,
+          5,
+          23
+        ],
+        "last_runs": [
+          0,
+          1,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Suryakumar Yadav": {
+        "last_fantasy_points": [
+          72,
+          12,
+          50,
+          2,
+          31
+        ],
+        "last_runs": [
+          51,
+          6,
+          33,
+          0,
+          15
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Mayank Markande": {
+        "last_fantasy_points": [
+          4,
+          2,
+          -2
+        ],
+        "last_runs": [
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Hardik Pandya": {
+        "last_fantasy_points": [
+          48,
+          15,
+          87,
+          24,
+          61
+        ],
+        "last_runs": [
+          18,
+          9,
+          40,
+          14,
+          15
+        ],
+        "last_wickets": [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Rohit Sharma": {
+        "last_fantasy_points": [
+          114,
+          52,
+          9,
+          29
+        ],
+        "last_runs": [
+          78,
+          35,
+          5,
+          19
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 4
+      },
+      "Naman Dhir": {
+        "last_fantasy_points": [
+          38,
+          40,
+          5,
+          104,
+          113
+        ],
+        "last_runs": [
+          28,
+          25,
+          1,
+          50,
+          45
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shardul Thakur": {
+        "last_fantasy_points": [
+          83,
+          -2,
+          32,
+          23,
+          28
+        ],
+        "last_runs": [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        "last_wickets": [
+          3,
+          0,
+          1,
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "AM Ghazanfar": {
+        "last_fantasy_points": [
+          -2,
+          52,
+          60,
+          74
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          2,
+          2,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Ryan Rickelton": {
+        "last_fantasy_points": [
+          119,
+          15,
+          14,
+          58,
+          6
+        ],
+        "last_runs": [
+          81,
+          9,
+          8,
+          37,
+          2
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Sherfane Rutherford": {
+        "last_fantasy_points": [
+          10,
+          35,
+          108,
+          5,
+          5
+        ],
+        "last_runs": [
+          5,
+          25,
+          71,
+          1,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Jasprit Bumrah": {
+        "last_fantasy_points": [
+          8,
+          8,
+          4,
+          2,
+          38
+        ],
+        "last_runs": [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Tilak Varma": {
+        "last_fantasy_points": [
+          2,
+          22,
+          5,
+          20,
+          201
+        ],
+        "last_runs": [
+          0,
+          14,
+          1,
+          8,
+          101
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Mitchell Santner": {
+        "last_fantasy_points": [
+          51,
+          36,
+          76
+        ],
+        "last_runs": [
+          18,
+          8,
+          0
+        ],
+        "last_wickets": [
+          1,
+          1,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Deepak Chahar": {
+        "last_fantasy_points": [
+          31,
+          11,
+          6
+        ],
+        "last_runs": [
+          0,
+          6,
+          0
+        ],
+        "last_wickets": [
+          1,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Corbin Bosch": {
+        "last_fantasy_points": [
+          36
+        ],
+        "last_runs": [
+          11
+        ],
+        "last_wickets": [
+          1
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Quinton de Kock": {
+        "last_fantasy_points": [
+          220,
+          47
+        ],
+        "last_runs": [
+          112,
+          13
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Mayank Rawat": {
+        "last_fantasy_points": [
+          4
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Danish Malewar": {
+        "last_fantasy_points": [
+          6
+        ],
+        "last_runs": [
+          2
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Krish Bhagat": {
+        "last_fantasy_points": [
+          16
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Ashwani Kumar": {
+        "last_fantasy_points": [
+          134
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          4
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      },
+      "Raj Bawa": {
+        "last_fantasy_points": [
+          12
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      }
+    },
+    "Chennai Super Kings": {
+      "Anshul Kamboj": {
+        "last_fantasy_points": [
+          50,
+          49,
+          83,
+          64,
+          125
+        ],
+        "last_runs": [
+          0,
+          19,
+          0,
+          0,
+          13
+        ],
+        "last_wickets": [
+          2,
+          1,
+          3,
+          2,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Sanju Samson": {
+        "last_fantasy_points": [
+          12,
+          15,
+          164,
+          92,
+          25
+        ],
+        "last_runs": [
+          7,
+          9,
+          115,
+          48,
+          7
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Khaleel Ahmed": {
+        "last_fantasy_points": [
+          8,
+          4,
+          4,
+          23,
+          36
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Jamie Overton": {
+        "last_fantasy_points": [
+          57,
+          78,
+          118,
+          13,
+          118
+        ],
+        "last_runs": [
+          43,
+          37,
+          0,
+          7,
+          16
+        ],
+        "last_wickets": [
+          0,
+          1,
+          4,
+          0,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Sarfaraz Khan": {
+        "last_fantasy_points": [
+          54,
+          80,
+          4,
+          51,
+          47
+        ],
+        "last_runs": [
+          32,
+          50,
+          0,
+          23,
+          25
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Matt Henry": {
+        "last_fantasy_points": [
+          4,
+          48,
+          0
+        ],
+        "last_runs": [
+          5,
+          0,
+          2
+        ],
+        "last_wickets": [
+          0,
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Noor Ahmad": {
+        "last_fantasy_points": [
+          4,
+          8,
+          23,
+          110,
+          13
+        ],
+        "last_runs": [
+          0,
+          8,
+          0,
+          0,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0,
+          1,
+          3,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Ayush Mhatre": {
+        "last_fantasy_points": [
+          105,
+          5,
+          86,
+          88,
+          70
+        ],
+        "last_runs": [
+          73,
+          1,
+          59,
+          38,
+          30
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Kartik Sharma": {
+        "last_fantasy_points": [
+          24,
+          5,
+          12
+        ],
+        "last_runs": [
+          18,
+          1,
+          6
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Shivam Dube": {
+        "last_fantasy_points": [
+          64,
+          47,
+          34,
+          37,
+          37
+        ],
+        "last_runs": [
+          45,
+          18,
+          20,
+          13,
+          21
+        ],
+        "last_wickets": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Ruturaj Gaikwad": {
+        "last_fantasy_points": [
+          34,
+          13,
+          20,
+          23,
+          53
+        ],
+        "last_runs": [
+          28,
+          7,
+          15,
+          7,
+          19
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Prashant Veer": {
+        "last_fantasy_points": [
+          11,
+          61
+        ],
+        "last_runs": [
+          6,
+          43
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Rahul Chahar": {
+        "last_fantasy_points": [
+          0
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Dewald Brevis": {
+        "last_fantasy_points": [
+          4,
+          87,
+          18
+        ],
+        "last_runs": [
+          0,
+          41,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Gurjapneet Singh": {
+        "last_fantasy_points": [
+          29,
+          12,
+          42
+        ],
+        "last_runs": [
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Akeal Hosein": {
+        "last_fantasy_points": [
+          2,
+          36
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          1
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Matt Short": {
+        "last_fantasy_points": [
+          56
+        ],
+        "last_runs": [
+          34
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Mukesh Choudhary": {
+        "last_fantasy_points": [
+          62
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          2
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      }
+    },
+    "Rajasthan Royals": {
+      "Jofra Archer": {
+        "last_fantasy_points": [
+          5,
+          29,
+          50,
+          56,
+          54
+        ],
+        "last_runs": [
+          1,
+          0,
+          0,
+          2,
+          8
+        ],
+        "last_wickets": [
+          0,
+          1,
+          2,
+          2,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shimron Hetmyer": {
+        "last_fantasy_points": [
+          4,
+          27,
+          10,
+          2,
+          19
+        ],
+        "last_runs": [
+          0,
+          18,
+          6,
+          0,
+          15
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Vaibhav Suryavanshi": {
+        "last_fantasy_points": [
+          84,
+          2,
+          94
+        ],
+        "last_runs": [
+          52,
+          0,
+          46
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Ravi Bishnoi": {
+        "last_fantasy_points": [
+          110,
+          48,
+          54,
+          0,
+          32
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          4,
+          2,
+          2,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Riyan Parag": {
+        "last_fantasy_points": [
+          39,
+          35,
+          7,
+          34,
+          20
+        ],
+        "last_runs": [
+          8,
+          20,
+          3,
+          4,
+          12
+        ],
+        "last_wickets": [
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Ravindra Jadeja": {
+        "last_fantasy_points": [
+          6,
+          4,
+          56,
+          60,
+          91
+        ],
+        "last_runs": [
+          7,
+          0,
+          24,
+          45,
+          9
+        ],
+        "last_wickets": [
+          0,
+          0,
+          1,
+          0,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Nandre Burger": {
+        "last_fantasy_points": [
+          29,
+          52,
+          2,
+          7,
+          32
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        "last_wickets": [
+          1,
+          2,
+          0,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Dhruv Jurel": {
+        "last_fantasy_points": [
+          108,
+          6,
+          113,
+          2,
+          29
+        ],
+        "last_runs": [
+          75,
+          2,
+          81,
+          0,
+          5
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Brijesh Sharma": {
+        "last_fantasy_points": [
+          33,
+          54,
+          5
+        ],
+        "last_runs": [
+          0,
+          0,
+          1
+        ],
+        "last_wickets": [
+          1,
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Sandeep Sharma": {
+        "last_fantasy_points": [
+          29,
+          0,
+          54,
+          25,
+          23
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          0,
+          2,
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Yashasvi Jaiswal": {
+        "last_fantasy_points": [
+          83,
+          113,
+          21,
+          5,
+          77
+        ],
+        "last_runs": [
+          55,
+          77,
+          13,
+          1,
+          39
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Donovan Ferreira": {
+        "last_fantasy_points": [
+          5,
+          4,
+          4,
+          98,
+          25
+        ],
+        "last_runs": [
+          1,
+          0,
+          0,
+          69,
+          7
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Tushar Deshpande": {
+        "last_fantasy_points": [
+          29,
+          23,
+          60
+        ],
+        "last_runs": [
+          0,
+          0,
+          25
+        ],
+        "last_wickets": [
+          1,
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Lhuan-dre Pretorius": {
+        "last_fantasy_points": [
+          2
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Yash Raj Punja": {
+        "last_fantasy_points": [
+          44
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          1
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      }
+    },
+    "Gujarat Titans": {
+      "Prasidh Krishna": {
+        "last_fantasy_points": [
+          27,
+          48,
+          114,
+          40,
+          28
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          2,
+          4,
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Ashok Sharma": {
+        "last_fantasy_points": [
+          29,
+          -2,
+          54,
+          60,
+          -1
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "last_wickets": [
+          1,
+          0,
+          2,
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shubman Gill": {
+        "last_fantasy_points": [
+          55,
+          100,
+          78,
+          164,
+          30
+        ],
+        "last_runs": [
+          39,
+          70,
+          56,
+          86,
+          14
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Mohammed Siraj": {
+        "last_fantasy_points": [
+          23,
+          23,
+          35,
+          84,
+          36
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Sai Sudharsan": {
+        "last_fantasy_points": [
+          104,
+          18,
+          22,
+          44,
+          2
+        ],
+        "last_runs": [
+          73,
+          12,
+          15,
+          22,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Jos Buttler": {
+        "last_fantasy_points": [
+          41,
+          83,
+          87,
+          105,
+          13
+        ],
+        "last_runs": [
+          26,
+          52,
+          60,
+          25,
+          5
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Rahul Tewatia": {
+        "last_fantasy_points": [
+          19,
+          5,
+          15,
+          11,
+          16
+        ],
+        "last_runs": [
+          12,
+          1,
+          10,
+          7,
+          8
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Shahrukh Khan": {
+        "last_fantasy_points": [
+          18,
+          4,
+          4,
+          7,
+          33
+        ],
+        "last_runs": [
+          11,
+          0,
+          0,
+          3,
+          17
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Kagiso Rabada": {
+        "last_fantasy_points": [
+          82,
+          4,
+          23,
+          106,
+          150
+        ],
+        "last_runs": [
+          23,
+          0,
+          0,
+          0,
+          12
+        ],
+        "last_wickets": [
+          2,
+          0,
+          1,
+          3,
+          3
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Rashid Khan": {
+        "last_fantasy_points": [
+          60,
+          89,
+          6,
+          32,
+          8
+        ],
+        "last_runs": [
+          24,
+          0,
+          0,
+          0,
+          4
+        ],
+        "last_wickets": [
+          1,
+          3,
+          0,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Glenn Phillips": {
+        "last_fantasy_points": [
+          7,
+          21,
+          4,
+          47,
+          18
+        ],
+        "last_runs": [
+          3,
+          14,
+          0,
+          19,
+          6
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Washington Sundar": {
+        "last_fantasy_points": [
+          9,
+          83,
+          33,
+          21,
+          58
+        ],
+        "last_runs": [
+          4,
+          55,
+          21,
+          13,
+          26
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Kumar Kushagra": {
+        "last_fantasy_points": [
+          25
+        ],
+        "last_runs": [
+          18
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      }
+    },
+    "Punjab Kings": {
+      "Priyansh Arya": {
+        "last_fantasy_points": [
+          13,
+          64,
+          90,
+          33,
+          185
+        ],
+        "last_runs": [
+          7,
+          39,
+          57,
+          15,
+          93
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Xavier Bartlett": {
+        "last_fantasy_points": [
+          23,
+          54,
+          27,
+          20,
+          14
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          2,
+          1,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Arshdeep Singh": {
+        "last_fantasy_points": [
+          2,
+          4,
+          48,
+          110,
+          32
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          2,
+          3,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shreyas Iyer": {
+        "last_fantasy_points": [
+          78,
+          4,
+          102,
+          128,
+          17
+        ],
+        "last_runs": [
+          50,
+          0,
+          69,
+          66,
+          5
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Yuzvendra Chahal": {
+        "last_fantasy_points": [
+          31,
+          4,
+          0,
+          6,
+          34
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Prabhsimran Singh": {
+        "last_fantasy_points": [
+          59,
+          4,
+          81,
+          158,
+          10
+        ],
+        "last_runs": [
+          43,
+          0,
+          51,
+          80,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Nehal Wadhera": {
+        "last_fantasy_points": [
+          7,
+          16,
+          4,
+          20,
+          27
+        ],
+        "last_runs": [
+          3,
+          10,
+          0,
+          14,
+          13
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Cooper Connolly": {
+        "last_fantasy_points": [
+          54,
+          4,
+          16,
+          39,
+          183
+        ],
+        "last_runs": [
+          36,
+          0,
+          11,
+          17,
+          87
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Marco Jansen": {
+        "last_fantasy_points": [
+          27,
+          4,
+          2,
+          34,
+          65
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "last_wickets": [
+          1,
+          0,
+          0,
+          1,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Marcus Stoinis": {
+        "last_fantasy_points": [
+          15,
+          4,
+          4,
+          22,
+          71
+        ],
+        "last_runs": [
+          9,
+          0,
+          0,
+          10,
+          29
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shashank Singh": {
+        "last_fantasy_points": [
+          20,
+          4,
+          75,
+          42,
+          37
+        ],
+        "last_runs": [
+          14,
+          0,
+          16,
+          0,
+          17
+        ],
+        "last_wickets": [
+          0,
+          0,
+          2,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Vijaykumar Vyshak": {
+        "last_fantasy_points": [
+          54,
+          4,
+          -2,
+          12,
+          34
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          2,
+          0,
+          0,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      }
+    },
+    "Lucknow Super Giants": {
+      "Ayush Badoni": {
+        "last_fantasy_points": [
+          17,
+          81,
+          14,
+          72,
+          73
+        ],
+        "last_runs": [
+          12,
+          54,
+          9,
+          38,
+          35
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Shahbaz Ahmed": {
+        "last_fantasy_points": [
+          20
+        ],
+        "last_runs": [
+          15
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Mohammed Shami": {
+        "last_fantasy_points": [
+          60,
+          7,
+          44,
+          2,
+          36
+        ],
+        "last_runs": [
+          0,
+          1,
+          12,
+          0,
+          0
+        ],
+        "last_wickets": [
+          2,
+          0,
+          1,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Abdul Samad": {
+        "last_fantasy_points": [
+          51,
+          24,
+          6,
+          24,
+          2
+        ],
+        "last_runs": [
+          36,
+          16,
+          2,
+          18,
+          0
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Aiden Markram": {
+        "last_fantasy_points": [
+          67,
+          32,
+          47,
+          22,
+          94
+        ],
+        "last_runs": [
+          45,
+          22,
+          30,
+          12,
+          42
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Mukul Choudhary": {
+        "last_fantasy_points": [
+          6,
+          88,
+          25,
+          81,
+          35
+        ],
+        "last_runs": [
+          2,
+          54,
+          18,
+          39,
+          21
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Anrich Nortje": {
+        "last_fantasy_points": [
+          4
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Mohsin Khan": {
+        "last_fantasy_points": [
+          35,
+          32
+        ],
+        "last_runs": [
+          0,
+          0
+        ],
+        "last_wickets": [
+          1,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 2
+      },
+      "Rishabh Pant": {
+        "last_fantasy_points": [
+          91,
+          15,
+          30,
+          5,
+          85
+        ],
+        "last_runs": [
+          68,
+          10,
+          18,
+          1,
+          43
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Nicholas Pooran": {
+        "last_fantasy_points": [
+          5,
+          19,
+          27,
+          13,
+          37
+        ],
+        "last_runs": [
+          1,
+          13,
+          19,
+          1,
+          9
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Mitchell Marsh": {
+        "last_fantasy_points": [
+          20,
+          24,
+          18,
+          72,
+          90
+        ],
+        "last_runs": [
+          14,
+          15,
+          11,
+          40,
+          40
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Prince Yadav": {
+        "last_fantasy_points": [
+          54,
+          25,
+          29,
+          104,
+          66
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          2,
+          1,
+          1,
+          3,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 6
+      },
+      "Avesh Khan": {
+        "last_fantasy_points": [
+          54,
+          26,
+          3,
+          69,
+          -2
+        ],
+        "last_runs": [
+          0,
+          1,
+          4,
+          1,
+          0
+        ],
+        "last_wickets": [
+          2,
+          1,
+          0,
+          2,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Digvesh Rathi": {
+        "last_fantasy_points": [
+          6
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "George Linde": {
+        "last_fantasy_points": [
+          15
+        ],
+        "last_runs": [
+          7
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      },
+      "Himmat Singh": {
+        "last_fantasy_points": [
+          8,
+          5
+        ],
+        "last_runs": [
+          0,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      },
+      "M Siddharth": {
+        "last_fantasy_points": [
+          68
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          2
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      }
+    },
+    "Delhi Capitals": {
+      "David Miller": {
+        "last_fantasy_points": [
+          4,
+          29,
+          64,
+          24,
+          64
+        ],
+        "last_runs": [
+          0,
+          21,
+          41,
+          17,
+          22
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Axar Patel": {
+        "last_fantasy_points": [
+          31,
+          33,
+          4,
+          30,
+          110
+        ],
+        "last_runs": [
+          0,
+          0,
+          2,
+          1,
+          26
+        ],
+        "last_wickets": [
+          1,
+          1,
+          0,
+          1,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "KL Rahul": {
+        "last_fantasy_points": [
+          2,
+          5,
+          129,
+          32,
+          129
+        ],
+        "last_runs": [
+          0,
+          1,
+          92,
+          18,
+          57
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Pathum Nissanka": {
+        "last_fantasy_points": [
+          5,
+          62,
+          63,
+          64,
+          13
+        ],
+        "last_runs": [
+          1,
+          44,
+          41,
+          41,
+          1
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "T Natarajan": {
+        "last_fantasy_points": [
+          83,
+          29,
+          4,
+          -1,
+          12
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "last_wickets": [
+          3,
+          1,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Vipraj Nigam": {
+        "last_fantasy_points": [
+          4,
+          29,
+          18
+        ],
+        "last_runs": [
+          0,
+          0,
+          12
+        ],
+        "last_wickets": [
+          0,
+          1,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Lungi Ngidi": {
+        "last_fantasy_points": [
+          83,
+          29,
+          33,
+          5,
+          70
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        "last_wickets": [
+          3,
+          1,
+          1,
+          0,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Kuldeep Yadav": {
+        "last_fantasy_points": [
+          54,
+          2,
+          28,
+          2,
+          72
+        ],
+        "last_runs": [
+          0,
+          0,
+          1,
+          4,
+          0
+        ],
+        "last_wickets": [
+          2,
+          0,
+          1,
+          0,
+          2
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Tristan Stubbs": {
+        "last_fantasy_points": [
+          52,
+          7,
+          11,
+          86,
+          102
+        ],
+        "last_runs": [
+          39,
+          3,
+          7,
+          60,
+          60
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Mukesh Kumar": {
+        "last_fantasy_points": [
+          8,
+          54,
+          48,
+          4,
+          34
+        ],
+        "last_runs": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_wickets": [
+          0,
+          2,
+          2,
+          0,
+          1
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Nitish Rana": {
+        "last_fantasy_points": [
+          23,
+          2,
+          10
+        ],
+        "last_runs": [
+          15,
+          0,
+          5
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 3
+      },
+      "Sameer Rizvi": {
+        "last_fantasy_points": [
+          97,
+          129,
+          2,
+          11,
+          6
+        ],
+        "last_runs": [
+          70,
+          90,
+          0,
+          6,
+          2
+        ],
+        "last_wickets": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "probable_xi": true,
+        "playing_xi_count": 5
+      },
+      "Ashutosh Sharma": {
+        "last_fantasy_points": [
+          34
+        ],
+        "last_runs": [
+          19
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Auqib Nabi": {
+        "last_fantasy_points": [
+          0
+        ],
+        "last_runs": [
+          0
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 1
+      },
+      "Karun Nair": {
+        "last_fantasy_points": [
+          13
+        ],
+        "last_runs": [
+          5
+        ],
+        "last_wickets": [
+          0
+        ],
+        "probable_xi": false,
+        "playing_xi_count": 0
+      }
+    }
+  }
+}

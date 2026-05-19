@@ -1,0 +1,29 @@
+# Heavy / not needed for the web app
+data/historical_matches/
+data/raw_scorecards/
+data/normalized_scorecards/
+data/manual_fantasy_points/
+data/match_inputs/
+data/screenshots/
+data/generated_teams/
+data/historical_matches_single_001/
+
+# Backtest / tuning artifacts (scripts only, not loaded by web/)
+data/_*.json
+data/backtest_report.json
+data/tuning_backtest_report.json
+data/fine_sweep_*.json
+data/oat_*.json
+data/xi_new_*.json
+data/oracle_vs_generation_report*
+data/online_*.json
+
+# Python / local
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Editor
+.vscode/
+*.code-workspace

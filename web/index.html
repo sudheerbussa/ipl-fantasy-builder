@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPL 2026 Fantasy Team Builder</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>IPL 2026 Fantasy Team Builder</h1>
+      <p class="subtitle">Choose the match below, then use the <strong>Generator</strong> workflow: squad → pools → generate.</p>
+    </header>
+
+    <section class="controls">
+      <div>
+        <label for="teamA">Team A</label>
+        <select id="teamA"></select>
+      </div>
+      <div>
+        <label for="teamB">Team B</label>
+        <select id="teamB"></select>
+      </div>
+      <button id="resetBtn" type="button">Reset Selection</button>
+    </section>
+
+    <section class="tabs-bar">
+      <button id="tabGeneratorBtn" class="tab-btn active" type="button">Generator</button>
+      <button id="tabSwapBtn" class="tab-btn" type="button">Swap Engine</button>
+      <button id="tabPostMatchBtn" class="tab-btn" type="button">Post-Match Analysis</button>
+    </section>
+
+    <section id="generatorPanel" class="generator-panel tab-panel active">
+      <div class="generator-panel-head">
+        <h2>Auto Team Generator</h2>
+        <p class="subtitle generator-flow-intro">Use the steps below: tick your squad, configure pools for the chosen mode, then set counts and run <strong>Generate</strong>.</p>
+        <div class="generator-steps" role="tablist" aria-label="Generator workflow">
+          <button type="button" role="tab" class="gen-step-btn active" data-gen-step="squad" id="genStepBtnSquad" aria-controls="genStepSquad" aria-selected="true">1 · Squad</button>
+          <button type="button" role="tab" class="gen-step-btn" data-gen-step="pools" id="genStepBtnPools" aria-controls="genStepPools" aria-selected="false">2 · Pools &amp; mode</button>
+          <button type="button" role="tab" class="gen-step-btn" data-gen-step="run" id="genStepBtnRun" aria-controls="genStepRun" aria-selected="false">3 · Generate</button>
+        </div>
+      </div>
+
+      <div id="genStepSquad" class="gen-step-panel active" role="tabpanel" aria-labelledby="genStepBtnSquad">
+        <p class="subtitle gen-step-lead">Confirm <strong>Team A</strong> / <strong>Team B</strong> in the bar above. Tick players to include in the match pool. The count above reflects how many are ticked.</p>
+        <section class="status-bar">
+          <span id="selectedCount">Selected: 0</span>
+          <span id="selectedTeams">Teams: -</span>
+        </section>
+        <section class="grid">
+          <div>
+            <h2 id="teamATitle">Team A Squad</h2>
+            <div id="teamAPlayers" class="player-list"></div>
+          </div>
+          <div>
+            <h2 id="teamBTitle">Team B Squad</h2>
+            <div id="teamBPlayers" class="player-list"></div>
+          </div>
+        </section>
+        <div class="gen-step-footer">
+          <button type="button" class="gen-step-next-btn" data-gen-step="pools">Next: Pools &amp; mode →</button>
+        </div>
+      </div>
+
+      <div id="genStepPools" class="gen-step-panel" role="tabpanel" aria-labelledby="genStepBtnPools">
+        <p class="subtitle gen-step-lead">Choose <strong>generator mode</strong>, then finalize <strong>lineup pools</strong> (bat-first P1/P2 or 2nd-innings pools as needed). <strong>Captain / vice-captain pools</strong> are below — set those after your player pools are ready.</p>
+        <div class="gen-step-footer gen-step-footer-top">
+          <button type="button" class="gen-step-link-btn" data-gen-step="squad">← Squad</button>
+        </div>
+      <div class="generator-option-block generator-mode-block">
+        <label for="generatorModeSelect" class="gen-label">Generator mode</label>
+        <select id="generatorModeSelect" title="High scoring: classic draw. Bat-first: pool XI with configurable variant percentages. Second-innings: 5-player teams from editable P1/P2 pools.">
+          <option value="high_scoring_games">high_scoring_games (projection draw)</option>
+          <option value="bat_first_pool_xi" selected>bat_first_pool_xi (pool XI, editable picks)</option>
+          <option value="second_innings_pool_5">second_innings_pool_5 (2nd innings, 5-player pools)</option>
+          <option value="split_pool_p1p2p3">split_pool_p1p2p3 (P1/P2/P3 profiles C1–C4)</option>
+        </select>
+      </div>
+      <div class="bat-pool-section" id="batPoolSection">
+        <h3 class="bat-pool-heading">Bat-first pools (only used in <strong>bat_first_pool_xi</strong> mode)</h3>
+        <p class="subtitle bat-pool-sub"><strong>Auto-fill</strong> sorts <strong>ticked</strong> players: bowler/AR → P2, else P1. Every ticked player must be in exactly one pool. Lineups are only <strong>6+5</strong> (Seg A) or <strong>5+6</strong> (Seg B). Set segment weights for <strong>full-pool</strong> runs and separately for <strong>reduced-pool</strong> runs (after exclusions); values are normalized to 100%. Generation uses <strong>three passes</strong> for same-XI caps.</p>
+        <div class="bat-pool-toolbar">
+          <button id="batPoolAutoFillBtn" type="button" class="compact-btn">Auto-fill pools from selection</button>
+          <label class="bat-pool-pick-cell" title="Weight for Seg A (6 from P1 + 5 from P2) among full-pool teams; normalized with next field to 100%.">
+            <span class="bat-pool-pick-num">Full Seg A %</span>
+            <input id="batFirstFullSegAPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Weight for Seg B (5+6) among full-pool teams.">
+            <span class="bat-pool-pick-num">Full Seg B %</span>
+            <input id="batFirstFullSegBPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Weight for Seg A among reduced-pool teams (pools minus exclusions). Independent from full-pool weights.">
+            <span class="bat-pool-pick-num">Reduced Seg A %</span>
+            <input id="batFirstReducedSegAPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Weight for Seg B among reduced-pool teams.">
+            <span class="bat-pool-pick-num">Reduced Seg B %</span>
+            <input id="batFirstReducedSegBPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-first-verbose-check">
+            <input id="batFirstVerboseLogCheckbox" type="checkbox" />
+            Verbose bat-first log (sample rejects + console)
+          </label>
+          <label class="bat-pool-pick-cell" title="Approximate share of teams that use full P1+P2; remainder use pools minus excluded players.">
+            <span class="bat-pool-pick-num">Full pool %</span>
+            <input id="batFirstFullPoolPctInput" type="number" min="0" max="100" step="1" value="70" />
+          </label>
+          <label class="bat-first-split74-check" title="P1/P2 pools unchanged. Cap at most one-fifth of accepted teams with 7 players from one franchise and 4 from the other (4+7 counts the same).">
+            <input id="batFirstSplit74QuotaCheckbox" type="checkbox" checked />
+            Cap franchise 7–4 split (⅕ of teams)
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 1: max EXTRA teams with the same 11 players after the first accept (0 = no duplicate XIs in this pass).">
+            <span class="bat-pool-pick-num">Dup pass 1</span>
+            <input id="batFirstDupStage1Input" type="number" min="0" max="50" step="1" value="0" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 2: max extra same-XI accepts beyond the first (cumulative count carries across passes).">
+            <span class="bat-pool-pick-num">Dup pass 2</span>
+            <input id="batFirstDupStage2Input" type="number" min="0" max="50" step="1" value="1" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 3: max extra same-XI accepts beyond the first.">
+            <span class="bat-pool-pick-num">Dup pass 3</span>
+            <input id="batFirstDupStage3Input" type="number" min="0" max="50" step="1" value="2" />
+          </label>
+        </div>
+        <div id="batPoolGrid" class="bat-pool-grid" aria-live="polite"></div>
+        <div id="batFirstReducedExcludeHost" class="bat-first-reduced-host" aria-live="polite"></div>
+        <p id="batPoolHint" class="subtitle bat-pool-hint"></p>
+      </div>
+      <div class="bat-pool-section" id="secondInningsPoolSection">
+        <h3 class="bat-pool-heading">2nd innings pools (only used in <strong>second_innings_pool_5</strong> mode)</h3>
+        <p class="subtitle bat-pool-sub"><strong>Auto-fill</strong> puts every <strong>ticked</strong> player from the <strong>chasing</strong> team into <strong>Top</strong> (WK + bat slot ≤3) or <strong>Rest</strong> (everyone else on that team, including bowlers and AR). First-innings <strong>P2</strong> is unchanged: that side’s <strong>BOWL + AR</strong> only. Trim lists manually. Generation uses two scenarios: <strong>chase-middle</strong> vs <strong>first-innings-bowl</strong> (see % and combo rows below); teams are merged in alternating order.</p>
+        <div class="bat-pool-toolbar">
+          <label class="bat-pool-pick-cell">
+            <span class="bat-pool-pick-num">Chasing team</span>
+            <select id="secondInningsChasingTeamSelect"></select>
+          </label>
+          <button id="secondInningsAutoFillBtn" type="button" class="compact-btn">Auto-fill 2nd innings pools</button>
+          <label class="bat-pool-pick-cell" title="Approximate share of teams built with chase-middle combos (remainder use first-innings-bowl combos). Counts round like bat-first full-pool %; output order interleaves chase then bowl.">
+            <span class="bat-pool-pick-num">Chase-middle %</span>
+            <input id="secondInningsChaseScenarioPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Top–Rest–P2 counts per 5-player team (sum 5). Comma-separated variants rotate, e.g. 0-3-2,1-2-2">
+            <span class="bat-pool-pick-num">Chase combos (T-R-P2)</span>
+            <input id="secondInningsChaseComboInput" type="text" value="0-3-2,0-2-3,1-2-2,1-1-3" />
+          </label>
+          <label class="bat-pool-pick-cell" title="First-innings bowl scenario: same Top–Rest–P2 shape; usually more from P2, e.g. 1-2-2">
+            <span class="bat-pool-pick-num">Bowl combos (T-R-P2)</span>
+            <input id="secondInningsBowlComboInput" type="text" value="0-2-3,1-1-3,2-0-3,1-2-2" />
+          </label>
+          <label class="bat-first-verbose-check">
+            <input id="secondInningsVerboseLogCheckbox" type="checkbox" />
+            Verbose 2nd-innings log
+          </label>
+        </div>
+        <div id="secondInningsPoolGrid" class="bat-pool-grid second-innings-pool-grid" aria-live="polite"></div>
+        <div id="secondInningsCvSection" class="second-innings-scenario-cvc">
+          <h4 class="second-innings-cvc-heading">Captain / vice-captain pools (per scenario)</h4>
+          <p class="subtitle bat-pool-sub">
+            Players from <strong>chase Top ∪ Rest ∪ P2</strong>. Tick <strong>C</strong> and/or <strong>VC</strong> per scenario (optional trim). <strong>Chase-middle:</strong> C from Top/Rest, VC from Rest/P2. <strong>Bowl:</strong> C from P2, VC from Top/Rest/P2. Auto-fill applies pool rules; generation uses pool rules if no ticks.
+          </p>
+          <div class="second-innings-cvc-grid">
+            <div id="secondInningsChaseCvHost" class="cvc-pool-column" aria-live="polite"></div>
+            <div id="secondInningsBowlCvHost" class="cvc-pool-column" aria-live="polite"></div>
+          </div>
+        </div>
+        <p id="secondInningsPoolHint" class="subtitle bat-pool-hint"></p>
+      </div>
+      <div class="bat-pool-section" id="splitPoolSection">
+        <h3 class="bat-pool-heading">Split pools (only used in <strong>split_pool_p1p2p3</strong> mode)</h3>
+        <p class="subtitle bat-pool-sub">
+          Per franchise: <strong>P1</strong> tops · <strong>P2</strong> middle bat · <strong>P3</strong> bowlers + bowling AR.
+          <strong>Auto-fill</strong> assigns ticked players. Generation uses <strong>three passes</strong> for same-XI caps (Dup pass 1/2/3). Lineup profiles <strong>C1→C2→C3→C4</strong> round-robin.
+          C/VC pools below use the <strong>same four profile ids</strong> (not α/β match-outcome cells). Optional <strong>full pool %</strong> + exclusions narrow P1/P2/P3 after the first half of teams.
+        </p>
+        <div class="bat-pool-toolbar">
+          <button id="splitPoolAutoFillBtn" type="button" class="compact-btn">Auto-fill split pools from selection</button>
+          <label class="bat-pool-pick-cell" title="Share of teams built from full P1/P2/P3; remainder drops excluded players from all three pools.">
+            <span class="bat-pool-pick-num">Full pool %</span>
+            <input id="splitPoolFullPoolPctInput" type="number" min="0" max="100" step="1" value="50" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 1: max EXTRA teams with the same 11 after the first accept (0 = strict unique XIs).">
+            <span class="bat-pool-pick-num">Dup pass 1</span>
+            <input id="splitPoolDupStage1Input" type="number" min="0" max="50" step="1" value="0" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 2: max extra same-XI accepts beyond the first.">
+            <span class="bat-pool-pick-num">Dup pass 2</span>
+            <input id="splitPoolDupStage2Input" type="number" min="0" max="50" step="1" value="1" />
+          </label>
+          <label class="bat-pool-pick-cell" title="Pass 3: max extra same-XI accepts beyond the first.">
+            <span class="bat-pool-pick-num">Dup pass 3</span>
+            <input id="splitPoolDupStage3Input" type="number" min="0" max="50" step="1" value="2" />
+          </label>
+          <label class="bat-first-verbose-check">
+            <input id="splitPoolVerboseLogCheckbox" type="checkbox" />
+            Verbose split-pool log
+          </label>
+        </div>
+        <div id="splitPoolGrid" class="bat-pool-grid split-pool-grid" aria-live="polite"></div>
+        <div id="splitPoolReducedExcludeHost" class="bat-first-reduced-host" aria-live="polite"></div>
+        <p id="splitPoolHint" class="subtitle bat-pool-hint"></p>
+      </div>
+      <div class="cvc-pool-section cvc-pool-section-after-lineup">
+        <h3 class="cvc-pool-heading">Captain / vice-captain pools (per scenario)</h3>
+        <p class="subtitle cvc-pool-sub">Each scenario lists <strong>suggested</strong> C/VC picks by role. Use <strong>Add other ticked players</strong> for extras. Hints use franchise codes (e.g. CSK, MI) and who bats first vs chases for that cell.</p>
+        <div class="cvc-pool-toolbar">
+          <button id="cvPoolsAutoFillScenarioBtn" type="button" class="compact-btn">Auto-fill C/VC from scenario roles</button>
+        </div>
+        <div id="cvcPoolScenarioHost" class="cvc-pool-scenario-host" aria-live="polite"></div>
+      </div>
+        <div class="gen-step-footer gen-step-footer-split">
+          <button type="button" class="gen-step-link-btn" data-gen-step="squad">← Squad</button>
+          <button type="button" class="gen-step-next-btn" data-gen-step="run">Next: Generate →</button>
+        </div>
+      </div>
+
+      <div id="genStepRun" class="gen-step-panel" role="tabpanel" aria-labelledby="genStepBtnRun">
+        <p class="subtitle gen-step-lead">Set team count, scenario profile, tuning, and operator names — then <strong>Generate teams</strong> or export PDFs.</p>
+        <div class="gen-step-footer gen-step-footer-top">
+          <button type="button" class="gen-step-link-btn" data-gen-step="pools">← Pools &amp; mode</button>
+        </div>
+      <div class="generator-options">
+        <div class="generator-option-block">
+          <label for="teamsPerStrategyInput" class="gen-label">Number of teams</label>
+          <input id="teamsPerStrategyInput" type="number" min="1" max="500" value="80" title="Target count of unique teams. PDF “one tab per candidate” opens ceil(total ÷ batch size) tabs, not this number as tab count." />
+        </div>
+        <div class="generator-option-block">
+          <label for="candidateChunkInput" class="gen-label">Teams per operator (fixed max)</label>
+          <input id="candidateChunkInput" type="number" min="1" max="40" value="20" title="Default 20 teams per person per match; editable." />
+        </div>
+        <div class="generator-option-block">
+          <label for="scenarioProfileSelect" class="gen-label">Scenario profile</label>
+          <select id="scenarioProfileSelect" title="Choose active high-scoring scenario catalog">
+            <option value="batting_heavy_6" selected>Batting-heavy (6 cells, no A1–B2b)</option>
+          </select>
+        </div>
+        <div class="generator-option-block preset-block">
+          <label for="tuningPresetSelect" class="gen-label">Tuning preset</label>
+          <select id="tuningPresetSelect" class="tuning-preset-select" title="Load saved tuning bundles (e.g. from tune_generator_backtest.py --apply-best-oat)">
+            <option value="">Default (app)</option>
+          </select>
+        </div>
+        <div class="generator-option-block tuning-block" title="Used on next Generate.">
+          <span class="gen-label">Tuning</span>
+          <p class="subtitle tuning-main-hint">Main controls below. Finer weights live under <strong>Advanced</strong> (defaults match the app; tuning presets still load all values).</p>
+          <div class="tuning-grid tuning-grid-main">
+            <label class="tuning-cell"><span class="tuning-label-text">Repeat penalty λ</span>
+              <input id="tuningRepeatLambda" type="number" step="0.02" min="0" max="3" value="1.67" />
+              <span class="tuning-param-hint">Range <strong>0–3</strong>. Weight multiplier <code>1/(1+λ×appearances)</code> so already-picked names are down-weighted. <strong>Low</strong> (~0): more overlap across teams. <strong>High</strong>: more spread; unique lineups may run out sooner.</span>
+            </label>
+            <label class="tuning-cell"><span class="tuning-label-text">C/VC pool mix (uniform)</span>
+              <input id="tuningCvUniformBlend" type="number" step="0.02" min="0" max="1" value="0.60" title="Uniform vs score mass in C and VC pools" />
+              <span class="tuning-param-hint">Range <strong>0–1</strong> (C/VC from pools). <strong>0</strong>: picks follow score mass (0.8×proj + 0.2×capped ceiling). <strong>1</strong>: nearly uniform within the pool.</span>
+            </label>
+            <label class="tuning-cell"><span class="tuning-label-text">Bat slot ≥6 weight</span>
+              <input id="tuningLowerMiddleBatWeight" type="number" step="0.02" min="0.05" max="1" value="0.43" title="Pure batsmen at typical slot 6+" />
+              <span class="tuning-param-hint">Range <strong>0.05–1</strong> (<strong>batsman</strong> or <strong>WK</strong>, typical slot ≥6). Multiplier on XI draw weight so lower-order batters appear in <strong>fewer</strong> teams. <strong>1</strong> = no extra penalty.</span>
+            </label>
+          </div>
+          <details class="tuning-advanced-details">
+            <summary class="tuning-advanced-summary">Advanced tuning (rarely changed)</summary>
+            <div class="tuning-grid tuning-grid-advanced">
+              <label class="tuning-cell"><span class="tuning-label-text">Lineup ceiling nudge</span>
+                <input id="tuningLineupCeilingNudge" type="number" step="0.02" min="0" max="0.5" value="0.17" title="How much ceiling above proj lifts XI draw weight" />
+                <span class="tuning-param-hint">Range <strong>0–0.5</strong>. <strong>0</strong>: lineup weights follow projection only. <strong>Higher</strong>: stronger preference for players with large (ceiling−proj) upside.</span>
+              </label>
+              <label class="tuning-cell"><span class="tuning-label-text">C/VC fairness λ</span>
+                <input id="tuningCvFairnessLambda" type="number" step="0.1" min="0" max="25" value="5.44" title="Pull captain/vice usage toward equal across pool keys" />
+                <span class="tuning-param-hint">Range <strong>0–25</strong>. Nudges C/VC toward equal opportunities across pool names. <strong>0</strong> disables fairness nudge.</span>
+              </label>
+              <label class="tuning-cell"><span class="tuning-label-text">Blend weight: projection</span>
+                <input id="tuningBlendProjWeight" type="number" step="0.01" min="0" max="1" value="0.53" />
+                <span class="tuning-param-hint">Player-score blend component for <strong>projection</strong>. Final blended weights are auto-normalized with ceiling and role-stability weights.</span>
+              </label>
+              <label class="tuning-cell"><span class="tuning-label-text">Blend weight: ceiling</span>
+                <input id="tuningBlendCeilingWeight" type="number" step="0.01" min="0" max="1" value="0.37" />
+                <span class="tuning-param-hint">Player-score blend component for <strong>ceiling</strong> (capped at proj+28).</span>
+              </label>
+              <label class="tuning-cell"><span class="tuning-label-text">Blend weight: role stability</span>
+                <input id="tuningBlendRoleStabilityWeight" type="number" step="0.01" min="0" max="1" value="0.10" />
+                <span class="tuning-param-hint">Player-score blend component for <strong>role stability</strong> proxy (recent consistency + slot/probable-XI bonus).</span>
+              </label>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="candidate-names-block">
+        <label for="candidateNamesInput" class="gen-label">Operator names (one per line, order = batch 1, 2, 3…)</label>
+        <textarea id="candidateNamesInput" class="candidate-names-textarea" rows="5" spellcheck="false" placeholder="Akshay&#10;Sudhir&#10;…"></textarea>
+      </div>
+      <p id="generatorAttemptsHint" class="gen-hint"></p>
+      <p class="subtitle batch-hint">Teams are split into batches of up to 40 per operator. Add or reorder names below as your team grows. File names use short codes (e.g. RCB_vs_KKR).</p>
+      <div class="generator-actions generator-pdf-actions">
+        <button id="generateTeamsBtn" class="compact-btn" type="button">Generate Teams</button>
+        <button id="downloadPdfBtn" class="compact-btn" type="button">PDF — all teams</button>
+        <button id="downloadPdfByCandidateTabsBtn" class="compact-btn" type="button">PDF — one tab per candidate</button>
+        <button id="downloadPdfByCandidateCombinedBtn" class="compact-btn" type="button">PDF — all candidates (page breaks)</button>
+      </div>
+      <div id="generatorStatus">No generated teams yet.</div>
+      <div id="batFirstGenLog" class="bat-first-gen-log" aria-live="polite"></div>
+      <div id="splitPoolGenLog" class="bat-first-gen-log split-pool-gen-log" aria-live="polite"></div>
+      <div id="secondInningsGenLog" class="bat-first-gen-log second-innings-gen-log" aria-live="polite"></div>
+      <p id="generatorTuningSnapshot" class="tuning-snapshot" aria-live="polite"></p>
+      <div id="qualitySummary" class="quality-summary"></div>
+        <div class="gen-step-footer gen-step-footer-split gen-step-footer-bottom">
+          <button type="button" class="gen-step-link-btn" data-gen-step="pools">← Pools &amp; mode</button>
+          <button type="button" class="gen-step-link-btn" data-gen-step="squad">← Squad selection</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="swapPanel" class="generator-panel tab-panel">
+      <h2>Last-Minute Swap Engine</h2>
+      <p class="subtitle">You can swap on <strong>generated teams</strong> or on teams from an <strong>uploaded CSV</strong> (no need to generate again). <strong>Swap OUT</strong> lists everyone who appears in those teams (plus anyone ticked in the squads). <strong>Swap IN</strong> is anyone from the two match squads. After <strong>Apply swaps</strong>, use <strong>PDF — swap changes only</strong> for a short checklist (team #, operator batch, swaps, C/VC), or the full-roster PDF if you need every XI printed.</p>
+      <div class="generator-actions">
+        <input id="swapCsvInput" type="file" accept=".csv" />
+        <button id="addSwapRuleBtn" class="compact-btn" type="button">Add Swap Rule</button>
+        <button id="applySwapsBtn" class="compact-btn" type="button">Apply Swaps</button>
+      </div>
+      <div id="swapRulesContainer"></div>
+      <div class="generator-actions">
+        <button id="swapChangesPdfBtn" class="compact-btn" type="button">PDF — swap changes only (checklist)</button>
+        <button id="swapPdfCombinedBtn" class="compact-btn" type="button">PDF — swapped teams (single, by operator)</button>
+        <button id="downloadSwappedCsvBtn" class="compact-btn" type="button">Download Swapped CSV</button>
+        <button id="downloadSwapReportBtn" class="compact-btn" type="button">Download Swap Report</button>
+      </div>
+      <div id="swapStatus">No swap file loaded.</div>
+      <div id="swapPreview" class="quality-summary"></div>
+    </section>
+
+    <section id="postMatchPanel" class="generator-panel tab-panel">
+      <h2>Post-Match Analysis</h2>
+      <p class="subtitle">Player names are prefilled. Enter actual fantasy points beside each player. Points are saved in this browser per fixture so you can reopen later.</p>
+      <p id="postMatchPersistHint" class="persist-hint"></p>
+      <div class="generator-actions post-match-meta">
+        <div>
+          <label for="postMatchDateInput">Match date (optional)</label>
+          <input id="postMatchDateInput" type="date" />
+        </div>
+        <input id="postMatchCsvInput" type="file" accept=".csv" />
+      </div>
+      <div id="postMatchPlayersInputs" class="post-match-input-grid"></div>
+      <div class="generator-actions post-match-pdf-actions">
+        <input id="topTeamPointsInput" type="number" step="0.01" min="0" placeholder="Top contest team points (optional)" />
+        <button id="analyzePostMatchBtn" class="compact-btn" type="button">Analyze Standing</button>
+        <button id="postMatchPdfCombinedBtn" class="compact-btn" type="button">Post PDF — all batches</button>
+        <button id="postMatchPdfTabsBtn" class="compact-btn" type="button">Post PDF — one tab per candidate</button>
+      </div>
+      <div id="postMatchStatus">No post-match analysis yet.</div>
+      <div id="postMatchSummary" class="quality-summary"></div>
+    </section>
+  </main>
+
+  <script src="./split_pool_catalog.js"></script>
+  <script src="./app.js"></script>
+  <script src="./split_pool_impl.js"></script>
+</body>
+</html>

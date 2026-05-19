@@ -1,0 +1,2023 @@
+{
+  "tournament": "Indian Premier League",
+  "season": 2026,
+  "notes": "Profiles combine static manual overrides and automatic role inference from recent form data. Review auto inferred tags as more matches are ingested.",
+  "role_options": [
+    "batsman",
+    "bowler",
+    "all_rounder",
+    "wicket_keeper"
+  ],
+  "tag_options": [
+    "anchor",
+    "top_order",
+    "finisher",
+    "spinner",
+    "pace",
+    "powerplay_bowler",
+    "death_bowler",
+    "wicket_taker",
+    "probable_xi",
+    "auto_inferred"
+  ],
+  "teams": {
+    "Chennai Super Kings": {
+      "Ruturaj Gaikwad": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ayush Mhatre": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sarfaraz Khan": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sanju Samson": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "MS Dhoni": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "finisher",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Urvil Patel": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kartik Sharma": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shivam Dube": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "finisher"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ramakrishna Ghosh": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Shreyas Gopal": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Aman Khan": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Prashant Veer": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rahul Chahar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Khaleel Ahmed": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Gurjapneet Singh": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Anshul Kamboj": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mukesh Choudhary": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jamie Overton": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "top_order",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Dewald Brevis": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Matt Short": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "auto_inferred"
+        ],
+        "source": "auto_inferred_recent_form_v1"
+      },
+      "Spencer Johnson": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Zak Foulkes": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Matt Henry": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Noor Ahmad": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Akeal Hosein": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Delhi Capitals": {
+      "Axar Patel": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Prithvi Shaw": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Karun Nair": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Nitish Rana": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ashutosh Sharma": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Sameer Rizvi": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor",
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sahil Parakh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "KL Rahul": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "anchor",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Abishek Porel": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vipraj Nigam": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Auqib Nabi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Madhav Tiwari": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "T Vijay": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Ajay Mandal": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Kuldeep Yadav": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mukesh Kumar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "T Natarajan": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mitchell Starc": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Pathum Nissanka": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Dushmantha Chameera": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Lungi Ngidi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "David Miller": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Tristan Stubbs": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kyle Jamieson": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Gujarat Titans": {
+      "Shubman Gill": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sai Sudharsan": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shahrukh Khan": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Anuj Rawat": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kumar Kushagra": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Washington Sundar": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Manav Suthar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rahul Tewatia": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Nishant Sindhu": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Jayant Yadav": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Arshad Khan": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Sai Kishore": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Mohammed Siraj": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Prasidh Krishna": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Gurnoor Brar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ishant Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ashok Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kulwant Khejroliya": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jos Buttler": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Tom Banton": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Luke Wood": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Glenn Phillips": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jason Holder": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Rashid Khan": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kagiso Rabada": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Kolkata Knight Riders": {
+      "Ajinkya Rahane": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Angkrish Raghuvanshi": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "anchor",
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "manual_override_wk"
+      },
+      "Manish Pandey": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Rahul Tripathi": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Rinku Singh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Tejasvi Dahiya": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Anukul Roy": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Daksh Kamra": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Ramandeep Singh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sarthak Ranjan": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Prashant Solanki": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Varun Chakravarthy": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kartik Tyagi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Umran Malik": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vaibhav Arora": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Saurabh Dubey": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Navdeep Saini": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Cameron Green": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rovman Powell": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sunil Narine": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Finn Allen": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rachin Ravindra": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Tim Seifert": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Matheesha Pathirana": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Blessing Muzarabani": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Lucknow Super Giants": {
+      "Rishabh Pant": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Abdul Samad": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ayush Badoni": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Himmat Singh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Akshat Raghuwanshi": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "auto_inferred"
+        ],
+        "source": "auto_inferred_recent_form_v1"
+      },
+      "Mukul Choudhary": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Arshin Kulkarni": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Shahbaz Ahmed": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Digvesh Rathi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "M Siddharth": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Akash Singh": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Avesh Khan": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mohammed Shami": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mohsin Khan": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Prince Yadav": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Arjun Tendulkar": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "auto_inferred"
+        ],
+        "source": "auto_inferred_recent_form_v1"
+      },
+      "Mayank Yadav": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Naman Tiwari": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "auto_inferred"
+        ],
+        "source": "auto_inferred_recent_form_v1"
+      },
+      "Matthew Breetzke": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Aiden Markram": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Anrich Nortje": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Nicholas Pooran": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "finisher",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Josh Inglis": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mitchell Marsh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Wanindu Hasaranga": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Mumbai Indians": {
+      "Hardik Pandya": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "finisher"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rohit Sharma": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Suryakumar Yadav": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Danish Malewar": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Robin Minz": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shardul Thakur": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Naman Dhir": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Raj Bawa": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Tilak Varma": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mayank Markande": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Raghu Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ashwani Kumar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Deepak Chahar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jasprit Bumrah": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mohammed Izhar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mayank Rawat": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Will Jacks": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Ryan Rickelton": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Quinton de Kock": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Corbin Bosch": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sherfane Rutherford": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "middle_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mitchell Santner": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Trent Boult": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "AM Ghazanfar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Krish Bhagat": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      }
+    },
+    "Punjab Kings": {
+      "Shreyas Iyer": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Harnoor Singh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Nehal Wadhera": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Priyansh Arya": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Pyla Avinash": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Prabhsimran Singh": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vishnu Vinod": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Harpreet Brar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Musheer Khan": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Shashank Singh": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Suryansh Shedge": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Praveen Dubey": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Yuzvendra Chahal": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Arshdeep Singh": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vijaykumar Vyshak": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vishal Nishad": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Yash Thakur": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Azmatullah Omarzai": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Ben Dwarshuis": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Cooper Connolly": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Marcus Stoinis": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "finisher"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mitchell Owen": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Xavier Bartlett": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Marco Jansen": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Lockie Ferguson": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Rajasthan Royals": {
+      "Riyan Parag": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shubham Dubey": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Vaibhav Suryavanshi": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Yashasvi Jaiswal": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Aman Rao": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Dhruv Jurel": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ravi Singh": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ravindra Jadeja": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Yudhvir Singh": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Ravi Bishnoi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Yash Raj Punja": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Vignesh Puthur": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sandeep Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Tushar Deshpande": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sushant Mishra": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kuldeep Sen": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Brijesh Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jofra Archer": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Lhuan-dre Pretorius": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Donovan Ferreira": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "finisher",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kwena Maphaka": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Nandre Burger": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Adam Milne": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shimron Hetmyer": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Dasun Shanaka": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      }
+    },
+    "Royal Challengers Bengaluru": {
+      "Rajat Patidar": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Virat Kohli": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "anchor"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Devdutt Padikkal": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jitesh Sharma": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Venkatesh Iyer": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Krunal Pandya": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "spinner"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Swapnil Singh": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Satwik Deswal": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Kanish Chouhan": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Vihaan Malhotra": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Vicky Ostwal": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Suyash Sharma": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Bhuvneshwar Kumar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "powerplay_bowler",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Rasikh Salam": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Mangesh Yadav": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Abhinandan Singh": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jacob Bethell": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Phil Salt": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jordan Cox": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Josh Hazlewood": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Tim David": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Romario Shepherd": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jacob Duffy": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Nuwan Thushara": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    },
+    "Sunrisers Hyderabad": {
+      "Pat Cummins": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Ishan Kishan": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Aniket Verma": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "R Smaran": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Salil Arora": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "probable_xi",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Abhishek Sharma": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Nitish Kumar Reddy": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Harshal Patel": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "pace",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Harsh Dubey": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shivang Kumar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Krains Fuletra": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Zeeshan Ansari": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Amit Kumar": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Jaydev Unadkat": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Shivam Mavi": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Onkar Tarmale": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Sakib Hussain": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Praful Hinge": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "death_bowler",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Liam Livingstone": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Brydon Carse": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "David Payne": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Travis Head": {
+        "primary_role": "batsman",
+        "is_wicket_keeper": false,
+        "tags": [
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Heinrich Klaasen": {
+        "primary_role": "wicket_keeper",
+        "is_wicket_keeper": true,
+        "tags": [
+          "finisher",
+          "top_order"
+        ],
+        "source": "online_verified_v1"
+      },
+      "Kamindu Mendis": {
+        "primary_role": "all_rounder",
+        "is_wicket_keeper": false,
+        "tags": [],
+        "source": "online_verified_v1"
+      },
+      "Eshan Malinga": {
+        "primary_role": "bowler",
+        "is_wicket_keeper": false,
+        "tags": [
+          "probable_xi",
+          "wicket_taker"
+        ],
+        "source": "online_verified_v1"
+      }
+    }
+  },
+  "stats": {
+    "total_players": 247,
+    "manually_tagged_teams": 10,
+    "auto_inferred_players": 183,
+    "online_verified_updates": 243,
+    "online_verification_source": "online_role_overrides.json"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "generated_at": "2026-04-21T07:12:57.013247+00:00",
+  "presets": [
+    {
+      "id": "default",
+      "label": "Default (app)",
+      "source": "web/app.js DEFAULT_GENERATOR_TUNING",
+      "tuning": {
+        "repeat_lambda": 1.6705,
+        "cv_uniform_blend": 0.604,
+        "lineup_ceiling_nudge": 0.1734,
+        "lower_middle_bat_weight": 0.4312,
+        "cv_fairness_lambda": 5.4421,
+        "blend_proj_weight": 0.5324,
+        "blend_ceiling_weight": 0.3719,
+        "blend_role_stability_weight": 0.0957
+      }
+    },
+    {
+      "id": "backtest_apr2026",
+      "label": "Backtest Apr 2026 (OAT merge)",
+      "source": "Per-knob OAT winner for high_scoring_games mean-best",
+      "tuning": {
+        "repeat_lambda": 0.2,
+        "cv_uniform_blend": 0.05,
+        "lineup_ceiling_nudge": 0.0,
+        "lower_middle_bat_weight": 0.35,
+        "cv_fairness_lambda": 6.0,
+        "blend_proj_weight": 0.6434,
+        "blend_ceiling_weight": 0.2419,
+        "blend_role_stability_weight": 0.1147
+      }
+    },
+    {
+      "id": "backtest_apr2026_joint_rs",
+      "label": "Backtest Apr 2026 (joint random search)",
+      "source": "Random search over all knobs; maximize high_scoring_games mean-best",
+      "tuning": {
+        "repeat_lambda": 1.6705,
+        "cv_uniform_blend": 0.604,
+        "lineup_ceiling_nudge": 0.1734,
+        "lower_middle_bat_weight": 0.4312,
+        "cv_fairness_lambda": 5.4421,
+        "blend_proj_weight": 0.5324,
+        "blend_ceiling_weight": 0.3719,
+        "blend_role_stability_weight": 0.0957
+      },
+      "metrics": {
+        "joint_objective": 909.45,
+        "high_scoring_mean_best": 909.45
+      }
+    }
+  ]
+}

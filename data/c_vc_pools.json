@@ -1,0 +1,314 @@
+{
+  "version": 2,
+  "notes": "Captain and vice-captain are chosen from separate pools: captain from captain_pool and vice-captain from vice_captain_pool (overlap allowed). C and VC must be two different players. Edit in UI.",
+  "pools": {
+    "Chennai Super Kings": {
+      "captain_pool": [
+        "Ayush Mhatre",
+        "Ruturaj Gaikwad"
+      ],
+      "vice_captain_pool": [
+        "Akeal Hosein",
+        "Aman Khan",
+        "Anshul Kamboj",
+        "Dewald Brevis",
+        "Gurjapneet Singh",
+        "Jamie Overton",
+        "Kartik Sharma",
+        "Khaleel Ahmed",
+        "Matt Henry",
+        "Matt Short",
+        "MS Dhoni",
+        "Mukesh Choudhary",
+        "Noor Ahmad",
+        "Prashant Veer",
+        "Rahul Chahar",
+        "Ramakrishna Ghosh",
+        "Sanju Samson",
+        "Sarfaraz Khan",
+        "Shivam Dube",
+        "Shreyas Gopal",
+        "Spencer Johnson",
+        "Urvil Patel",
+        "Zak Foulkes"
+      ]
+    },
+    "Delhi Capitals": {
+      "captain_pool": [
+        "Nitish Rana",
+        "Pathum Nissanka",
+        "Sameer Rizvi"
+      ],
+      "vice_captain_pool": [
+        "Abishek Porel",
+        "Ajay Mandal",
+        "Ashutosh Sharma",
+        "Auqib Nabi",
+        "Axar Patel",
+        "David Miller",
+        "Dushmantha Chameera",
+        "Karun Nair",
+        "KL Rahul",
+        "Kuldeep Yadav",
+        "Kyle Jamieson",
+        "Lungi Ngidi",
+        "Madhav Tiwari",
+        "Mitchell Starc",
+        "Mukesh Kumar",
+        "Prithvi Shaw",
+        "Sahil Parakh",
+        "T Natarajan",
+        "T Vijay",
+        "Tristan Stubbs",
+        "Vipraj Nigam"
+      ]
+    },
+    "Gujarat Titans": {
+      "captain_pool": [
+        "Sai Sudharsan",
+        "Shubman Gill"
+      ],
+      "vice_captain_pool": [
+        "Anuj Rawat",
+        "Arshad Khan",
+        "Ashok Sharma",
+        "Glenn Phillips",
+        "Gurnoor Brar",
+        "Ishant Sharma",
+        "Jason Holder",
+        "Jayant Yadav",
+        "Jos Buttler",
+        "Kagiso Rabada",
+        "Kulwant Khejroliya",
+        "Kumar Kushagra",
+        "Luke Wood",
+        "Manav Suthar",
+        "Mohammed Siraj",
+        "Nishant Sindhu",
+        "Prasidh Krishna",
+        "Rahul Tewatia",
+        "Rashid Khan",
+        "Sai Kishore",
+        "Shahrukh Khan",
+        "Tom Banton",
+        "Washington Sundar"
+      ]
+    },
+    "Kolkata Knight Riders": {
+      "captain_pool": [
+        "Ajinkya Rahane"
+      ],
+      "vice_captain_pool": [
+        "Angkrish Raghuvanshi",
+        "Anukul Roy",
+        "Blessing Muzarabani",
+        "Cameron Green",
+        "Daksh Kamra",
+        "Finn Allen",
+        "Kartik Tyagi",
+        "Manish Pandey",
+        "Matheesha Pathirana",
+        "Navdeep Saini",
+        "Prashant Solanki",
+        "Rachin Ravindra",
+        "Rahul Tripathi",
+        "Ramandeep Singh",
+        "Rinku Singh",
+        "Rovman Powell",
+        "Sarthak Ranjan",
+        "Saurabh Dubey",
+        "Sunil Narine",
+        "Tejasvi Dahiya",
+        "Tim Seifert",
+        "Umran Malik",
+        "Vaibhav Arora",
+        "Varun Chakravarthy"
+      ]
+    },
+    "Lucknow Super Giants": {
+      "captain_pool": [
+        "Aiden Markram"
+      ],
+      "vice_captain_pool": [
+        "Abdul Samad",
+        "Akash Singh",
+        "Akshat Raghuwanshi",
+        "Anrich Nortje",
+        "Arjun Tendulkar",
+        "Arshin Kulkarni",
+        "Avesh Khan",
+        "Ayush Badoni",
+        "Digvesh Rathi",
+        "George Linde",
+        "Himmat Singh",
+        "Josh Inglis",
+        "M Siddharth",
+        "Matthew Breetzke",
+        "Mayank Yadav",
+        "Mitchell Marsh",
+        "Mohammed Shami",
+        "Mohsin Khan",
+        "Mukul Choudhary",
+        "Naman Tiwari",
+        "Nicholas Pooran",
+        "Prince Yadav",
+        "Rishabh Pant",
+        "Shahbaz Ahmed",
+        "Wanindu Hasaranga"
+      ]
+    },
+    "Mumbai Indians": {
+      "captain_pool": [
+        "Rohit Sharma",
+        "Suryakumar Yadav"
+      ],
+      "vice_captain_pool": [
+        "AM Ghazanfar",
+        "Ashwani Kumar",
+        "Corbin Bosch",
+        "Danish Malewar",
+        "Deepak Chahar",
+        "Hardik Pandya",
+        "Jasprit Bumrah",
+        "Mayank Markande",
+        "Mayank Rawat",
+        "Mitchell Santner",
+        "Mohammed Izhar",
+        "Naman Dhir",
+        "Quinton de Kock",
+        "Raghu Sharma",
+        "Raj Bawa",
+        "Robin Minz",
+        "Ryan Rickelton",
+        "Shardul Thakur",
+        "Sherfane Rutherford",
+        "Tilak Varma",
+        "Trent Boult",
+        "Will Jacks"
+      ]
+    },
+    "Punjab Kings": {
+      "captain_pool": [
+        "Priyansh Arya"
+      ],
+      "vice_captain_pool": [
+        "Arshdeep Singh",
+        "Azmatullah Omarzai",
+        "Ben Dwarshuis",
+        "Cooper Connolly",
+        "Harnoor Singh",
+        "Harpreet Brar",
+        "Lockie Ferguson",
+        "Marco Jansen",
+        "Marcus Stoinis",
+        "Mitchell Owen",
+        "Musheer Khan",
+        "Nehal Wadhera",
+        "Prabhsimran Singh",
+        "Praveen Dubey",
+        "Pyla Avinash",
+        "Shashank Singh",
+        "Shreyas Iyer",
+        "Suryansh Shedge",
+        "Vijaykumar Vyshak",
+        "Vishal Nishad",
+        "Vishnu Vinod",
+        "Xavier Bartlett",
+        "Yash Thakur",
+        "Yuzvendra Chahal"
+      ]
+    },
+    "Rajasthan Royals": {
+      "captain_pool": [
+        "Vaibhav Suryavanshi",
+        "Yashasvi Jaiswal"
+      ],
+      "vice_captain_pool": [
+        "Adam Milne",
+        "Aman Rao",
+        "Brijesh Sharma",
+        "Dasun Shanaka",
+        "Dhruv Jurel",
+        "Donovan Ferreira",
+        "Jofra Archer",
+        "Kuldeep Sen",
+        "Kwena Maphaka",
+        "Lhuan-dre Pretorius",
+        "Nandre Burger",
+        "Ravi Bishnoi",
+        "Ravi Singh",
+        "Ravindra Jadeja",
+        "Riyan Parag",
+        "Sandeep Sharma",
+        "Shimron Hetmyer",
+        "Shubham Dubey",
+        "Sushant Mishra",
+        "Tushar Deshpande",
+        "Vignesh Puthur",
+        "Yash Raj Punja",
+        "Yudhvir Singh"
+      ]
+    },
+    "Royal Challengers Bengaluru": {
+      "captain_pool": [
+        "Devdutt Padikkal",
+        "Virat Kohli"
+      ],
+      "vice_captain_pool": [
+        "Abhinandan Singh",
+        "Bhuvneshwar Kumar",
+        "Jacob Bethell",
+        "Jacob Duffy",
+        "Jitesh Sharma",
+        "Jordan Cox",
+        "Josh Hazlewood",
+        "Kanish Chouhan",
+        "Krunal Pandya",
+        "Mangesh Yadav",
+        "Nuwan Thushara",
+        "Phil Salt",
+        "Rajat Patidar",
+        "Rasikh Salam",
+        "Romario Shepherd",
+        "Satwik Deswal",
+        "Suyash Sharma",
+        "Swapnil Singh",
+        "Tim David",
+        "Venkatesh Iyer",
+        "Vicky Ostwal",
+        "Vihaan Malhotra"
+      ]
+    },
+    "Sunrisers Hyderabad": {
+      "captain_pool": [
+        "Travis Head"
+      ],
+      "vice_captain_pool": [
+        "Abhishek Sharma",
+        "Amit Kumar",
+        "Aniket Verma",
+        "Brydon Carse",
+        "David Payne",
+        "Eshan Malinga",
+        "Harsh Dubey",
+        "Harshal Patel",
+        "Heinrich Klaasen",
+        "Ishan Kishan",
+        "Jaydev Unadkat",
+        "Kamindu Mendis",
+        "Krains Fuletra",
+        "Liam Livingstone",
+        "Nitish Kumar Reddy",
+        "Onkar Tarmale",
+        "Pat Cummins",
+        "Praful Hinge",
+        "R Smaran",
+        "Sakib Hussain",
+        "Salil Arora",
+        "Shivam Mavi",
+        "Shivang Kumar",
+        "Zeeshan Ansari"
+      ]
+    }
+  }
+}

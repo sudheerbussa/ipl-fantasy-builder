@@ -1,0 +1,770 @@
+{
+  "version": 1,
+  "notes": "typical_slot: 1 = opener, 2\u20133 = top, 4\u20135 = middle, 6 = lower-middle, 7+ = tail (bat/AR). Bowlers default to 9. Prefilled via scripts/prefill_batting_slots.py from ipl2026_player_profiles.json tags/roles \u2014 edit any player here; this file overrides profile inference in the app.",
+  "teams": {
+    "Chennai Super Kings": {
+      "Ruturaj Gaikwad": {
+        "typical_slot": 3
+      },
+      "Ayush Mhatre": {
+        "typical_slot": 2
+      },
+      "Sarfaraz Khan": {
+        "typical_slot": 4
+      },
+      "Sanju Samson": {
+        "typical_slot": 1
+      },
+      "MS Dhoni": {
+        "typical_slot": 7
+      },
+      "Urvil Patel": {
+        "typical_slot": 2
+      },
+      "Kartik Sharma": {
+        "typical_slot": 2
+      },
+      "Shivam Dube": {
+        "typical_slot": 5
+      },
+      "Ramakrishna Ghosh": {
+        "typical_slot": 7
+      },
+      "Shreyas Gopal": {
+        "typical_slot": 9
+      },
+      "Aman Khan": {
+        "typical_slot": 7
+      },
+      "Prashant Veer": {
+        "typical_slot": 7
+      },
+      "Rahul Chahar": {
+        "typical_slot": 9
+      },
+      "Khaleel Ahmed": {
+        "typical_slot": 9
+      },
+      "Gurjapneet Singh": {
+        "typical_slot": 9
+      },
+      "Anshul Kamboj": {
+        "typical_slot": 7
+      },
+      "Mukesh Choudhary": {
+        "typical_slot": 9
+      },
+      "Jamie Overton": {
+        "typical_slot": 6
+      },
+      "Dewald Brevis": {
+        "typical_slot": 5
+      },
+      "Matt Short": {
+        "typical_slot": 5
+      },
+      "Spencer Johnson": {
+        "typical_slot": 9
+      },
+      "Zak Foulkes": {
+        "typical_slot": 7
+      },
+      "Matt Henry": {
+        "typical_slot": 9
+      },
+      "Noor Ahmad": {
+        "typical_slot": 9
+      },
+      "Akeal Hosein": {
+        "typical_slot": 9
+      }
+    },
+    "Delhi Capitals": {
+      "Axar Patel": {
+        "typical_slot": 4
+      },
+      "Prithvi Shaw": {
+        "typical_slot": 5
+      },
+      "Karun Nair": {
+        "typical_slot": 5
+      },
+      "Nitish Rana": {
+        "typical_slot": 3
+      },
+      "Ashutosh Sharma": {
+        "typical_slot": 7
+      },
+      "Sameer Rizvi": {
+        "typical_slot": 3
+      },
+      "Sahil Parakh": {
+        "typical_slot": 5
+      },
+      "KL Rahul": {
+        "typical_slot": 1
+      },
+      "Abishek Porel": {
+        "typical_slot": 4
+      },
+      "Vipraj Nigam": {
+        "typical_slot": 9
+      },
+      "Auqib Nabi": {
+        "typical_slot": 8
+      },
+      "Madhav Tiwari": {
+        "typical_slot": 7
+      },
+      "T Vijay": {
+        "typical_slot": 7
+      },
+      "Ajay Mandal": {
+        "typical_slot": 7
+      },
+      "Kuldeep Yadav": {
+        "typical_slot": 9
+      },
+      "Mukesh Kumar": {
+        "typical_slot": 9
+      },
+      "T Natarajan": {
+        "typical_slot": 9
+      },
+      "Mitchell Starc": {
+        "typical_slot": 9
+      },
+      "Pathum Nissanka": {
+        "typical_slot": 1
+      },
+      "Dushmantha Chameera": {
+        "typical_slot": 9
+      },
+      "Lungi Ngidi": {
+        "typical_slot": 9
+      },
+      "David Miller": {
+        "typical_slot": 5
+      },
+      "Tristan Stubbs": {
+        "typical_slot": 5
+      },
+      "Kyle Jamieson": {
+        "typical_slot": 9
+      }
+    },
+    "Gujarat Titans": {
+      "Shubman Gill": {
+        "typical_slot": 1
+      },
+      "Sai Sudharsan": {
+        "typical_slot": 2
+      },
+      "Shahrukh Khan": {
+        "typical_slot": 6
+      },
+      "Anuj Rawat": {
+        "typical_slot": 2
+      },
+      "Kumar Kushagra": {
+        "typical_slot": 2
+      },
+      "Washington Sundar": {
+        "typical_slot": 4
+      },
+      "Manav Suthar": {
+        "typical_slot": 9
+      },
+      "Rahul Tewatia": {
+        "typical_slot": 7
+      },
+      "Nishant Sindhu": {
+        "typical_slot": 7
+      },
+      "Jayant Yadav": {
+        "typical_slot": 7
+      },
+      "Arshad Khan": {
+        "typical_slot": 8
+      },
+      "Sai Kishore": {
+        "typical_slot": 8
+      },
+      "Mohammed Siraj": {
+        "typical_slot": 9
+      },
+      "Prasidh Krishna": {
+        "typical_slot": 9
+      },
+      "Gurnoor Brar": {
+        "typical_slot": 9
+      },
+      "Ishant Sharma": {
+        "typical_slot": 9
+      },
+      "Ashok Sharma": {
+        "typical_slot": 9
+      },
+      "Kulwant Khejroliya": {
+        "typical_slot": 9
+      },
+      "Jos Buttler": {
+        "typical_slot": 3
+      },
+      "Tom Banton": {
+        "typical_slot": 2
+      },
+      "Luke Wood": {
+        "typical_slot": 9
+      },
+      "Glenn Phillips": {
+        "typical_slot": 5
+      },
+      "Jason Holder": {
+        "typical_slot": 5
+      },
+      "Rashid Khan": {
+        "typical_slot": 7
+      },
+      "Kagiso Rabada": {
+        "typical_slot": 9
+      }
+    },
+    "Kolkata Knight Riders": {
+      "Ajinkya Rahane": {
+        "typical_slot": 1
+      },
+      "Angkrish Raghuvanshi": {
+        "typical_slot": 4
+      },
+      "Manish Pandey": {
+        "typical_slot": 5
+      },
+      "Rahul Tripathi": {
+        "typical_slot": 5
+      },
+      "Rinku Singh": {
+        "typical_slot": 5
+      },
+      "Tejasvi Dahiya": {
+        "typical_slot": 2
+      },
+      "Anukul Roy": {
+        "typical_slot": 7
+      },
+      "Daksh Kamra": {
+        "typical_slot": 7
+      },
+      "Ramandeep Singh": {
+        "typical_slot": 7
+      },
+      "Sarthak Ranjan": {
+        "typical_slot": 7
+      },
+      "Prashant Solanki": {
+        "typical_slot": 9
+      },
+      "Varun Chakravarthy": {
+        "typical_slot": 9
+      },
+      "Kartik Tyagi": {
+        "typical_slot": 9
+      },
+      "Umran Malik": {
+        "typical_slot": 9
+      },
+      "Vaibhav Arora": {
+        "typical_slot": 9
+      },
+      "Saurabh Dubey": {
+        "typical_slot": 9
+      },
+      "Navdeep Saini": {
+        "typical_slot": 9
+      },
+      "Cameron Green": {
+        "typical_slot": 3
+      },
+      "Rovman Powell": {
+        "typical_slot": 5
+      },
+      "Sunil Narine": {
+        "typical_slot": 2
+      },
+      "Finn Allen": {
+        "typical_slot": 2
+      },
+      "Rachin Ravindra": {
+        "typical_slot": 6
+      },
+      "Tim Seifert": {
+        "typical_slot": 1
+      },
+      "Matheesha Pathirana": {
+        "typical_slot": 9
+      },
+      "Blessing Muzarabani": {
+        "typical_slot": 9
+      }
+    },
+    "Lucknow Super Giants": {
+      "Rishabh Pant": {
+        "typical_slot": 3
+      },
+      "Abdul Samad": {
+        "typical_slot": 6
+      },
+      "Ayush Badoni": {
+        "typical_slot": 5
+      },
+      "Himmat Singh": {
+        "typical_slot": 5
+      },
+      "Akshat Raghuwanshi": {
+        "typical_slot": 5
+      },
+      "Mukul Choudhary": {
+        "typical_slot": 7
+      },
+      "Arshin Kulkarni": {
+        "typical_slot": 7
+      },
+      "Shahbaz Ahmed": {
+        "typical_slot": 7
+      },
+      "Digvesh Rathi": {
+        "typical_slot": 9
+      },
+      "M Siddharth": {
+        "typical_slot": 9
+      },
+      "Akash Singh": {
+        "typical_slot": 9
+      },
+      "Avesh Khan": {
+        "typical_slot": 9
+      },
+      "Mohammed Shami": {
+        "typical_slot": 9
+      },
+      "Mohsin Khan": {
+        "typical_slot": 9
+      },
+      "Prince Yadav": {
+        "typical_slot": 9
+      },
+      "Arjun Tendulkar": {
+        "typical_slot": 5
+      },
+      "Mayank Yadav": {
+        "typical_slot": 9
+      },
+      "Naman Tiwari": {
+        "typical_slot": 5
+      },
+      "Matthew Breetzke": {
+        "typical_slot": 5
+      },
+      "Aiden Markram": {
+        "typical_slot": 2
+      },
+      "Anrich Nortje": {
+        "typical_slot": 9
+      },
+      "Nicholas Pooran": {
+        "typical_slot": 4
+      },
+      "Josh Inglis": {
+        "typical_slot": 2
+      },
+      "Mitchell Marsh": {
+        "typical_slot": 1
+      },
+      "Wanindu Hasaranga": {
+        "typical_slot": 7
+      },
+      "George Linde": {
+        "typical_slot": 5
+      }
+    },
+    "Mumbai Indians": {
+      "Hardik Pandya": {
+        "typical_slot": 5
+      },
+      "Rohit Sharma": {
+        "typical_slot": 1
+      },
+      "Suryakumar Yadav": {
+        "typical_slot": 3
+      },
+      "Danish Malewar": {
+        "typical_slot": 1
+      },
+      "Robin Minz": {
+        "typical_slot": 6
+      },
+      "Shardul Thakur": {
+        "typical_slot": 7
+      },
+      "Naman Dhir": {
+        "typical_slot": 4
+      },
+      "Raj Bawa": {
+        "typical_slot": 7
+      },
+      "Tilak Varma": {
+        "typical_slot": 4
+      },
+      "Mayank Markande": {
+        "typical_slot": 9
+      },
+      "Raghu Sharma": {
+        "typical_slot": 9
+      },
+      "Ashwani Kumar": {
+        "typical_slot": 9
+      },
+      "Deepak Chahar": {
+        "typical_slot": 9
+      },
+      "Jasprit Bumrah": {
+        "typical_slot": 9
+      },
+      "Mohammed Izhar": {
+        "typical_slot": 9
+      },
+      "Mayank Rawat": {
+        "typical_slot": 7
+      },
+      "Will Jacks": {
+        "typical_slot": 1
+      },
+      "Ryan Rickelton": {
+        "typical_slot": 2
+      },
+      "Quinton de Kock": {
+        "typical_slot": 2
+      },
+      "Corbin Bosch": {
+        "typical_slot": 7
+      },
+      "Sherfane Rutherford": {
+        "typical_slot": 7
+      },
+      "Mitchell Santner": {
+        "typical_slot": 7
+      },
+      "Trent Boult": {
+        "typical_slot": 9
+      },
+      "AM Ghazanfar": {
+        "typical_slot": 9
+      }
+    },
+    "Punjab Kings": {
+      "Shreyas Iyer": {
+        "typical_slot": 4
+      },
+      "Harnoor Singh": {
+        "typical_slot": 5
+      },
+      "Nehal Wadhera": {
+        "typical_slot": 6
+      },
+      "Priyansh Arya": {
+        "typical_slot": 2
+      },
+      "Pyla Avinash": {
+        "typical_slot": 2
+      },
+      "Prabhsimran Singh": {
+        "typical_slot": 1
+      },
+      "Vishnu Vinod": {
+        "typical_slot": 2
+      },
+      "Harpreet Brar": {
+        "typical_slot": 9
+      },
+      "Musheer Khan": {
+        "typical_slot": 9
+      },
+      "Shashank Singh": {
+        "typical_slot": 7
+      },
+      "Suryansh Shedge": {
+        "typical_slot": 6
+      },
+      "Praveen Dubey": {
+        "typical_slot": 9
+      },
+      "Yuzvendra Chahal": {
+        "typical_slot": 9
+      },
+      "Arshdeep Singh": {
+        "typical_slot": 9
+      },
+      "Vijaykumar Vyshak": {
+        "typical_slot": 9
+      },
+      "Vishal Nishad": {
+        "typical_slot": 9
+      },
+      "Yash Thakur": {
+        "typical_slot": 9
+      },
+      "Azmatullah Omarzai": {
+        "typical_slot": 7
+      },
+      "Ben Dwarshuis": {
+        "typical_slot": 7
+      },
+      "Cooper Connolly": {
+        "typical_slot": 3
+      },
+      "Marcus Stoinis": {
+        "typical_slot": 5
+      },
+      "Mitchell Owen": {
+        "typical_slot": 7
+      },
+      "Xavier Bartlett": {
+        "typical_slot": 9
+      },
+      "Marco Jansen": {
+        "typical_slot": 7
+      },
+      "Lockie Ferguson": {
+        "typical_slot": 9
+      }
+    },
+    "Rajasthan Royals": {
+      "Riyan Parag": {
+        "typical_slot": 4
+      },
+      "Shubham Dubey": {
+        "typical_slot": 5
+      },
+      "Vaibhav Suryavanshi": {
+        "typical_slot": 1
+      },
+      "Yashasvi Jaiswal": {
+        "typical_slot": 2
+      },
+      "Aman Rao": {
+        "typical_slot": 5
+      },
+      "Dhruv Jurel": {
+        "typical_slot": 3
+      },
+      "Ravi Singh": {
+        "typical_slot": 2
+      },
+      "Ravindra Jadeja": {
+        "typical_slot": 5
+      },
+      "Yudhvir Singh": {
+        "typical_slot": 7
+      },
+      "Ravi Bishnoi": {
+        "typical_slot": 9
+      },
+      "Yash Raj Punja": {
+        "typical_slot": 9
+      },
+      "Vignesh Puthur": {
+        "typical_slot": 9
+      },
+      "Sandeep Sharma": {
+        "typical_slot": 9
+      },
+      "Tushar Deshpande": {
+        "typical_slot": 9
+      },
+      "Sushant Mishra": {
+        "typical_slot": 9
+      },
+      "Kuldeep Sen": {
+        "typical_slot": 9
+      },
+      "Brijesh Sharma": {
+        "typical_slot": 9
+      },
+      "Jofra Archer": {
+        "typical_slot": 9
+      },
+      "Lhuan-dre Pretorius": {
+        "typical_slot": 3
+      },
+      "Donovan Ferreira": {
+        "typical_slot": 6
+      },
+      "Kwena Maphaka": {
+        "typical_slot": 9
+      },
+      "Nandre Burger": {
+        "typical_slot": 9
+      },
+      "Adam Milne": {
+        "typical_slot": 9
+      },
+      "Shimron Hetmyer": {
+        "typical_slot": 5
+      },
+      "Dasun Shanaka": {
+        "typical_slot": 7
+      }
+    },
+    "Royal Challengers Bengaluru": {
+      "Rajat Patidar": {
+        "typical_slot": 4
+      },
+      "Virat Kohli": {
+        "typical_slot": 1
+      },
+      "Devdutt Padikkal": {
+        "typical_slot": 3
+      },
+      "Jitesh Sharma": {
+        "typical_slot": 6
+      },
+      "Venkatesh Iyer": {
+        "typical_slot": 3
+      },
+      "Krunal Pandya": {
+        "typical_slot": 7
+      },
+      "Swapnil Singh": {
+        "typical_slot": 7
+      },
+      "Satwik Deswal": {
+        "typical_slot": 7
+      },
+      "Kanish Chouhan": {
+        "typical_slot": 7
+      },
+      "Vihaan Malhotra": {
+        "typical_slot": 7
+      },
+      "Vicky Ostwal": {
+        "typical_slot": 7
+      },
+      "Suyash Sharma": {
+        "typical_slot": 9
+      },
+      "Bhuvneshwar Kumar": {
+        "typical_slot": 9
+      },
+      "Rasikh Salam": {
+        "typical_slot": 9
+      },
+      "Mangesh Yadav": {
+        "typical_slot": 7
+      },
+      "Abhinandan Singh": {
+        "typical_slot": 9
+      },
+      "Jacob Bethell": {
+        "typical_slot": 5
+      },
+      "Phil Salt": {
+        "typical_slot": 2
+      },
+      "Jordan Cox": {
+        "typical_slot": 2
+      },
+      "Josh Hazlewood": {
+        "typical_slot": 9
+      },
+      "Tim David": {
+        "typical_slot": 5
+      },
+      "Romario Shepherd": {
+        "typical_slot": 7
+      },
+      "Jacob Duffy": {
+        "typical_slot": 9
+      },
+      "Nuwan Thushara": {
+        "typical_slot": 9
+      }
+    },
+    "Sunrisers Hyderabad": {
+      "Pat Cummins": {
+        "typical_slot": 9
+      },
+      "Ishan Kishan": {
+        "typical_slot": 2
+      },
+      "Aniket Verma": {
+        "typical_slot": 5
+      },
+      "R Smaran": {
+        "typical_slot": 5
+      },
+      "Salil Arora": {
+        "typical_slot": 6
+      },
+      "Abhishek Sharma": {
+        "typical_slot": 1
+      },
+      "Nitish Kumar Reddy": {
+        "typical_slot": 5
+      },
+      "Harshal Patel": {
+        "typical_slot": 7
+      },
+      "Harsh Dubey": {
+        "typical_slot": 7
+      },
+      "Shivang Kumar": {
+        "typical_slot": 7
+      },
+      "Krains Fuletra": {
+        "typical_slot": 7
+      },
+      "Zeeshan Ansari": {
+        "typical_slot": 9
+      },
+      "Amit Kumar": {
+        "typical_slot": 9
+      },
+      "Jaydev Unadkat": {
+        "typical_slot": 9
+      },
+      "Shivam Mavi": {
+        "typical_slot": 9
+      },
+      "Onkar Tarmale": {
+        "typical_slot": 9
+      },
+      "Sakib Hussain": {
+        "typical_slot": 9
+      },
+      "Praful Hinge": {
+        "typical_slot": 9
+      },
+      "Liam Livingstone": {
+        "typical_slot": 6
+      },
+      "Brydon Carse": {
+        "typical_slot": 7
+      },
+      "David Payne": {
+        "typical_slot": 7
+      },
+      "Travis Head": {
+        "typical_slot": 2
+      },
+      "Heinrich Klaasen": {
+        "typical_slot": 4
+      },
+      "Kamindu Mendis": {
+        "typical_slot": 7
+      },
+      "Eshan Malinga": {
+        "typical_slot": 9
+      }
+    }
+  }
+}
