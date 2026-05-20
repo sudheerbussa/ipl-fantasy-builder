@@ -847,6 +847,7 @@ const state = {
     teamB: { p1: [], p2: [], p3: [] },
     /** First N generated teams use full P1/P2/P3; rest exclude `reducedExcludeIds`. */
     fullPoolPercent: DEFAULT_SPLIT_POOL_FULL_POOL_PCT,
+    profilePercents: { C1: 25, C2: 25, C3: 25, C4: 25 },
     reducedExcludeIds: [],
     lineupDupStages: [...DEFAULT_SPLIT_POOL_LINEUP_DUP_STAGES],
   },
@@ -1131,7 +1132,8 @@ function getScenarioCvPoolOutcomeLine(scenarioId) {
   const sid = String(scenarioId || "").trim();
   if (isSplitPoolProfileScenarioId(sid)) {
     const tpl = SPLIT_POOL_CV_HINT_TEMPLATES[sid];
-    return tpl?.story ? `Lineup shape: ${tpl.story}` : "";
+    const abbrevs = getSplitPoolAbbrevs();
+    return tpl?.story ? `Lineup shape: ${fillSplitPoolCvHintTemplate(tpl.story, abbrevs)}` : "";
   }
   const suf = scenarioChaseSuffix(scenarioId);
   const tpl = HIGH_SCORING_SCENARIO_OUTCOME_TEMPLATES[suf];
@@ -1148,7 +1150,7 @@ function getScenarioCvPoolHint(scenarioId) {
     const tpl = SPLIT_POOL_CV_HINT_TEMPLATES[sid];
     const abbrevs = getSplitPoolAbbrevs();
     if (!tpl) {
-      return `**C / VC:** Tick players who fit profile ${sid} (use P1/P2/P3 bands).`;
+      return `**C / VC:** Tick top-order, middle-order, or bowler / bowling-AR picks that fit profile ${sid}.`;
     }
     const cap = fillSplitPoolCvHintTemplate(tpl.captain, abbrevs);
     const vc = fillSplitPoolCvHintTemplate(tpl.vice, abbrevs);
@@ -1168,20 +1170,20 @@ function getScenarioCvPoolHint(scenarioId) {
 /** 2nd-innings C/VC role guide ({F} = team that batted first, {Ch} = chasing team). */
 const SECOND_INNINGS_CV_HINT_TEMPLATES = {
   si_chase_middle: {
-    captain: "Chase Top or Rest pool",
-    vice: "Chase Rest or first-innings P2 pool",
+    captain: "{Ch} top-order or middle-order batter (chase squad)",
+    vice: "{Ch} middle-order batter or {F} strike bowler / bowling AR",
   },
   si_first_innings_bowl: {
-    captain: "First-innings P2 pool only",
-    vice: "Chase Top, Rest, or P2 pool",
+    captain: "{F} strike bowler or bowling all-rounder (1st-innings bowl)",
+    vice: "{Ch} top/middle batter or bowler / AR from either side",
   },
 };
 
 const SECOND_INNINGS_CV_PDF_HINT_TEMPLATES = SECOND_INNINGS_CV_HINT_TEMPLATES;
 
 const SECOND_INNINGS_OUTCOME_PDF = {
-  si_chase_middle: "{Ch} chase-middle · 5 from {Ch} top/rest + {F} P2",
-  si_first_innings_bowl: "{F} bowl-heavy · 5 with more {F} P2 bowlers/AR",
+  si_chase_middle: "{Ch} chase-middle · 5 from chase top/middle bat + {F} bowlers/AR",
+  si_first_innings_bowl: "{F} bowling-heavy · 5 with more {F} strike bowlers / bowl AR",
 };
 
 function getSecondInningsAbbrevsForPdf() {
@@ -1225,7 +1227,7 @@ function getTeamPdfScenarioGuideHtml(row) {
     label =
       hss === "si_chase_middle"
         ? `2nd inns · chase-middle · ${abbrevs.Ch} chase, ${abbrevs.F} bat 1st`
-        : `2nd inns · bowl-first · ${abbrevs.F} P2-heavy, ${abbrevs.Ch} chase`;
+        : `2nd inns · bowl-first · ${abbrevs.F} bowling-heavy, ${abbrevs.Ch} chase`;
     const outTpl = SECOND_INNINGS_OUTCOME_PDF[hss];
     outcome = outTpl ? fillScenarioCvHintTemplate(outTpl, abbrevs) : "";
     const cvTpl = SECOND_INNINGS_CV_HINT_TEMPLATES[hss];
@@ -1250,8 +1252,8 @@ function getTeamPdfScenarioGuideHtml(row) {
   } else if (isSplitPoolProfileScenarioId(hss)) {
     const abbrevs = getSplitPoolAbbrevs();
     const tpl = SPLIT_POOL_CV_HINT_TEMPLATES[hss];
-    label = `Split profile ${hss} · ${abbrevs.A} vs ${abbrevs.B}`;
-    outcome = tpl?.story ? `Lineup: ${tpl.story}` : "";
+    label = `Profile ${hss} · ${abbrevs.A} vs ${abbrevs.B}`;
+    outcome = tpl?.story ? `Expected XI shape: ${fillSplitPoolCvHintTemplate(tpl.story, abbrevs)}` : "";
     if (tpl) {
       capGuide = fillSplitPoolCvHintTemplate(tpl.captain, abbrevs);
       vcGuide = fillSplitPoolCvHintTemplate(tpl.vice, abbrevs);
@@ -2011,24 +2013,24 @@ const SPLIT_POOL_PROFILE_IDS = ["C1", "C2", "C3", "C4"];
 /** C/VC tick hints per lineup profile (§4 stories). {A}/{B} = franchise abbrev. */
 const SPLIT_POOL_CV_HINT_TEMPLATES = {
   C1: {
-    story: "Both sides top-heavy (H·L·L | H·L·L)",
-    captain: "{A} or {B} top-order batter in P1 (slot 1–3)",
-    vice: "Other franchise top-order (P1); middle batter from P2 on either side",
+    story: "Both teams top-order batting heavy",
+    captain: "{A} or {B} top-order batter / WK (opener · #1–3)",
+    vice: "Other team top-order batter; middle-order batter from either side",
   },
   C2: {
-    story: "A tops + bowl (H·L·H) · B middle (L·H·L)",
-    captain: "{A} P1 top-order batter or {A} P3 strike bowler / bowling AR",
-    vice: "{B} P2 middle-order batter; {A} P3 bowler or batting AR",
+    story: "{A} top-order + bowling · {B} middle-order batting",
+    captain: "{A} top-order batter OR {A} strike bowler / bowling all-rounder",
+    vice: "{B} middle-order batter; {A} bowler or batting all-rounder",
   },
   C3: {
-    story: "A middle (L·H·L) · B tops + bowl (H·L·H)",
-    captain: "{B} P1 top-order batter or {B} P3 strike bowler / bowling AR",
-    vice: "{A} P2 middle-order batter; {B} P3 bowler or batting AR",
+    story: "{A} middle-order batting · {B} top-order + bowling",
+    captain: "{B} top-order batter OR {B} strike bowler / bowling all-rounder",
+    vice: "{A} middle-order batter; {B} bowler or batting all-rounder",
   },
   C4: {
-    story: "Both middle + bowl (L·H·H | L·H·H)",
-    captain: "{A} or {B} P2 middle anchor or P3 strike bowler",
-    vice: "P3 bowling AR; second middle-order from P2; avoid dual same-team bowlers",
+    story: "Both teams middle-order + bowling heavy",
+    captain: "{A} or {B} middle-order anchor OR strike bowler",
+    vice: "Bowling all-rounder; second middle-order batter; avoid two bowlers same team",
   },
 };
 
@@ -2282,8 +2284,11 @@ function updateGeneratorAttemptsHint() {
     const cvIds = getActiveCvScenarioIdsForUi();
     const fullPct =
       window.IPL_SPLIT_POOL?.getSplitPoolFullPoolPercentFromUi?.() ?? DEFAULT_SPLIT_POOL_FULL_POOL_PCT;
+    const profMix =
+      window.IPL_SPLIT_POOL?.formatSplitProfilePercentSummary?.(getBatFirstTargetTeamCountHint()) ||
+      "C1 25% · C2 25% · C3 25% · C4 25%";
     generatorAttemptsHint.innerHTML =
-      `Split-pool max attempts: <strong>${cap.toLocaleString()}</strong> (teams × ${ATTEMPTS_MULTIPLIER} × ${mult}). Lineup profiles <strong>C1→C2→C3→C4</strong> round-robin; C/VC pools keyed to the <strong>same profile</strong> (${cvIds.join(" → ")}). First ~<strong>${fullPct}%</strong> teams use full P1/P2/P3; rest use reduced pools (exclusions below).`;
+      `Split-pool max attempts: <strong>${cap.toLocaleString()}</strong> (teams × ${ATTEMPTS_MULTIPLIER} × ${mult}). Lineup profiles by mix: <strong>${profMix}</strong>; C/VC pools keyed to the <strong>same profile</strong> (${cvIds.join(", ")}). First ~<strong>${fullPct}%</strong> teams use full P1/P2/P3; rest use reduced pools (exclusions below).`;
     const hint = document.getElementById("splitPoolHint");
     if (hint && window.IPL_SPLIT_POOL) {
       window.IPL_SPLIT_POOL.renderSplitPoolPanel();
@@ -8036,7 +8041,33 @@ function bindEvents() {
     }
     window.IPL_SPLIT_POOL?.autoFillSplitPoolsFromSelection?.();
   });
+  const onSplitPoolProfilePctChange = () => {
+    window.IPL_SPLIT_POOL?.persistSplitPools?.();
+    const hint = document.getElementById("splitPoolHint");
+    if (hint && window.IPL_SPLIT_POOL) {
+      window.IPL_SPLIT_POOL.renderSplitPoolPanel();
+    }
+    updateGeneratorAttemptsHint();
+  };
+  [
+    "splitPoolProfileC1PctInput",
+    "splitPoolProfileC2PctInput",
+    "splitPoolProfileC3PctInput",
+    "splitPoolProfileC4PctInput",
+  ].forEach((id) => {
+    const el = document.getElementById(id);
+    el?.addEventListener("input", onSplitPoolProfilePctChange);
+    el?.addEventListener("change", onSplitPoolProfilePctChange);
+  });
   document.getElementById("splitPoolFullPoolPctInput")?.addEventListener("change", () => {
+    window.IPL_SPLIT_POOL?.persistSplitPools?.();
+    const hint = document.getElementById("splitPoolHint");
+    if (hint && window.IPL_SPLIT_POOL) {
+      window.IPL_SPLIT_POOL.renderSplitPoolPanel();
+    }
+    updateGeneratorAttemptsHint();
+  });
+  document.getElementById("splitPoolFullPoolPctInput")?.addEventListener("input", () => {
     window.IPL_SPLIT_POOL?.persistSplitPools?.();
     const hint = document.getElementById("splitPoolHint");
     if (hint && window.IPL_SPLIT_POOL) {

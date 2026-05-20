@@ -7,6 +7,12 @@
   const SPLIT_POOL_STORAGE_KEY = "ipl2026_split_pools_v1";
   const SPLIT_POOL_ATTEMPTS_MULTIPLIER = 3;
   const DEFAULT_SPLIT_POOL_FULL_POOL_PCT = 50;
+  const SPLIT_PROFILE_PCT_INPUT_IDS = {
+    C1: "splitPoolProfileC1PctInput",
+    C2: "splitPoolProfileC2PctInput",
+    C3: "splitPoolProfileC3PctInput",
+    C4: "splitPoolProfileC4PctInput",
+  };
 
   function emptyFranchisePools() {
     return { p1: [], p2: [], p3: [] };
@@ -19,8 +25,26 @@
         teamA: emptyFranchisePools(),
         teamB: emptyFranchisePools(),
         fullPoolPercent: DEFAULT_SPLIT_POOL_FULL_POOL_PCT,
+        profilePercents: {
+          ...(window.SplitPoolCatalog?.DEFAULT_SPLIT_PROFILE_PERCENTS || {
+            C1: 25,
+            C2: 25,
+            C3: 25,
+            C4: 25,
+          }),
+        },
         reducedExcludeIds: [],
         lineupDupStages: [...(window.DEFAULT_SPLIT_POOL_LINEUP_DUP_STAGES || [0, 1, 2])],
+      };
+    }
+    if (!window.state.splitPools.profilePercents) {
+      window.state.splitPools.profilePercents = {
+        ...(window.SplitPoolCatalog?.DEFAULT_SPLIT_PROFILE_PERCENTS || {
+          C1: 25,
+          C2: 25,
+          C3: 25,
+          C4: 25,
+        }),
       };
     }
     if (window.state.splitPools.fullPoolPercent == null) {
@@ -97,6 +121,61 @@
     window.state.splitPools.fullPoolPercent = v;
   }
 
+  function migrateSplitProfilePercents(raw) {
+    const cat = window.SplitPoolCatalog;
+    const fallback = cat?.DEFAULT_SPLIT_PROFILE_PERCENTS || { C1: 25, C2: 25, C3: 25, C4: 25 };
+    if (raw && typeof raw === "object") {
+      return cat?.sanitizeSplitProfilePercents
+        ? cat.sanitizeSplitProfilePercents(raw, fallback)
+        : fallback;
+    }
+    return { ...fallback };
+  }
+
+  function getSplitPoolProfilePercentsFromUi() {
+    const cat = window.SplitPoolCatalog;
+    const fallback =
+      window.state.splitPools?.profilePercents ||
+      cat?.DEFAULT_SPLIT_PROFILE_PERCENTS || { C1: 25, C2: 25, C3: 25, C4: 25 };
+    const raw = {};
+    (cat?.PROFILE_ORDER || ["C1", "C2", "C3", "C4"]).forEach((id) => {
+      const el = document.getElementById(SPLIT_PROFILE_PCT_INPUT_IDS[id]);
+      raw[id] = el?.value ?? fallback[id];
+    });
+    return cat?.sanitizeSplitProfilePercents
+      ? cat.sanitizeSplitProfilePercents(raw, fallback)
+      : fallback;
+  }
+
+  function applySplitPoolProfilePercentsToUi(percents) {
+    const cat = window.SplitPoolCatalog;
+    const p = migrateSplitProfilePercents(percents);
+    (cat?.PROFILE_ORDER || ["C1", "C2", "C3", "C4"]).forEach((id) => {
+      const el = document.getElementById(SPLIT_PROFILE_PCT_INPUT_IDS[id]);
+      if (el) {
+        el.value = String(Math.round(p[id]));
+      }
+    });
+    window.state.splitPools.profilePercents = { ...p };
+  }
+
+  function formatSplitProfilePercentSummary(numTeams) {
+    const cat = window.SplitPoolCatalog;
+    const p = getSplitPoolProfilePercentsFromUi();
+    const pctLine = (cat?.PROFILE_ORDER || ["C1", "C2", "C3", "C4"])
+      .map((id) => `${id} ${Math.round(p[id])}%`)
+      .join(" · ");
+    const nTeams = Math.max(0, Math.floor(Number(numTeams) || 0));
+    if (!nTeams || !cat?.computeSplitProfileEnds) {
+      return pctLine;
+    }
+    const ends = cat.computeSplitProfileEnds(nTeams, p);
+    const countLine = (cat.PROFILE_ORDER || ["C1", "C2", "C3", "C4"])
+      .map((id) => `${id} ${ends.counts[id] || 0}`)
+      .join(" · ");
+    return `${pctLine} → target ${nTeams} teams: ${countLine}`;
+  }
+
   function filterSplitPoolIdList(ids, excludeSet) {
     if (!excludeSet || excludeSet.size === 0) {
       return ids;
@@ -132,6 +211,7 @@
   function persistSplitPools() {
     ensureSplitPoolState();
     window.state.splitPools.fullPoolPercent = getSplitPoolFullPoolPercentFromUi();
+    window.state.splitPools.profilePercents = getSplitPoolProfilePercentsFromUi();
     window.state.splitPools.lineupDupStages = getSplitPoolLineupDupStagesFromUi();
     const union = new Set(getSplitPoolUnionIds());
     if (typeof window.iplSanitizeBatReducedExcludeIds === "function") {
@@ -148,6 +228,7 @@
           teamA: window.state.splitPools.teamA,
           teamB: window.state.splitPools.teamB,
           fullPoolPercent: window.state.splitPools.fullPoolPercent,
+          profilePercents: window.state.splitPools.profilePercents,
           reducedExcludeIds: window.state.splitPools.reducedExcludeIds,
           lineupDupStages: window.state.splitPools.lineupDupStages,
         })
@@ -185,6 +266,7 @@
               o.fullPoolPercent != null && Number.isFinite(Number(o.fullPoolPercent))
                 ? Math.min(100, Math.max(0, Math.round(Number(o.fullPoolPercent))))
                 : DEFAULT_SPLIT_POOL_FULL_POOL_PCT,
+            profilePercents: migrateSplitProfilePercents(o.profilePercents),
             reducedExcludeIds: Array.isArray(o.reducedExcludeIds) ? [...o.reducedExcludeIds] : [],
             lineupDupStages:
               typeof window.iplSanitizeBatFirstLineupDupStages === "function"
@@ -199,6 +281,7 @@
             );
           }
           applySplitPoolFullPoolPercentToUi(window.state.splitPools.fullPoolPercent);
+          applySplitPoolProfilePercentsToUi(window.state.splitPools.profilePercents);
           applySplitPoolLineupDupStagesToUi(window.state.splitPools.lineupDupStages);
           return;
         }
@@ -210,8 +293,10 @@
     window.state.splitPools.teamA = emptyFranchisePools();
     window.state.splitPools.teamB = emptyFranchisePools();
     window.state.splitPools.fullPoolPercent = DEFAULT_SPLIT_POOL_FULL_POOL_PCT;
+    window.state.splitPools.profilePercents = migrateSplitProfilePercents(null);
     window.state.splitPools.reducedExcludeIds = [];
     applySplitPoolFullPoolPercentToUi(DEFAULT_SPLIT_POOL_FULL_POOL_PCT);
+    applySplitPoolProfilePercentsToUi(window.state.splitPools.profilePercents);
     applySplitPoolLineupDupStagesToUi(window.DEFAULT_SPLIT_POOL_LINEUP_DUP_STAGES || [0, 1, 2]);
   }
 
@@ -305,7 +390,8 @@
         : ` All ${nTeams} use full pools.`;
     const dup = getSplitPoolLineupDupStagesFromUi();
     const dupNote = dup.length ? ` Same-XI extra slots/pass: [${dup.join(", ")}].` : "";
-    return `${poolNote} Lineup C1→C2→C3→C4; C/VC pools use the same profile id.${redNote}${dupNote}`;
+    const profNote = ` Profile mix: ${formatSplitProfilePercentSummary(nTeams)}; C/VC pools use the same profile id.`;
+    return `${poolNote}${profNote}${redNote}${dupNote}`;
   }
 
   function renderSplitPoolReducedExcludePanel() {
@@ -382,6 +468,9 @@
       return;
     }
     loadSplitPoolsForFixture();
+    if (!getSplitPoolFixtureKey()) {
+      applySplitPoolProfilePercentsToUi(window.state.splitPools.profilePercents);
+    }
     syncSplitPoolsWithSelection();
     grid.innerHTML = "";
     const teamAName = window.teamASelect?.value || "Team A";
@@ -607,6 +696,7 @@
     const keyToRow = window.iplMakeRowLookupByKey(pool);
     const teams = [];
     const profileCounts = { C1: 0, C2: 0, C3: 0, C4: 0 };
+    const profileEnds = cat.computeSplitProfileEnds(numTeams, getSplitPoolProfilePercentsFromUi());
     const fullPoolTeamCount = window.iplComputeBatFirstFullPoolTeamCount(
       numTeams,
       getSplitPoolFullPoolPercentFromUi()
@@ -659,7 +749,7 @@
       while (teams.length < numTeams && attemptsInStage < hardAttemptCap) {
         attempts += 1;
         attemptsInStage += 1;
-        const profileId = cat.profileAtTeamIndex(teams.length);
+        const profileId = cat.profileAtTeamIndex(teams.length, profileEnds);
         const segKey = cat.segmentForProfileTeam(profileId, profileCounts[profileId]);
         const pair = cat.pickPair(profileId, segKey);
         const pairLabel = pair ? `${pair.a}|${pair.b}` : "";
@@ -798,6 +888,8 @@
       stagedDupPolicy: [...stageReports],
       lineupDupStagesConfigured: [...lineupDupAllowanceStages],
       profileCounts: { ...profileCounts },
+      profileTargetCounts: { ...(profileEnds.counts || {}) },
+      profilePercents: { ...(profileEnds.percents || getSplitPoolProfilePercentsFromUi()) },
       teamsFromFullPool: fullPoolTeamCount,
       teamsFromReducedPool: Math.max(0, numTeams - fullPoolTeamCount),
       reducedExcludeCount: excludePlayerSet.size,
@@ -831,6 +923,9 @@
     getSplitPoolOnlyBlockers,
     generateSplitPoolTeamsForStrategy,
     getSplitPoolFullPoolPercentFromUi,
+    getSplitPoolProfilePercentsFromUi,
+    applySplitPoolProfilePercentsToUi,
+    formatSplitProfilePercentSummary,
     SPLIT_POOL_ATTEMPTS_MULTIPLIER,
     DEFAULT_SPLIT_POOL_FULL_POOL_PCT,
   };

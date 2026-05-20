@@ -11,6 +11,7 @@
   };
 
   const PROFILE_ORDER = ["C1", "C2", "C3", "C4"];
+  const DEFAULT_SPLIT_PROFILE_PERCENTS = { C1: 25, C2: 25, C3: 25, C4: 25 };
 
   /** @type {Record<string, { segments: string[], pSumMax?: number, bandsA: object, bandsB: object }>} */
   const PROFILES = {
@@ -185,13 +186,71 @@
     return segs[profileTeamIndex % segs.length];
   }
 
-  function profileAtTeamIndex(teamIndex) {
-    return PROFILE_ORDER[((teamIndex % PROFILE_ORDER.length) + PROFILE_ORDER.length) % PROFILE_ORDER.length];
+  function sanitizeSplitProfilePercents(raw, fallback = DEFAULT_SPLIT_PROFILE_PERCENTS) {
+    let vals = PROFILE_ORDER.map((id) => {
+      const n = Number(raw?.[id]);
+      if (!Number.isFinite(n)) {
+        return fallback[id];
+      }
+      return Math.max(0, n);
+    });
+    if (vals.reduce((a, b) => a + b, 0) <= 0) {
+      vals = PROFILE_ORDER.map((id) => fallback[id]);
+    }
+    const sum = vals.reduce((a, b) => a + b, 0);
+    const out = {};
+    PROFILE_ORDER.forEach((id, i) => {
+      out[id] = (vals[i] / sum) * 100;
+    });
+    return out;
+  }
+
+  /** Largest-remainder allocation of `numTeams` across C1–C4 using weight percents (sum 100). */
+  function computeSplitProfileEnds(numTeams, percents) {
+    const p = sanitizeSplitProfilePercents(percents);
+    const n = Math.max(0, Math.floor(Number(numTeams) || 0));
+    const exact = PROFILE_ORDER.map((id) => (n * p[id]) / 100);
+    const lens = exact.map((x) => Math.floor(x));
+    let rem = n - lens.reduce((a, b) => a + b, 0);
+    const fracOrder = PROFILE_ORDER.map((id, i) => ({ id, frac: exact[i] - lens[i] })).sort(
+      (a, b) => b.frac - a.frac
+    );
+    let fi = 0;
+    while (rem > 0) {
+      const pick = fracOrder[fi % fracOrder.length];
+      const i = PROFILE_ORDER.indexOf(pick.id);
+      lens[i] += 1;
+      rem -= 1;
+      fi += 1;
+    }
+    const counts = {};
+    const ends = {};
+    let acc = 0;
+    PROFILE_ORDER.forEach((id, i) => {
+      counts[id] = lens[i];
+      acc += lens[i];
+      ends[id] = acc;
+    });
+    return { n, counts, ends, percents: p };
+  }
+
+  function profileAtTeamIndex(teamIndex, profileEnds) {
+    if (!profileEnds || profileEnds.n == null) {
+      return PROFILE_ORDER[((teamIndex % PROFILE_ORDER.length) + PROFILE_ORDER.length) % PROFILE_ORDER.length];
+    }
+    const idx = Math.max(0, Math.floor(Number(teamIndex) || 0));
+    for (const id of PROFILE_ORDER) {
+      if (idx < profileEnds.ends[id]) {
+        return id;
+      }
+    }
+    return PROFILE_ORDER[PROFILE_ORDER.length - 1];
   }
 
   window.SplitPoolCatalog = {
     SEGMENTS,
     PROFILE_ORDER,
+    DEFAULT_SPLIT_PROFILE_PERCENTS,
     PROFILES,
     PAIRS,
     parseTriplet,
@@ -199,6 +258,8 @@
     arStar,
     pickPair,
     segmentForProfileTeam,
+    sanitizeSplitProfilePercents,
+    computeSplitProfileEnds,
     profileAtTeamIndex,
   };
 })();
