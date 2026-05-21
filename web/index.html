@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IPL 2026 Fantasy Team Builder</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -146,7 +147,7 @@
           </label>
           <label class="bat-pool-pick-cell" title="First-innings bowl scenario: same Top–Rest–P2 shape; usually more from P2, e.g. 1-2-2">
             <span class="bat-pool-pick-num">Bowl combos (T-R-P2)</span>
-            <input id="secondInningsBowlComboInput" type="text" value="0-2-3,1-1-3,2-0-3,1-2-2" />
+            <input id="secondInningsBowlComboInput" type="text" value="0-2-3,1-1-3,1-2-2" />
           </label>
           <label class="bat-first-verbose-check">
             <input id="secondInningsVerboseLogCheckbox" type="checkbox" />
@@ -170,7 +171,7 @@
         <h3 class="bat-pool-heading">Split pools (only used in <strong>split_pool_p1p2p3</strong> mode)</h3>
         <p class="subtitle bat-pool-sub">
           Per franchise: <strong>P1</strong> tops · <strong>P2</strong> middle bat · <strong>P3</strong> bowlers + bowling AR.
-          <strong>Auto-fill</strong> assigns ticked players. Generation uses <strong>three passes</strong> for same-XI caps (Dup pass 1/2/3). Set <strong>C1–C4 %</strong> for lineup-profile mix (normalized to 100%; default 25 each). C/VC pools below use the <strong>same four profile ids</strong> (not α/β match-outcome cells). Optional <strong>full pool %</strong> + exclusions narrow P1/P2/P3 after the first half of teams.
+          <strong>Auto-fill</strong> assigns ticked players. Generation uses <strong>three passes</strong> for same-XI caps (Dup pass 1/2/3). Set <strong>C1–C4 %</strong> for how many teams use each profile (values normalized to 100%; default 25 each). Teams are built in <strong>round-robin</strong> order C1→C2→C3→C4→C1… (not all C1 then all C2). C/VC pools below use the <strong>same four profile ids</strong> (not α/β match-outcome cells). Optional <strong>full pool %</strong> + exclusions narrow P1/P2/P3 after the first half of teams.
         </p>
         <div class="bat-pool-toolbar">
           <button id="splitPoolAutoFillBtn" type="button" class="compact-btn">Auto-fill split pools from selection</button>
@@ -311,6 +312,10 @@
         <button id="downloadPdfByCandidateTabsBtn" class="compact-btn" type="button">PDF — one tab per candidate</button>
         <button id="downloadPdfByCandidateCombinedBtn" class="compact-btn" type="button">PDF — all candidates (page breaks)</button>
       </div>
+      <div id="generatorProgressBar" class="generator-progress-bar" aria-hidden="true">
+        <div id="generatorProgressFill" class="generator-progress-fill"></div>
+      </div>
+      <p id="generatorProgressDetail" class="generator-progress-detail" aria-live="polite"></p>
       <div id="generatorStatus">No generated teams yet.</div>
       <div id="batFirstGenLog" class="bat-first-gen-log" aria-live="polite"></div>
       <div id="splitPoolGenLog" class="bat-first-gen-log split-pool-gen-log" aria-live="polite"></div>

@@ -1086,9 +1086,72 @@ button {
   line-height: 1.2;
 }
 
+.generator-progress-bar {
+  display: none;
+  height: 8px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.generator-progress-bar.is-active {
+  display: block;
+}
+
+.generator-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f59e0b, #c2410c);
+  border-radius: 999px;
+  transition: width 0.12s ease-out;
+}
+
+.generator-progress-detail {
+  display: none;
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b45309;
+  font-variant-numeric: tabular-nums;
+}
+
+.generator-progress-detail.is-active {
+  display: block;
+}
+
 #generatorStatus {
   color: #3730a3;
   font-weight: 600;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#generatorStatus.is-busy {
+  color: #b45309;
+  background: #fff7ed;
+}
+
+#generatorStatus.is-error {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+#generatorStatus.is-ok {
+  color: #047857;
+  background: #ecfdf5;
+}
+
+#generateTeamsBtn.is-busy {
+  background: #c2410c;
+  box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.28);
+}
+
+#generateTeamsBtn:disabled {
+  cursor: wait;
+  opacity: 0.96;
 }
 
 .tuning-snapshot {

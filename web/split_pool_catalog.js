@@ -234,13 +234,62 @@
     return { n, counts, ends, percents: p };
   }
 
-  function profileAtTeamIndex(teamIndex, profileEnds) {
-    if (!profileEnds || profileEnds.n == null) {
-      return PROFILE_ORDER[((teamIndex % PROFILE_ORDER.length) + PROFILE_ORDER.length) % PROFILE_ORDER.length];
+  /**
+   * Build team-index → profile schedule: round-robin C1→C2→C3→C4 while each profile still has quota.
+   * Percents control counts only (largest remainder), not block clustering.
+   */
+  function buildSplitProfileRoundRobinSequence(numTeams, percents) {
+    const { n, counts, percents: p } = computeSplitProfileEnds(numTeams, percents);
+    const remaining = { ...counts };
+    const sequence = [];
+    let rot = 0;
+    while (sequence.length < n) {
+      let placed = false;
+      for (let j = 0; j < PROFILE_ORDER.length; j += 1) {
+        const id = PROFILE_ORDER[(rot + j) % PROFILE_ORDER.length];
+        if (remaining[id] > 0) {
+          sequence.push(id);
+          remaining[id] -= 1;
+          placed = true;
+          if (sequence.length >= n) {
+            break;
+          }
+        }
+      }
+      if (!placed) {
+        break;
+      }
+      rot = (rot + 1) % PROFILE_ORDER.length;
     }
+    while (sequence.length < n) {
+      let placed = false;
+      for (const id of PROFILE_ORDER) {
+        if (remaining[id] > 0) {
+          sequence.push(id);
+          remaining[id] -= 1;
+          placed = true;
+          if (sequence.length >= n) {
+            break;
+          }
+        }
+      }
+      if (!placed) {
+        break;
+      }
+    }
+    return { n, counts, percents: p, sequence };
+  }
+
+  function profileAtTeamIndex(teamIndex, planOrEnds) {
     const idx = Math.max(0, Math.floor(Number(teamIndex) || 0));
+    if (planOrEnds?.sequence && idx < planOrEnds.sequence.length) {
+      return planOrEnds.sequence[idx];
+    }
+    if (!planOrEnds || planOrEnds.n == null) {
+      return PROFILE_ORDER[((idx % PROFILE_ORDER.length) + PROFILE_ORDER.length) % PROFILE_ORDER.length];
+    }
     for (const id of PROFILE_ORDER) {
-      if (idx < profileEnds.ends[id]) {
+      if (idx < planOrEnds.ends[id]) {
         return id;
       }
     }
@@ -260,6 +309,7 @@
     segmentForProfileTeam,
     sanitizeSplitProfilePercents,
     computeSplitProfileEnds,
+    buildSplitProfileRoundRobinSequence,
     profileAtTeamIndex,
   };
 })();

@@ -169,11 +169,18 @@
     if (!nTeams || !cat?.computeSplitProfileEnds) {
       return pctLine;
     }
-    const ends = cat.computeSplitProfileEnds(nTeams, p);
+    const plan = cat.buildSplitProfileRoundRobinSequence
+      ? cat.buildSplitProfileRoundRobinSequence(nTeams, p)
+      : cat.computeSplitProfileEnds(nTeams, p);
     const countLine = (cat.PROFILE_ORDER || ["C1", "C2", "C3", "C4"])
-      .map((id) => `${id} ${ends.counts[id] || 0}`)
+      .map((id) => `${id} ${plan.counts[id] || 0}`)
       .join(" · ");
-    return `${pctLine} → target ${nTeams} teams: ${countLine}`;
+    const previewLen = Math.min(16, nTeams);
+    const orderPreview = (plan.sequence || []).slice(0, previewLen).join("→");
+    const orderNote = orderPreview
+      ? `; round-robin order: ${orderPreview}${nTeams > previewLen ? "…" : ""}`
+      : "";
+    return `${pctLine} (normalized to 100%) → ${countLine}${orderNote}`;
   }
 
   function filterSplitPoolIdList(ids, excludeSet) {
@@ -390,7 +397,7 @@
         : ` All ${nTeams} use full pools.`;
     const dup = getSplitPoolLineupDupStagesFromUi();
     const dupNote = dup.length ? ` Same-XI extra slots/pass: [${dup.join(", ")}].` : "";
-    const profNote = ` Profile mix: ${formatSplitProfilePercentSummary(nTeams)}; C/VC pools use the same profile id.`;
+    const profNote = ` Profile mix (round-robin C1→C2→C3→C4): ${formatSplitProfilePercentSummary(nTeams)}; C/VC pools use the same profile id.`;
     return `${poolNote}${profNote}${redNote}${dupNote}`;
   }
 
@@ -567,6 +574,53 @@
     const cat = window.SplitPoolCatalog;
     if (!cat) {
       reasons.push("Split-pool catalog failed to load (split_pool_catalog.js).");
+      return reasons;
+    }
+    if (!teamA || !teamB) {
+      return reasons;
+    }
+    let wk = 0;
+    let bat = 0;
+    let profileAr = 0;
+    let bowl = 0;
+    const countRoles = (side, franchise) => {
+      ["p1", "p2", "p3"].forEach((pk) => {
+        window.state.splitPools[side][pk].forEach((id) => {
+          const sep = id.indexOf("::");
+          const tn = sep >= 0 ? id.slice(0, sep) : "";
+          const pl = sep >= 0 ? id.slice(sep + 2) : "";
+          if (tn !== franchise || !pl) {
+            return;
+          }
+          const raw = window.iplGetRawProfileRole(tn, pl);
+          if (raw === "wicket_keeper") {
+            wk += 1;
+          }
+          if (raw === "batsman") {
+            bat += 1;
+          }
+          if (raw === "all_rounder") {
+            profileAr += 1;
+          }
+          if (raw === "bowler") {
+            bowl += 1;
+          }
+        });
+      });
+    };
+    countRoles("teamA", teamA);
+    countRoles("teamB", teamB);
+    if (wk < 1) {
+      reasons.push("Split pools: need at least 1 wicket-keeper (usually in P1).");
+    }
+    if (bat < 1) {
+      reasons.push("Split pools: need at least 1 batsman in P1/P2.");
+    }
+    if (profileAr < 1) {
+      reasons.push("Split pools: need at least 1 all-rounder (P3 or moved from P3).");
+    }
+    if (bowl < 1) {
+      reasons.push("Split pools: need at least 1 bowler in P3.");
     }
     return reasons;
   }
@@ -616,10 +670,32 @@
     return [...arPick, ...bowlPick];
   }
 
+  function countProfileArInP3(sp, keyToRow, franchise) {
+    const ids = [...(sp.teamA.p3 || []), ...(sp.teamB.p3 || [])];
+    return rowsFromPoolIds(ids, keyToRow).filter(
+      (r) =>
+        r.team === franchise && window.iplGetRawProfileRole(r.team, r.player) === "all_rounder"
+    ).length;
+  }
+
+  function minProfileArForXi(pair, sp, keyToRow) {
+    const teamA = window.teamASelect?.value || "";
+    const teamB = window.teamBSelect?.value || "";
+    const arA = countProfileArInP3(sp, keyToRow, teamA);
+    const arB = countProfileArInP3(sp, keyToRow, teamB);
+    if (arA + arB < 1) {
+      return 0;
+    }
+    return Math.min(1, pair.pA + pair.pB);
+  }
+
   function pickP3ForPair(pair, keyToRow, appearanceCounts, tuning, sp) {
     const teamA = window.teamASelect?.value || "";
     const teamB = window.teamBSelect?.value || "";
-    const needAr = window.SplitPoolCatalog.arStar(pair.pA, pair.pB);
+    const needAr = Math.max(
+      window.SplitPoolCatalog.arStar(pair.pA, pair.pB),
+      minProfileArForXi(pair, sp, keyToRow)
+    );
     const maxArA = Math.min(pair.pA, needAr);
     const order = [];
     for (let arA = 0; arA <= maxArA; arA += 1) {
@@ -681,7 +757,7 @@
     return { team: [...p1A, ...p2A, ...p3.p3A, ...p1B, ...p2B, ...p3.p3B] };
   }
 
-  function generateSplitPoolTeamsForStrategy(
+  async function generateSplitPoolTeamsForStrategy(
     pool,
     numTeams,
     seenKeys,
@@ -696,7 +772,10 @@
     const keyToRow = window.iplMakeRowLookupByKey(pool);
     const teams = [];
     const profileCounts = { C1: 0, C2: 0, C3: 0, C4: 0 };
-    const profileEnds = cat.computeSplitProfileEnds(numTeams, getSplitPoolProfilePercentsFromUi());
+    const profilePlan = cat.buildSplitProfileRoundRobinSequence(
+      numTeams,
+      getSplitPoolProfilePercentsFromUi()
+    );
     const fullPoolTeamCount = window.iplComputeBatFirstFullPoolTeamCount(
       numTeams,
       getSplitPoolFullPoolPercentFromUi()
@@ -749,7 +828,16 @@
       while (teams.length < numTeams && attemptsInStage < hardAttemptCap) {
         attempts += 1;
         attemptsInStage += 1;
-        const profileId = cat.profileAtTeamIndex(teams.length, profileEnds);
+        if (typeof window.iplMaybeYieldGenerationProgress === "function") {
+          await window.iplMaybeYieldGenerationProgress(
+            STRATEGY_ID_SPLIT_POOL,
+            attempts,
+            teams.length,
+            numTeams,
+            { attemptCap: hardAttemptCap, phase: `dup pass ${stageIdx + 1}` }
+          );
+        }
+        const profileId = cat.profileAtTeamIndex(teams.length, profilePlan);
         const segKey = cat.segmentForProfileTeam(profileId, profileCounts[profileId]);
         const pair = cat.pickPair(profileId, segKey);
         const pairLabel = pair ? `${pair.a}|${pair.b}` : "";
@@ -888,8 +976,8 @@
       stagedDupPolicy: [...stageReports],
       lineupDupStagesConfigured: [...lineupDupAllowanceStages],
       profileCounts: { ...profileCounts },
-      profileTargetCounts: { ...(profileEnds.counts || {}) },
-      profilePercents: { ...(profileEnds.percents || getSplitPoolProfilePercentsFromUi()) },
+      profileTargetCounts: { ...(profilePlan.counts || {}) },
+      profilePercents: { ...(profilePlan.percents || getSplitPoolProfilePercentsFromUi()) },
       teamsFromFullPool: fullPoolTeamCount,
       teamsFromReducedPool: Math.max(0, numTeams - fullPoolTeamCount),
       reducedExcludeCount: excludePlayerSet.size,

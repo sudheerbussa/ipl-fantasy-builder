@@ -13,7 +13,9 @@ const BAT_POOLS_STORAGE_KEY = "ipl2026_bat_first_pools_v1";
 const SECOND_INNINGS_POOLS_STORAGE_KEY = "ipl2026_second_innings_pools_v1";
 const DEFAULT_SECOND_INNINGS_CHASE_SCENARIO_PCT = 50;
 const DEFAULT_SECOND_INNINGS_CHASE_COMBO_SPEC = "0-3-2,0-2-3,1-2-2,1-1-3";
-const DEFAULT_SECOND_INNINGS_BOWL_COMBO_SPEC = "0-2-3,1-1-3,2-0-3,1-2-2";
+const DEFAULT_SECOND_INNINGS_BOWL_COMBO_SPEC = "0-2-3,1-1-3,1-2-2";
+/** Retired first-innings bowl triplet (no longer offered in UI or generation). */
+const SECOND_INNINGS_REMOVED_BOWL_COMBO = "2-0-3";
 /** Prior app defaults — localStorage with these is upgraded on load (custom specs unchanged). */
 const SECOND_INNINGS_LEGACY_CHASE_COMBO_SPECS = [
   "1-3-1,0-4-1",
@@ -25,6 +27,7 @@ const SECOND_INNINGS_LEGACY_BOWL_COMBO_SPECS = [
   "0-1-4,0-2-3",
   "0-2-3,0-1-4",
   "0-2-3,1-1-3,0-1-4,1-0-4,2-0-3",
+  "0-2-3,1-1-3,2-0-3,1-2-2",
 ];
 /** Max XI draws for bat_first_pool_xi (lighter than high_scoring multi-cell quotas). */
 const BAT_FIRST_ATTEMPTS_MULTIPLIER = 3;
@@ -821,6 +824,10 @@ const state = {
   teamAbbreviations: {},
   /** Last post-match scored rows (for PDF re-open). */
   lastPostMatchScored: null,
+  /** False until squad/form JSON has loaded and event handlers are bound. */
+  appReady: false,
+  /** Live progress reporter while Generate is running (null otherwise). */
+  activeGenProgress: null,
   /** Display names for each batch slot (index 0 = first candidate). */
   candidateNames: [...DEFAULT_CANDIDATE_NAMES],
   /** From `data/generator_tuning_presets.json` (optional). */
@@ -2288,7 +2295,7 @@ function updateGeneratorAttemptsHint() {
       window.IPL_SPLIT_POOL?.formatSplitProfilePercentSummary?.(getBatFirstTargetTeamCountHint()) ||
       "C1 25% · C2 25% · C3 25% · C4 25%";
     generatorAttemptsHint.innerHTML =
-      `Split-pool max attempts: <strong>${cap.toLocaleString()}</strong> (teams × ${ATTEMPTS_MULTIPLIER} × ${mult}). Lineup profiles by mix: <strong>${profMix}</strong>; C/VC pools keyed to the <strong>same profile</strong> (${cvIds.join(", ")}). First ~<strong>${fullPct}%</strong> teams use full P1/P2/P3; rest use reduced pools (exclusions below).`;
+      `Split-pool max attempts: <strong>${cap.toLocaleString()}</strong> (teams × ${ATTEMPTS_MULTIPLIER} × ${mult}). Lineup profiles assigned <strong>round-robin</strong> (C1 → C2 → C3 → C4 → repeat) to match <strong>${profMix}</strong>; C/VC pools keyed to the <strong>same profile</strong> (${cvIds.join(", ")}). First ~<strong>${fullPct}%</strong> teams use full P1/P2/P3; rest use reduced pools (exclusions below).`;
     const hint = document.getElementById("splitPoolHint");
     if (hint && window.IPL_SPLIT_POOL) {
       window.IPL_SPLIT_POOL.renderSplitPoolPanel();
@@ -3593,6 +3600,26 @@ function upgradeSecondInningsComboSpecIfLegacyAppDefault(spec, kind) {
   return String(spec || "").trim();
 }
 
+/** Drop retired bowl triplets (e.g. 2-0-3) from a comma-separated Top–Rest–P2 spec. */
+function stripRemovedSecondInningsBowlCombos(spec) {
+  const src = String(spec || "").trim();
+  if (!src) {
+    return DEFAULT_SECOND_INNINGS_BOWL_COMBO_SPEC;
+  }
+  const kept = src
+    .split(",")
+    .map((s) => s.trim())
+    .filter((tk) => {
+      const m = tk.match(/^(\d+)\s*-\s*(\d+)\s*-\s*(\d+)$/);
+      if (!m) {
+        return true;
+      }
+      const key = `${Number(m[1])}-${Number(m[2])}-${Number(m[3])}`;
+      return key !== SECOND_INNINGS_REMOVED_BOWL_COMBO;
+    });
+  return kept.length ? kept.join(",") : DEFAULT_SECOND_INNINGS_BOWL_COMBO_SPEC;
+}
+
 function migrateLegacyPairComboToTripleDefaults(oldComboSpec) {
   const pairs = parseSecondInningsComboSpec(oldComboSpec);
   if (!pairs.length) {
@@ -3655,7 +3682,8 @@ function getSecondInningsChaseCombosFromUi() {
 function getSecondInningsBowlCombosFromUi() {
   const el = document.getElementById("secondInningsBowlComboInput");
   const fromState = state.secondInningsPools.bowlComboSpec;
-  const combos = parseSecondInningsTripleComboSpec(el?.value ?? fromState);
+  const raw = stripRemovedSecondInningsBowlCombos(el?.value ?? fromState);
+  const combos = parseSecondInningsTripleComboSpec(raw);
   if (combos.length) {
     return combos;
   }
@@ -3725,9 +3753,12 @@ function persistSecondInningsPools() {
   state.secondInningsPools.chaseComboSpec = String(
     chaseEl?.value ?? state.secondInningsPools.chaseComboSpec ?? DEFAULT_SECOND_INNINGS_CHASE_COMBO_SPEC
   );
-  state.secondInningsPools.bowlComboSpec = String(
+  state.secondInningsPools.bowlComboSpec = stripRemovedSecondInningsBowlCombos(
     bowlEl?.value ?? state.secondInningsPools.bowlComboSpec ?? DEFAULT_SECOND_INNINGS_BOWL_COMBO_SPEC
   );
+  if (bowlEl && bowlEl.value !== state.secondInningsPools.bowlComboSpec) {
+    bowlEl.value = state.secondInningsPools.bowlComboSpec;
+  }
   try {
     localStorage.setItem(
       SECOND_INNINGS_POOLS_STORAGE_KEY,
@@ -4188,7 +4219,11 @@ function applySecondInningsPoolsForCurrentFixture() {
         const bowlBefore = bowlComboSpec;
         chaseComboSpec = upgradeSecondInningsComboSpecIfLegacyAppDefault(chaseComboSpec, "chase");
         bowlComboSpec = upgradeSecondInningsComboSpecIfLegacyAppDefault(bowlComboSpec, "bowl");
-        const combosUpgraded = chaseComboSpec !== chaseBefore || bowlComboSpec !== bowlBefore;
+        bowlComboSpec = stripRemovedSecondInningsBowlCombos(bowlComboSpec);
+        const combosUpgraded =
+          chaseComboSpec !== chaseBefore ||
+          bowlComboSpec !== bowlBefore ||
+          stripRemovedSecondInningsBowlCombos(bowlBefore) !== bowlComboSpec;
         state.secondInningsPools = {
           fixtureKey: fk,
           chasingTeam: chasing,
@@ -4962,7 +4997,7 @@ function renderBatPoolPanel() {
   }
 }
 
-function generateBatFirstPoolTeamsForStrategy(
+async function generateBatFirstPoolTeamsForStrategy(
   pool,
   numTeams,
   seenKeys,
@@ -5044,6 +5079,10 @@ function generateBatFirstPoolTeamsForStrategy(
     while (teams.length < numTeams && attemptsInStage < hardAttemptCap) {
       attempts += 1;
       attemptsInStage += 1;
+      await maybeYieldGenerationProgress(STRATEGY_ID_BAT_POOLS, attempts, teams.length, numTeams, {
+        attemptCap: hardAttemptCap,
+        phase: `dup pass ${stageIdx + 1}`,
+      });
       const si = getRoundRobinScenarioIndex(teams.length, scenarioIds.length);
       const scenarioId = scenarioIds[si];
       const targetRank = teams.length;
@@ -5529,7 +5568,7 @@ function buildSecondInningsTripleSchedules(combos, topRows, restRows, p2Rows) {
   return { schedTop, schedRest, schedP2 };
 }
 
-function generateSecondInningsScenarioBlock(
+async function generateSecondInningsScenarioBlock(
   numTeamsTarget,
   combos,
   topRows,
@@ -5582,6 +5621,10 @@ function generateSecondInningsScenarioBlock(
   };
   while (teams.length < numTeamsTarget && attempts < cap) {
     attempts += 1;
+    await maybeYieldGenerationProgress(STRATEGY_ID_SECOND_INNINGS, attempts, teams.length, numTeamsTarget, {
+      attemptCap: cap,
+      phase: highScoreScenarioTag,
+    });
     const targetRank = teams.length;
     const combo = combos[targetRank % combos.length];
     const sT = schedTop.get(combo.top);
@@ -5665,7 +5708,7 @@ function generateSecondInningsScenarioBlock(
   return { teams, attempts, rejectStats, exhausted: attempts >= cap };
 }
 
-function generateSecondInningsPoolTeamsForStrategy(
+async function generateSecondInningsPoolTeamsForStrategy(
   pool,
   numTeams,
   seenKeys,
@@ -5712,7 +5755,7 @@ function generateSecondInningsPoolTeamsForStrategy(
   };
   const chaseBlock =
     nChase > 0 && chaseCombos.length
-      ? generateSecondInningsScenarioBlock(
+      ? await generateSecondInningsScenarioBlock(
           nChase,
           chaseCombos,
           p1TopRows,
@@ -5729,7 +5772,7 @@ function generateSecondInningsPoolTeamsForStrategy(
       : { teams: [], attempts: 0, rejectStats: chaseReject.rejectStats };
   const bowlBlock =
     nBowl > 0 && bowlCombos.length
-      ? generateSecondInningsScenarioBlock(
+      ? await generateSecondInningsScenarioBlock(
           nBowl,
           bowlCombos,
           p1TopRows,
@@ -5744,12 +5787,12 @@ function generateSecondInningsPoolTeamsForStrategy(
           bowlReject
         )
       : { teams: [], attempts: 0, rejectStats: bowlReject.rejectStats };
-  const topUpScenario = (block, reject, lineupState, localSeen, target, combos, tag) => {
+  const topUpScenario = async (block, reject, lineupState, localSeen, target, combos, tag) => {
     const short = target - block.teams.length;
     if (short <= 0 || !combos.length || block.cvPoolsMissing) {
       return;
     }
-    const extra = generateSecondInningsScenarioBlock(
+    const extra = await generateSecondInningsScenarioBlock(
       short,
       combos,
       p1TopRows,
@@ -5767,7 +5810,7 @@ function generateSecondInningsPoolTeamsForStrategy(
     block.attempts = (block.attempts || 0) + (extra.attempts || 0);
     block.exhausted = Boolean(extra.exhausted);
   };
-  topUpScenario(
+  await topUpScenario(
     chaseBlock,
     chaseReject,
     chaseLineupState,
@@ -5776,7 +5819,7 @@ function generateSecondInningsPoolTeamsForStrategy(
     chaseCombos,
     "si_chase_middle"
   );
-  topUpScenario(
+  await topUpScenario(
     bowlBlock,
     bowlReject,
     bowlLineupState,
@@ -5875,7 +5918,7 @@ function getRoundRobinScenarioIndex(acceptedTeamCount, scenarioCount) {
   return acceptedTeamCount % n;
 }
 
-function generateHighScoringTeamsForStrategy(
+async function generateHighScoringTeamsForStrategy(
   pool,
   numTeams,
   seenKeys,
@@ -5898,6 +5941,9 @@ function generateHighScoringTeamsForStrategy(
 
   while (teams.length < numTeams && attempts < hardAttemptCap) {
     attempts += 1;
+    await maybeYieldGenerationProgress(STRATEGY_ID, attempts, teams.length, numTeams, {
+      attemptCap: hardAttemptCap,
+    });
     const si = getRoundRobinScenarioIndex(teams.length, scenarioIds.length);
     const scenarioId = scenarioIds[si];
     const weightedPool = pool.map((row) => {
@@ -7470,10 +7516,183 @@ function renderPostMatchAnalysis() {
   persistPostMatchPointsEntry();
 }
 
-function generateTeamsAndExports() {
+const GENERATE_TEAMS_BTN_LABEL = "Generate Teams";
+/** How often to repaint progress during tight generation loops. */
+const GEN_PROGRESS_TICK_EVERY = 25;
+
+function formatGeneratorStrategyLabel(strategyId) {
+  if (strategyId === STRATEGY_ID_SPLIT_POOL) {
+    return "split pool";
+  }
+  if (strategyId === STRATEGY_ID_BAT_POOLS) {
+    return "bat-first pools";
+  }
+  if (strategyId === STRATEGY_ID_SECOND_INNINGS) {
+    return "2nd innings";
+  }
+  return "high scoring";
+}
+
+function setGenerationProgressUiActive(active) {
+  const bar = document.getElementById("generatorProgressBar");
+  const detail = document.getElementById("generatorProgressDetail");
+  const fill = document.getElementById("generatorProgressFill");
+  if (bar) {
+    bar.classList.toggle("is-active", active);
+    bar.setAttribute("aria-hidden", active ? "false" : "true");
+  }
+  if (detail) {
+    detail.classList.toggle("is-active", active);
+  }
+  if (!active && fill) {
+    fill.style.width = "0%";
+  }
+  if (!active && detail) {
+    detail.textContent = "";
+  }
+}
+
+function createGenerationProgressReporter(strategies, targetPerStrategy) {
+  const totalTarget = Math.max(1, strategies.length * targetPerStrategy);
+  return {
+    totalTarget,
+    teamsBeforeCurrent: 0,
+    _lastReportedTeams: -1,
+    _lastReportedAttempts: 0,
+    resetStrategyCursor() {
+      this._lastReportedTeams = -1;
+      this._lastReportedAttempts = 0;
+    },
+    strategyDone(accepted) {
+      this.teamsBeforeCurrent += accepted;
+      this.resetStrategyCursor();
+    },
+    async tick(strategyId, attempts, teamsInStrategy, strategyTarget, extra = {}) {
+      const att = Math.max(0, Number(attempts) || 0);
+      const got = Math.max(0, Number(teamsInStrategy) || 0);
+      const sameTeams = got === this._lastReportedTeams;
+      const attDelta = att - this._lastReportedAttempts;
+      if (sameTeams && attDelta < GEN_PROGRESS_TICK_EVERY && att > 1) {
+        return;
+      }
+      this._lastReportedTeams = got;
+      this._lastReportedAttempts = att;
+      const totalGot = Math.min(this.totalTarget, this.teamsBeforeCurrent + got);
+      const pct = Math.min(100, Math.round((totalGot / this.totalTarget) * 100));
+      const cap = extra.attemptCap != null ? Number(extra.attemptCap) : null;
+      const capNote = cap != null && !Number.isNaN(cap) ? ` (max ~${cap.toLocaleString()})` : "";
+      const phase = extra.phase ? ` · ${extra.phase}` : "";
+      const line = `${totalGot} / ${this.totalTarget} teams · ${att.toLocaleString()} attempts${capNote} · ${formatGeneratorStrategyLabel(strategyId)}${phase}`;
+      if (generatorStatus) {
+        generatorStatus.textContent = `Generating… ${line}`;
+        setGeneratorStatusKind("busy");
+      }
+      const detail = document.getElementById("generatorProgressDetail");
+      if (detail) {
+        detail.textContent = line;
+      }
+      const fill = document.getElementById("generatorProgressFill");
+      if (fill) {
+        fill.style.width = `${pct}%`;
+      }
+      if (generateTeamsBtn?.classList.contains("is-busy")) {
+        generateTeamsBtn.textContent = `Generating… ${totalGot}/${this.totalTarget}`;
+      }
+      await new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      });
+    },
+  };
+}
+
+async function maybeYieldGenerationProgress(strategyId, attempts, teamsLen, strategyTarget, extra) {
+  const p = state.activeGenProgress;
+  if (!p) {
+    return;
+  }
+  await p.tick(strategyId, attempts, teamsLen, strategyTarget, extra);
+}
+
+function scrollGeneratorStatusIntoView() {
+  if (!generatorStatus) {
+    return;
+  }
+  generatorStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function setGeneratorStatusKind(kind) {
+  if (!generatorStatus) {
+    return;
+  }
+  generatorStatus.classList.remove("is-busy", "is-error", "is-ok");
+  if (kind === "busy" || kind === "error" || kind === "ok") {
+    generatorStatus.classList.add(`is-${kind}`);
+  }
+}
+
+function setGenerateTeamsButtonBusy(busy) {
+  if (!generateTeamsBtn) {
+    return;
+  }
+  generateTeamsBtn.disabled = busy;
+  generateTeamsBtn.classList.toggle("is-busy", busy);
+  generateTeamsBtn.setAttribute("aria-busy", busy ? "true" : "false");
+  generateTeamsBtn.textContent = busy ? "Generating…" : GENERATE_TEAMS_BTN_LABEL;
+}
+
+/**
+ * Runs generation on the next tick so the button can repaint (busy state) before heavy work.
+ * @returns {"ok"|"blocked"|"error"}
+ */
+async function runGenerateTeamsWithUiFeedback() {
+  if (!generateTeamsBtn) {
+    return "error";
+  }
+  if (!state.appReady) {
+    generatorStatus.textContent =
+      "Still loading squad data — wait until teams appear above, then try again.";
+    setGeneratorStatusKind("error");
+    scrollGeneratorStatusIntoView();
+    return "blocked";
+  }
+  if (generateTeamsBtn.disabled) {
+    return "blocked";
+  }
+  openGeneratorUiStep("run");
+  setGenerateTeamsButtonBusy(true);
+  generatorStatus.textContent = "Generating teams…";
+  setGeneratorStatusKind("busy");
+  scrollGeneratorStatusIntoView();
+  await new Promise((resolve) => {
+    setTimeout(resolve, 30);
+  });
+  try {
+    const outcome = await generateTeamsAndExports();
+    setGeneratorStatusKind(outcome === "ok" ? "ok" : "error");
+    scrollGeneratorStatusIntoView();
+    return outcome;
+  } catch (err) {
+    console.error(err);
+    generatorStatus.textContent = `Generate failed: ${err?.message || String(err)}`;
+    setGeneratorStatusKind("error");
+    scrollGeneratorStatusIntoView();
+    return "error";
+  } finally {
+    setGenerateTeamsButtonBusy(false);
+  }
+}
+
+/** @returns {Promise<"ok"|"blocked">} */
+async function generateTeamsAndExports() {
   const mode = getGeneratorModeFromUi();
   const pool = buildGeneratorPoolForMode(mode);
   let blockers = getGenerationBlockingReasons(pool);
+  if (mode === STRATEGY_ID_SPLIT_POOL && !window.IPL_SPLIT_POOL) {
+    blockers = [
+      ...blockers,
+      "Split-pool scripts did not load — hard-refresh (Ctrl+Shift+R) and check the browser console.",
+    ];
+  }
   if (mode === STRATEGY_ID_BAT_POOLS) {
     blockers = [...blockers, ...getBatFirstPoolOnlyBlockers()];
   }
@@ -7499,7 +7718,8 @@ function generateTeamsAndExports() {
       siLogClear.innerHTML = "";
     }
     renderQualitySummary([]);
-    return;
+    setGeneratorStatusKind("error");
+    return "blocked";
   }
   const strategies = getSelectedStrategiesFromUi();
   const teamsPerStrategy = getTeamsPerStrategyFromUi();
@@ -7528,61 +7748,72 @@ function generateTeamsAndExports() {
       unionPoolSize: cvFair.unionKeys.length,
     },
   };
-  strategies.forEach((strategy) => {
-    const pack =
-      strategy === STRATEGY_ID_BAT_POOLS
-        ? generateBatFirstPoolTeamsForStrategy(
-            pool,
-            teamsPerStrategy,
-            seenKeys,
-            recentLineupState,
-            appearanceCounts,
-            tuning,
-            cvFair
-          )
-        : strategy === STRATEGY_ID_SECOND_INNINGS
-        ? generateSecondInningsPoolTeamsForStrategy(
-            pool,
-            teamsPerStrategy,
-            seenKeys,
-            recentLineupState,
-            appearanceCounts,
-            tuning,
-            cvFair
-          )
-        : strategy === STRATEGY_ID_SPLIT_POOL && window.IPL_SPLIT_POOL
-        ? window.IPL_SPLIT_POOL.generateSplitPoolTeamsForStrategy(
-            pool,
-            teamsPerStrategy,
-            seenKeys,
-            recentLineupState,
-            appearanceCounts,
-            tuning,
-            cvFair
-          )
-        : generateHighScoringTeamsForStrategy(
-            pool,
-            teamsPerStrategy,
-            seenKeys,
-            recentLineupState,
-            appearanceCounts,
-            tuning,
-            cvFair
-          );
-    strategyFillReport.push({
-      strategy,
-      got: pack.teams.length,
-      target: pack.targetTeams,
-      minFillMet: pack.minFillMet,
-      fullTargetMet: pack.fullTargetMet,
-      attempts: pack.attempts,
-      highScoringQuota: pack.highScoringQuota,
-      batPoolMeta: pack.batPoolMeta,
-      splitPoolMeta: pack.splitPoolMeta,
-      secondInningsMeta: pack.secondInningsMeta,
-    });
-    generated.push(...pack.teams);
-  });
+  const progress = createGenerationProgressReporter(strategies, teamsPerStrategy);
+  state.activeGenProgress = progress;
+  setGenerationProgressUiActive(true);
+  try {
+    for (const strategy of strategies) {
+      progress.resetStrategyCursor();
+      await progress.tick(strategy, 0, 0, teamsPerStrategy, { phase: "starting" });
+      const pack =
+        strategy === STRATEGY_ID_BAT_POOLS
+          ? await generateBatFirstPoolTeamsForStrategy(
+              pool,
+              teamsPerStrategy,
+              seenKeys,
+              recentLineupState,
+              appearanceCounts,
+              tuning,
+              cvFair
+            )
+          : strategy === STRATEGY_ID_SECOND_INNINGS
+          ? await generateSecondInningsPoolTeamsForStrategy(
+              pool,
+              teamsPerStrategy,
+              seenKeys,
+              recentLineupState,
+              appearanceCounts,
+              tuning,
+              cvFair
+            )
+          : strategy === STRATEGY_ID_SPLIT_POOL && window.IPL_SPLIT_POOL
+          ? await window.IPL_SPLIT_POOL.generateSplitPoolTeamsForStrategy(
+              pool,
+              teamsPerStrategy,
+              seenKeys,
+              recentLineupState,
+              appearanceCounts,
+              tuning,
+              cvFair
+            )
+          : await generateHighScoringTeamsForStrategy(
+              pool,
+              teamsPerStrategy,
+              seenKeys,
+              recentLineupState,
+              appearanceCounts,
+              tuning,
+              cvFair
+            );
+      progress.strategyDone(pack.teams.length);
+      strategyFillReport.push({
+        strategy,
+        got: pack.teams.length,
+        target: pack.targetTeams,
+        minFillMet: pack.minFillMet,
+        fullTargetMet: pack.fullTargetMet,
+        attempts: pack.attempts,
+        highScoringQuota: pack.highScoringQuota,
+        batPoolMeta: pack.batPoolMeta,
+        splitPoolMeta: pack.splitPoolMeta,
+        secondInningsMeta: pack.secondInningsMeta,
+      });
+      generated.push(...pack.teams);
+    }
+  } finally {
+    state.activeGenProgress = null;
+    setGenerationProgressUiActive(false);
+  }
   tagRowsWithCandidateMeta(generated, candidateChunkSize);
   state.generatedTeams = generated;
   state.swapSourceTeams = generated;
@@ -7699,6 +7930,7 @@ function generateTeamsAndExports() {
   refreshSwapRuleDropdowns();
   renderPostMatchPlayerInputs();
   downloadCsvFromTeams(generated);
+  return "ok";
 }
 
 /** Single dropdown to add a ticked player to both C and VC pools. */
@@ -8284,7 +8516,9 @@ function bindEvents() {
   }
   topTeamPointsInput.addEventListener("input", schedulePersistPostMatchPoints);
   topTeamPointsInput.addEventListener("change", persistPostMatchPointsEntry);
-  generateTeamsBtn.addEventListener("click", generateTeamsAndExports);
+  generateTeamsBtn?.addEventListener("click", () => {
+    void runGenerateTeamsWithUiFeedback();
+  });
   downloadPdfBtn.addEventListener("click", () => {
     if (!state.generatedTeams.length) {
       generatorStatus.textContent = "Please generate teams first.";
@@ -8425,8 +8659,10 @@ async function init() {
     renderSelectedPlayers();
     renderPostMatchPlayerInputs();
     updateGeneratorAttemptsHint();
+    state.appReady = true;
   } catch (error) {
     console.error(error);
+    state.appReady = false;
     document.body.innerHTML = "<p>Failed to load data files. Start local server from project root.</p>";
   }
 }
@@ -8458,5 +8694,6 @@ window.SPLIT_POOL_PROFILE_IDS = SPLIT_POOL_PROFILE_IDS;
 window.DEFAULT_GENERATOR_TUNING = DEFAULT_GENERATOR_TUNING;
 window.ATTEMPTS_MULTIPLIER = ATTEMPTS_MULTIPLIER;
 window.HIGH_SCORING_MIN_QUOTA_FRAC = HIGH_SCORING_MIN_QUOTA_FRAC;
+window.iplMaybeYieldGenerationProgress = maybeYieldGenerationProgress;
 
 init();
