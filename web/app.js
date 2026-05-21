@@ -1699,6 +1699,48 @@ function getFixtureTitleAbbrev() {
   return `${getTeamAbbrev(teamASelect.value)} vs ${getTeamAbbrev(teamBSelect.value)}`;
 }
 
+/**
+ * PDF/CSV filename tag from generated rows (5-player 2nd innings vs 11-player XI).
+ * @returns {{ slug: string, shortLabel: string, headingTag: string, playersPerTeam: number|null }}
+ */
+function getTeamsExportKind(rows) {
+  if (!rows?.length) {
+    return { slug: "teams", shortLabel: "teams", headingTag: "teams", playersPerTeam: null };
+  }
+  const sizes = rows.map((r) => (Array.isArray(r.players) ? r.players.length : 11));
+  const all5 = sizes.every((n) => n === 5);
+  const all11 = sizes.every((n) => n === 11);
+  const secondInningsStrategy = rows.every((r) => r.strategy === STRATEGY_ID_SECOND_INNINGS);
+  if (all5 || secondInningsStrategy) {
+    return {
+      slug: "2nd_innings_5p",
+      shortLabel: "2nd innings · 5-player",
+      headingTag: "2nd innings · 5-player teams",
+      playersPerTeam: 5,
+    };
+  }
+  if (all11) {
+    return {
+      slug: "xi_11p",
+      shortLabel: "11-player XI",
+      headingTag: "11-player teams",
+      playersPerTeam: 11,
+    };
+  }
+  return {
+    slug: "mixed_lineups",
+    shortLabel: "mixed lineups",
+    headingTag: "mixed lineup sizes",
+    playersPerTeam: null,
+  };
+}
+
+/** Build document title / suggested PDF basename: `{fixture}_{kind}_{parts…}`. */
+function buildTeamsPdfDocumentTitle(base, parts, rows) {
+  const kind = getTeamsExportKind(rows);
+  return [base, kind.slug, ...parts].filter(Boolean).join("_");
+}
+
 function loadCandidateNames() {
   try {
     const raw = localStorage.getItem(CANDIDATE_NAMES_STORAGE_KEY);
@@ -1880,7 +1922,7 @@ function buildFantasyTeamsPrintHtml(rows, options = {}) {
   <body>
     <h1>${pageHeading}</h1>
     ${subHeading ? `<p class="sub">${subHeading}</p>` : ""}
-    <p class="hint">Use <strong>Print → Save as PDF</strong>. Filename: use your browser’s suggested name or rename to match batch. Green boxes show <strong>expected outcome</strong> and <strong>C/VC</strong> ideas if you edit at the last minute.</p>
+    <p class="hint">Use <strong>Print → Save as PDF</strong>. Suggested filename: <code>${escapeHtmlLite(documentTitle)}.pdf</code> (from the tab title). Green boxes show <strong>expected outcome</strong> and <strong>C/VC</strong> ideas if you edit at the last minute.</p>
     <button class="no-print" type="button" onclick="window.print()">Print / Save PDF</button>
     ${teamsHtml}
   </body>
@@ -1899,9 +1941,17 @@ function openPdfWindowWithHtml(html) {
 }
 
 function openPdfView(rows) {
+  const kind = getTeamsExportKind(rows);
+  const playersNote =
+    kind.playersPerTeam === 5
+      ? "5 players per team · 2nd innings (chase-middle / first-innings bowl)"
+      : kind.playersPerTeam === 11
+      ? "11 players per team"
+      : "";
   const html = buildFantasyTeamsPrintHtml(rows, {
-    pageHeading: `${getFixtureTitleAbbrev()} — ${rows.length} teams`,
-    documentTitle: `${getFixtureFileBaseAbbrev()}_all_${rows.length}teams`,
+    pageHeading: `${getFixtureTitleAbbrev()} — ${kind.headingTag} · ${rows.length} teams`,
+    subHeading: playersNote,
+    documentTitle: buildTeamsPdfDocumentTitle(getFixtureFileBaseAbbrev(), [`all_${rows.length}teams`], rows),
   });
   if (!openPdfWindowWithHtml(html)) {
     generatorStatus.textContent = "Popup blocked — allow pop-ups for this site, or use “One PDF (all batches)”.";
@@ -1911,6 +1961,7 @@ function openPdfView(rows) {
 function openPdfByCandidateSeparateTabs(allRows) {
   const chunk = state.lastGeneratorConfig?.candidateChunkSize || getCandidateChunkSizeFromUi();
   const base = getFixtureFileBaseAbbrev();
+  const kind = getTeamsExportKind(allRows);
   const n = Math.ceil(allRows.length / chunk) || 1;
   let opened = 0;
   for (let c = 0; c < n; c += 1) {
@@ -1921,9 +1972,13 @@ function openPdfByCandidateSeparateTabs(allRows) {
     const slot = c + 1;
     const label = getCandidateLabel(slot);
     const html = buildFantasyTeamsPrintHtml(slice, {
-      pageHeading: `${getFixtureTitleAbbrev()} — ${label}`,
-      subHeading: `${slice.length} teams · max ${MAX_TEAMS_PER_CANDIDATE} per person`,
-      documentTitle: `${base}_${sanitizeFilePart(label)}_${slice.length}teams`,
+      pageHeading: `${getFixtureTitleAbbrev()} — ${kind.shortLabel} · ${label}`,
+      subHeading: `${slice.length} teams · ${kind.playersPerTeam === 5 ? "5 players each" : kind.playersPerTeam === 11 ? "11 players each" : "mixed sizes"} · max ${MAX_TEAMS_PER_CANDIDATE} per person`,
+      documentTitle: buildTeamsPdfDocumentTitle(
+        base,
+        [`${sanitizeFilePart(label)}_${slice.length}teams`],
+        slice
+      ),
     });
     setTimeout(() => {
       const w = window.open("", `_blank_cand_${c}`);
@@ -1948,6 +2003,7 @@ function openPdfByCandidateOneDocument(allRows, meta = {}) {
   const postSwap = meta.variant === "postSwap";
   const chunk = state.lastGeneratorConfig?.candidateChunkSize || getCandidateChunkSizeFromUi();
   const base = getFixtureFileBaseAbbrev();
+  const kind = getTeamsExportKind(allRows);
   const n = Math.ceil(allRows.length / chunk) || 1;
   const parts = [];
   for (let c = 0; c < n; c += 1) {
@@ -1964,17 +2020,19 @@ function openPdfByCandidateOneDocument(allRows, meta = {}) {
     </section>`);
   }
   const mainTitle = postSwap
-    ? `${getFixtureTitleAbbrev()} — Swapped teams · by operator (${n} batches)`
-    : `${getFixtureTitleAbbrev()} — All operators (${n} batches)`;
+    ? `${getFixtureTitleAbbrev()} — ${kind.headingTag} (swapped) · by operator (${n} batches)`
+    : `${getFixtureTitleAbbrev()} — ${kind.headingTag} · all operators (${n} batches)`;
   const hint = postSwap
-    ? "After last-minute swaps. Print → Save as PDF. One file with an operator section per page break."
-    : "Print → Save as PDF. Use page ranges to split per operator, or print all at once.";
-  const docTitle = postSwap ? `${base}_after_swap_by_operator` : `${base}_all_batches`;
+    ? `After last-minute swaps · ${kind.shortLabel}. Print → Save as PDF. Suggested filename: <code>${buildTeamsPdfDocumentTitle(base, ["after_swap_by_operator"], allRows)}.pdf</code>`
+    : `${kind.shortLabel}. Print → Save as PDF. Suggested filename: <code>${buildTeamsPdfDocumentTitle(base, ["all_batches"], allRows)}.pdf</code> — use page ranges per operator if needed.`;
+  const docTitle = postSwap
+    ? buildTeamsPdfDocumentTitle(base, ["after_swap_by_operator"], allRows)
+    : buildTeamsPdfDocumentTitle(base, ["all_batches"], allRows);
   const html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>${docTitle}</title>
+  <title>${escapeHtmlLite(docTitle)}</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 14px; }
     h1 { margin: 0 0 8px; font-size: 18px; }
@@ -2006,9 +2064,10 @@ function openSwappedTeamsPdfSingle() {
     return;
   }
   openPdfByCandidateOneDocument(state.swappedTeams, { variant: "postSwap" });
+  const base = getFixtureFileBaseAbbrev();
+  const suggested = buildTeamsPdfDocumentTitle(base, ["after_swap_by_operator"], state.swappedTeams);
   swapStatus.textContent =
-    "Opened single PDF (operator sections with page breaks). Print → Save as PDF — suggest filename " +
-    `${getFixtureFileBaseAbbrev()}_after_swap_by_operator.pdf`;
+    `Opened single PDF (${getTeamsExportKind(state.swappedTeams).shortLabel}). Print → Save as PDF — suggest filename ${suggested}.pdf`;
 }
 
 const STRATEGY_ID = "high_scoring_games";
@@ -6107,10 +6166,11 @@ function downloadCsvFromTeams(rows) {
   const csvBlob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
   const cfg = state.lastGeneratorConfig;
   const base = getFixtureFileBaseAbbrev();
+  const kind = getTeamsExportKind(rows);
   const fileName =
     cfg.strategies?.length && cfg.teamsPerStrategy
-      ? `${base}_teams_${rows.length}total_${cfg.teamsPerStrategy}each_${cfg.strategies.length}strat.csv`
-      : `${base}_teams_${rows.length}.csv`;
+      ? `${base}_${kind.slug}_teams_${rows.length}total_${cfg.teamsPerStrategy}each_${cfg.strategies.length}strat.csv`
+      : `${base}_${kind.slug}_teams_${rows.length}.csv`;
   const url = URL.createObjectURL(csvBlob);
   const link = document.createElement("a");
   link.href = url;
@@ -7070,8 +7130,9 @@ function buildSwapChangesPrintHtml() {
       ? `<p class="unch">${unchanged.length} team(s) were <strong>unchanged</strong> (OUT not in XI or duplicate IN). Use <strong>Download Swap Report</strong> CSV for the full list.</p>`
       : "";
 
-  const docTitle = `${base}_swap_changes_checklist`;
-  const mainTitle = `${getFixtureTitleAbbrev()} — Swap changes checklist`;
+  const docTitle = buildTeamsPdfDocumentTitle(base, ["swap_changes_checklist"], teams);
+  const kind = getTeamsExportKind(teams);
+  const mainTitle = `${getFixtureTitleAbbrev()} — ${kind.shortLabel} · swap changes checklist`;
 
   return `<!DOCTYPE html>
 <html>
@@ -7122,9 +7183,13 @@ function openSwapChangesPdf() {
     swapStatus.textContent = "Popup blocked — allow pop-ups for this site.";
     return;
   }
+  const suggested = buildTeamsPdfDocumentTitle(
+    getFixtureFileBaseAbbrev(),
+    ["swap_changes_checklist"],
+    state.swappedTeams || []
+  );
   swapStatus.textContent =
-    "Opened swap checklist. Print → Save as PDF — suggest filename " +
-    `${getFixtureFileBaseAbbrev()}_swap_changes_checklist.pdf`;
+    `Opened swap checklist (${getTeamsExportKind(state.swappedTeams || []).shortLabel}). Print → Save as PDF — suggest filename ${suggested}.pdf`;
 }
 
 function getStoredGeneratorUiStep() {
