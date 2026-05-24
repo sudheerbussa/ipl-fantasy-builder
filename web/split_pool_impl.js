@@ -772,6 +772,8 @@
     const keyToRow = window.iplMakeRowLookupByKey(pool);
     const teams = [];
     const profileCounts = { C1: 0, C2: 0, C3: 0, C4: 0 };
+    /** Per profile+segment round-robin index for triplet pairs (not random). */
+    const pairRotationCounts = {};
     const profilePlan = cat.buildSplitProfileRoundRobinSequence(
       numTeams,
       getSplitPoolProfilePercentsFromUi()
@@ -839,7 +841,10 @@
         }
         const profileId = cat.profileAtTeamIndex(teams.length, profilePlan);
         const segKey = cat.segmentForProfileTeam(profileId, profileCounts[profileId]);
-        const pair = cat.pickPair(profileId, segKey);
+        const pairRotKey = `${profileId}:${segKey}`;
+        const pairRotIdx = pairRotationCounts[pairRotKey] || 0;
+        pairRotationCounts[pairRotKey] = pairRotIdx + 1;
+        const pair = cat.pickPair(profileId, segKey, pairRotIdx);
         const pairLabel = pair ? `${pair.a}|${pair.b}` : "";
         if (!pair) {
           recordSplitReject("no_pair", { profileId, segKey, stage: maxDupPerXi });

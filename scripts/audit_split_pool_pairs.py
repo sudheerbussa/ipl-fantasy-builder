@@ -70,10 +70,18 @@ def audit_pair(
 
 # C1 allows `2-2-2` (r=2) as approved P2-L stretch on n=6.
 C1_P2_STRETCH = {"2-2-2"}
+C2_B_STRETCH = {"2-1-2", "2-2-1"}
+C3_A_STRETCH = {"2-1-2", "2-2-1"}
 
 
 def triplet_ok(profile: str, side: str, n: int, s: str, bands: tuple[bool, bool, bool]) -> bool:
     if profile == "C1" and s in C1_P2_STRETCH:
+        t, r, p = (int(x) for x in s.split("-"))
+        return t + r + p == n and p >= 1
+    if profile == "C2" and side == "B" and n == 5 and s in C2_B_STRETCH:
+        t, r, p = (int(x) for x in s.split("-"))
+        return t + r + p == n and p >= 1
+    if profile == "C3" and side == "A" and n == 5 and s in C3_A_STRETCH:
         t, r, p = (int(x) for x in s.split("-"))
         return t + r + p == n and p >= 1
     return any(x[3] == s for x in valid_triplets(n, bands))

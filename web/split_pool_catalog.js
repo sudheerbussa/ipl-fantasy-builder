@@ -22,17 +22,17 @@
       bandsB: { tH: true, rH: false, pH: false },
     },
     C2: {
-      segments: ["65", "74"],
+      segments: ["65"],
       bandsA: { tH: true, rH: false, pH: true },
       bandsB: { tH: false, rH: true, pH: false },
     },
     C3: {
-      segments: ["56", "47"],
+      segments: ["56"],
       bandsA: { tH: false, rH: true, pH: false },
       bandsB: { tH: true, rH: false, pH: true },
     },
     C4: {
-      segments: ["65", "56", "74", "47"],
+      segments: ["65", "56"],
       pSumMax: 5,
       bandsA: { tH: false, rH: true, pH: true },
       bandsB: { tH: false, rH: true, pH: true },
@@ -43,82 +43,49 @@
   const PAIRS = {
     C1: {
       65: {
-        primary: ["3-1-2|2-1-2", "2-2-2|3-0-2", "2-2-2|3-1-1", "2-2-2|2-1-2"],
+        primary: ["2-2-2|3-0-2", "2-2-2|3-1-1", "2-2-2|2-1-2"],
         secondary: [],
       },
       56: {
-        primary: ["2-1-2|3-1-2", "2-1-2|2-2-2", "3-0-2|2-2-2", "3-1-1|2-2-2"],
+        primary: ["2-1-2|2-2-2", "3-0-2|2-2-2", "3-1-1|2-2-2"],
         secondary: [],
       },
     },
     C2: {
       65: {
         primary: [
-          "2-1-3|0-4-1",
           "2-1-3|1-3-1",
-          "3-0-3|0-4-1",
-          "3-0-3|1-3-1",
-          "3-1-2|0-3-2",
-          "3-1-2|0-4-1",
           "3-1-2|1-2-2",
           "3-1-2|1-3-1",
+          "3-1-2|2-1-2",
+          "3-1-2|2-2-1",
+          "2-1-3|2-2-1",
         ],
-        secondary: ["2-1-3|0-3-2", "2-1-3|1-2-2", "3-0-3|0-3-2", "3-0-3|1-2-2"],
-      },
-      74: {
-        primary: ["3-1-3|0-3-1", "3-1-3|1-2-1"],
-        secondary: ["3-1-3|0-2-2"],
+        secondary: ["2-1-3|1-2-2", "2-1-3|2-1-2"],
       },
     },
     C3: {
       56: {
         primary: [
-          "0-3-2|3-1-2",
-          "0-4-1|2-1-3",
-          "0-4-1|3-0-3",
-          "0-4-1|3-1-2",
           "1-2-2|3-1-2",
           "1-3-1|2-1-3",
-          "1-3-1|3-0-3",
           "1-3-1|3-1-2",
+          "2-1-2|3-1-2",
+          "2-2-1|3-1-2",
+          "2-1-2|2-1-3",
+          "2-2-1|2-1-3",
         ],
-        secondary: ["0-3-2|2-1-3", "0-3-2|3-0-3", "1-2-2|2-1-3", "1-2-2|3-0-3"],
-      },
-      47: {
-        primary: ["0-3-1|3-1-3", "1-2-1|3-1-3"],
-        secondary: ["0-2-2|3-1-3"],
+        secondary: ["1-2-2|2-1-3"],
       },
     },
     C4: {
       65: {
-        primary: ["0-4-2|0-3-2", "0-4-2|1-2-2", "1-3-2|0-3-2", "1-3-2|1-2-2"],
-        secondary: [
-          "0-3-3|0-3-2",
-          "0-3-3|1-2-2",
-          "0-4-2|0-2-3",
-          "1-2-3|0-3-2",
-          "1-2-3|1-2-2",
-          "1-3-2|0-2-3",
-        ],
+        primary: ["1-3-2|0-3-2", "1-3-2|1-2-2"],
+        secondary: [],
       },
       56: {
-        primary: ["0-3-2|0-4-2", "0-3-2|1-3-2", "1-2-2|0-4-2", "1-2-2|1-3-2"],
-        secondary: [
-          "0-2-3|0-4-2",
-          "0-2-3|1-3-2",
-          "0-3-2|0-3-3",
-          "0-3-2|1-2-3",
-          "1-2-2|0-3-3",
-          "1-2-2|1-2-3",
-        ],
-      },
-      74: {
-        primary: ["1-4-2|0-2-2"],
-        secondary: ["0-4-3|0-2-2", "1-3-3|0-2-2"],
-      },
-      47: {
-        primary: ["0-2-2|1-4-2"],
-        secondary: ["0-2-2|0-4-3", "0-2-2|1-3-3"],
+        primary: ["0-3-2|1-3-2", "1-2-2|1-3-2"],
+        secondary: [],
       },
     },
   };
@@ -148,19 +115,24 @@
     return Math.max(0, pA + pB - 4);
   }
 
-  function pickPair(profileId, segmentKey, rng) {
+  /** All whitelisted pair strings for profile + segment (primary then secondary, stable order). */
+  function listPairStrings(profileId, segmentKey) {
     const seg = PAIRS[profileId]?.[segmentKey];
     if (!seg) {
-      return null;
+      return [];
     }
-    const pool = [...seg.primary];
-    if (seg.secondary.length && (rng ? rng() : Math.random()) < 0.35) {
-      pool.push(...seg.secondary);
-    }
+    return [...seg.primary, ...seg.secondary];
+  }
+
+  /** Round-robin through `listPairStrings` — rotationIndex 0, 1, 2, … wraps. */
+  function pickPair(profileId, segmentKey, rotationIndex) {
+    const pool = listPairStrings(profileId, segmentKey);
     if (!pool.length) {
       return null;
     }
-    const idx = Math.floor((rng ? rng() : Math.random()) * pool.length);
+    const n = pool.length;
+    const raw = Math.floor(Number(rotationIndex));
+    const idx = Number.isFinite(raw) ? ((raw % n) + n) % n : 0;
     return parsePair(pool[idx]);
   }
 
@@ -171,16 +143,12 @@
     }
     const segs = prof.segments;
     if (profileId === "C2") {
-      return profileTeamIndex % 10 === 9 ? "74" : "65";
+      return "65";
     }
     if (profileId === "C3") {
-      return profileTeamIndex % 10 === 9 ? "47" : "56";
+      return "56";
     }
     if (profileId === "C4") {
-      const heavy = profileTeamIndex % 10 === 9;
-      if (heavy) {
-        return profileTeamIndex % 20 === 9 ? "74" : "47";
-      }
       return profileTeamIndex % 2 === 0 ? "65" : "56";
     }
     return segs[profileTeamIndex % segs.length];
@@ -305,6 +273,7 @@
     parseTriplet,
     parsePair,
     arStar,
+    listPairStrings,
     pickPair,
     segmentForProfileTeam,
     sanitizeSplitProfilePercents,
