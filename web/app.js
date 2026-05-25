@@ -2148,6 +2148,45 @@ function getTeamsPerStrategyFromUi() {
 }
 
 /** When fewer teams are saved than requested, explain dedupe + pool limits (not a bug in the target count). */
+function explainSplitPoolTeamShortfall(got, target, attempts, splitMeta) {
+  const att = typeof attempts === "number" ? attempts.toLocaleString() : String(attempts ?? "");
+  const rs = splitMeta?.rejectStats || {};
+  const pf = splitMeta?.rejectReport?.c4Preflight;
+  const topXi = Object.entries(splitMeta?.rejectReport?.invalidXiCounts || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([k, n]) => `${k} (${Number(n).toLocaleString()})`)
+    .join(", ");
+  const parts = [
+    `Only ${got} of ${target} unique teams were found (${att} split-pool draws).`,
+  ];
+  if (pf?.pairResults?.length && pf.pairResults.every((r) => !r.ok)) {
+    const sample = pf.pairResults
+      .map((r) => `${r.pair}:${r.error}${r.fillSlot ? `@${r.fillSlot}` : ""}`)
+      .join("; ");
+    parts.push(
+      `C4 preflight failed for all whitelist pairs on your current P1/P2/P3 (${sample}). Open split-pool diagnostics — usually P3 has no bowler/AR profiles, or the same player is listed in two pools on one franchise.`
+    );
+  } else if ((rs.p3_fill || 0) > (rs.cvc_none || 0)) {
+    parts.push(
+      "Most rejects are P3 fill failures: assign enough bowlers and bowling all-rounders to P3 on each franchise (C4 needs 2+ P3 picks per side)."
+    );
+  } else if (topXi) {
+    parts.push(
+      `Most rejects are XI build failures (${topXi}), not captain/vice pools. Ensure each player appears in only one of P1/P2/P3 per franchise.`
+    );
+  } else if ((rs.cvc_none || 0) > 0) {
+    parts.push(
+      "Some teams built valid XIs but had no C/VC from your pools — broaden C1–C4 captain/vice pools or relax “Restrict C/VC to ticked squad only”."
+    );
+  } else {
+    parts.push(
+      "See split-pool diagnostics for reject counts (pair fill, XI size, dedupe). C/VC pool size is rarely the blocker when P1/P2/P3 bands already accept C1–C3 teams."
+    );
+  }
+  return parts.join(" ");
+}
+
 function explainUniqueTeamShortfall(poolSize, got, target, attempts, unionCvPoolSize) {
   if (got >= target) {
     return "";
@@ -4820,18 +4859,24 @@ function getBatFirstTargetTeamCountHint() {
 }
 
 function pickWeightedPoolSubset(rows, k, appearanceCounts, tuning) {
-  if (k <= 0 || !rows.length) {
+  const kk = Math.max(0, Math.floor(Number(k) || 0));
+  if (kk <= 0 || !rows.length) {
     return [];
   }
-  if (rows.length <= k) {
+  if (rows.length < kk) {
+    return null;
+  }
+  if (rows.length === kk) {
     return [...rows];
   }
   const weighted = rows.map((row) => {
-    const rep = repeatPenaltyFactor(row, appearanceCounts, tuning.repeatLambda);
+    const rep = repeatPenaltyFactor(row, appearanceCounts, tuning?.repeatLambda);
     const bat = lowerMiddleBatsmanDrawFactor(row, tuning);
-    return { ...row, weight: Math.max(0.02, rep * bat) };
+    const w = rep * bat;
+    return { ...row, weight: Number.isFinite(w) && w > 0 ? w : 0.02 };
   });
-  return weightedSampleWithoutReplacement(weighted, k);
+  const picked = weightedSampleWithoutReplacement(weighted, kk);
+  return picked.length === kk ? picked : null;
 }
 
 function makeRowLookupByKey(pool) {
@@ -5469,14 +5514,86 @@ function formatSplitPoolRejectReportHtml(meta) {
   parts.push(
     `<p><strong>Profiles accepted</strong>: C1 ${pc.C1 || 0} · C2 ${pc.C2 || 0} · C3 ${pc.C3 || 0} · C4 ${pc.C4 || 0}</p>`
   );
+  if (r.feasiblePairsFull) {
+    const ff = r.feasiblePairsFull;
+    parts.push(
+      `<p><strong>Feasible pairs</strong> (full pool): C1 ${ff.C1 ?? 0} · C2 ${ff.C2 ?? 0} · C3 ${ff.C3 ?? 0} · C4 ${ff.C4 ?? 0} of whitelist</p>`
+    );
+  }
+  if (r.feasiblePairsReduced) {
+    const fr = r.feasiblePairsReduced;
+    parts.push(
+      `<p><strong>Feasible pairs</strong> (reduced pool): C1 ${fr.C1 ?? 0} · C2 ${fr.C2 ?? 0} · C3 ${fr.C3 ?? 0} · C4 ${fr.C4 ?? 0}</p>`
+    );
+  }
+  if (r.c4Preflight) {
+    const pf = r.c4Preflight;
+    parts.push(
+      `<p><strong>C4 preflight</strong> (dry-run all 4 whitelist pairs on current pools): duplicate ids <strong>${pf.crossPoolDuplicates ?? 0}</strong>; same player in multiple pools (different ids) <strong>${pf.crossPoolKeyDuplicates ?? 0}</strong>; unique players KKR <strong>${pf.uniqA ?? "?"}</strong> · DC <strong>${pf.uniqB ?? "?"}</strong> (need 5–6 per side for C4).</p>`
+    );
+    if (Array.isArray(pf.pairResults)) {
+      parts.push("<p><strong>C4 pair dry-run</strong></p><ul>");
+      pf.pairResults.forEach((row) => {
+        const detail = row.ok
+          ? "OK"
+          : `${row.error}${row.fillSlot ? ` @ ${row.fillSlot}` : ""}${
+              row.gotLen != null ? ` len=${row.gotLen}/11 uniq=${row.unique}` : ""
+            }${row.hint ? ` (${row.hint})` : ""}${
+              row.duplicatePicks?.length
+                ? ` dup=${row.duplicatePicks.map((d) => `${d.player}@${d.slot}`).join(",")}`
+                : ""
+            }`;
+        parts.push(`<li><code>${row.segment}</code> <code>${row.pair}</code>: ${detail}</li>`);
+        if (!row.ok && Array.isArray(row.traceSteps) && row.traceSteps.length) {
+          const fail = row.traceSteps.find((s) => s.error) || row.traceSteps[row.traceSteps.length - 1];
+          if (fail) {
+            const elig =
+              fail.eligible != null
+                ? `eligible ${fail.eligible}`
+                : fail.diag
+                  ? `pool avail ${fail.diag.available}/${fail.diag.resolved}`
+                  : "";
+            parts.push(
+              `<li class="hint" style="margin-left:1.2rem">step <code>${fail.slot || "?"}</code> need ${fail.need ?? "?"} · ${
+                fail.error || "ok"
+              }${fail.hint ? ` (${fail.hint})` : ""}${elig ? ` · ${elig}` : ""}${
+                fail.pickedLen != null ? ` · picked ${fail.pickedLen}` : ""
+              }</li>`
+            );
+          }
+        }
+      });
+      parts.push("</ul>");
+    }
+  }
+  if (r.c4DebugLog?.length) {
+    parts.push("<p><strong>C4 debug trace</strong> (last failures; enable <em>C4 debug trace</em> + browser console)</p><ol>");
+    r.c4DebugLog.slice(0, 10).forEach((row) => {
+      const dup = row.duplicatePicks?.map((d) => `${d.player}@${d.slot}`).join("; ");
+      parts.push(
+        `<li><code>${row.code}</code> · ${row.pair || "-"} · slot ${row.fillSlot || "-"} · len ${
+          row.gotLen != null ? row.gotLen : "-"
+        }/11${dup ? ` · dup: ${dup}` : ""}${row.hint ? ` · ${row.hint}` : ""}</li>`
+      );
+    });
+    parts.push("</ol>");
+  }
+  if (r.profileSubstitutions > 0) {
+    parts.push(
+      `<p><strong>Profile fallback</strong>: ${r.profileSubstitutions.toLocaleString()} draws used a different profile than the % slot target because the target had <strong>no feasible pairs</strong> (common: <strong>C4</strong> needs 3 P2 picks per side).</p>`
+    );
+  }
   parts.push("<p><strong>Reject counts</strong></p><ul>");
   const rs = r.rejectStats || {};
   const lines = [
     ["no_pair", "no whitelist pair for profile/segment"],
+    ["no_feasible_pair", "no pair fits current P1/P2/P3 pool sizes for assigned profile"],
     ["pair_psum", "C1/C4 P3 sum cap on pair"],
     ["pair_t33", "forbidden t=3 on both franchises"],
     ["p3_fill", "could not fill P3 (AR* / bowler slots)"],
-    ["p1p2_fill", "could not fill P1/P2 counts from pools"],
+    ["p1p2_fill", "could not fill P1/P2 (often same player in P1+P2 under two ids, or weighted pick failed)"],
+    ["xi_overlap", "duplicate player picked twice in one XI build"],
+    ["xi_size_mismatch", "XI size not 11 (short/long picks — see C4 preflight gotLen)"],
     ["overlap_keys", "duplicate player in XI draw"],
     ["cvc_none", "no valid C/VC for profile pools"],
     ["dedupe_collision", "XI+C+VC already seen"],
@@ -5504,7 +5621,7 @@ function formatSplitPoolRejectReportHtml(meta) {
     parts.push("<p><strong>Sample rejects</strong></p><ol>");
     r.samples.forEach((s) => {
       parts.push(
-        `<li><code>${s.code}</code> · ${s.profileId || "-"} / ${s.segKey || "-"} · pass ${s.stage ?? "-"}${s.pair ? ` · ${s.pair}` : ""}</li>`
+        `<li><code>${s.code}</code> · ${s.profileId || "-"} / ${s.segKey || "-"} · pass ${s.stage ?? "-"}${s.pair ? ` · ${s.pair}` : ""}${s.fillSlot ? ` · ${s.fillSlot} need ${s.need}` : ""}${s.diag ? ` · avail ${s.diag.available}/${s.diag.resolved} (ids ${s.diag.assigned})` : ""}</li>`
       );
     });
     parts.push("</ol>");
@@ -7887,11 +8004,19 @@ async function generateTeamsAndExports() {
   state.postMatchSourceTeams = [];
   const lastAttempts = strategyFillReport.length ? strategyFillReport[strategyFillReport.length - 1].attempts : 0;
   const unionCv = state.lastGeneratorConfig?.cvFairMeta?.unionPoolSize ?? 0;
+  const splitMeta = strategyFillReport.find((r) => r.strategy === STRATEGY_ID_SPLIT_POOL)?.splitPoolMeta;
   const shortfallExplain =
     generated.length < targetTotal
       ? mode === STRATEGY_ID_SECOND_INNINGS
         ? `Only ${generated.length} of ${targetTotal} unique 5-player teams were found (${lastAttempts} draws). Add more names in P1/P2 or expand combination mix.`
-        : explainUniqueTeamShortfall(pool.length, generated.length, targetTotal, lastAttempts, unionCv)
+        : mode === STRATEGY_ID_SPLIT_POOL && splitMeta
+          ? explainSplitPoolTeamShortfall(
+              generated.length,
+              targetTotal,
+              lastAttempts,
+              splitMeta
+            )
+          : explainUniqueTeamShortfall(pool.length, generated.length, targetTotal, lastAttempts, unionCv)
       : "";
   const uniqNote =
     generated.length < targetTotal
@@ -8740,6 +8865,7 @@ window.iplPickWeightedPoolSubset = pickWeightedPoolSubset;
 window.iplGetRawProfileRole = getRawProfileRole;
 window.iplIsRawBowlOrArProfile = isRawBowlOrArProfile;
 window.iplMakeRowLookupByKey = makeRowLookupByKey;
+window.iplBuildGeneratorPoolForMode = buildGeneratorPoolForMode;
 window.iplIsValidGeneratedTeam = isValidGeneratedTeam;
 window.iplExplainInvalidGeneratedTeam = explainInvalidGeneratedTeam;
 window.iplChooseCaptainViceCaptain = chooseCaptainViceCaptain;

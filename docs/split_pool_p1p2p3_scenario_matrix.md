@@ -232,23 +232,41 @@ Full XI: **`(tA-rA-pA)|(tB-rB-pB)`**.
 
 ### 5.3 C4 — P1A-L, P2A-H, P3A-H · P1B-L, P2B-H, P3B-H
 
-**Caps:** **`p_A+p_B≤5`** · segments **6–5** and **5–6** only · both sides P1-L (\(t\le1\)) — §3.1 never binds.
+**Story:** Both franchises **middle-heavy + bowl-heavy** (low tops, high P2/P3).
+
+#### C4 rules (generator + audit)
+
+| Rule | Detail |
+|------|--------|
+| **Bands** | P1 **L** (\(t\le1\)) · P2 **H** (\(r\ge2\)) · P3 **H** (\(p\ge2\)) on **both** A and B |
+| **Segments** | **6–5** and **5–6** only (C4 alternates by team index) |
+| **P3 cap** | **`p_A + p_B ≤ 5`** |
+| **P1 §3.1** | Never \(t_A=3\) and \(t_B=3\) (C4 pairs already have \(t\le1\) per side) |
+| **Fill** | **`b_A + b_B ≤ 4`**; **AR\*** = \(\max(0,p_A+p_B-4)\) from P3 |
+| **Unique players** | Each franchise needs **`t+r+p` distinct names** across P1∪P2∪P3 (no player in two pools) |
+| **Pool sizing** | Per-pool counts must meet the pair **and** unique union must meet \(t+r+p\) per side |
+
+**Why C4 is strict:** Band math forces **\(r=3\)** on at least one side on most legal shapes (only 4 “moderate” **AR\*=0** pairs kept in whitelist). Example 6–5 `1-3-2|0-3-2` needs **KKR: 1 P1 + 3 P2 + 2 P3 = 6 unique** and **DC: 3 P2 + 2 P3 = 5 unique**.
+
+**Validated whitelist** (`scripts/audit_c4_whitelist.py` · 4 pairs):
 
 #### Segment 6–5 (\(n_A=6\), \(n_B=5\))
 
-| Tier | Pair (A\|B) | \(p_A+p_B\) | AR\* | Keep? |
-|------|-------------|-------------|------|-------|
-| P | `1-3-2\|0-3-2` | 4 | 0 | ✓ |
-| P | `1-3-2\|1-2-2` | 4 | 0 | ✓ |
+| Pair (A\|B) | P1/P2/P3 needs (A) | P1/P2/P3 needs (B) | \(p\) sum | AR\* |
+|-------------|-------------------|-------------------|----------|------|
+| `1-3-2\|0-3-2` | 1 / **3** / 2 | 0 / **3** / 2 | 4 | 0 |
+| `1-3-2\|1-2-2` | 1 / **3** / 2 | 1 / **2** / 2 | 4 | 0 |
 
 #### Segment 5–6 (\(n_A=5\), \(n_B=6\))
 
-| Tier | Pair (A\|B) | \(p_A+p_B\) | AR\* | Keep? |
-|------|-------------|-------------|------|-------|
-| P | `0-3-2\|1-3-2` | 4 | 0 | ✓ |
-| P | `1-2-2\|1-3-2` | 4 | 0 | ✓ |
+| Pair (A\|B) | P1/P2/P3 needs (A) | P1/P2/P3 needs (B) | \(p\) sum | AR\* |
+|-------------|-------------------|-------------------|----------|------|
+| `0-3-2\|1-3-2` | 0 / **3** / 2 | 1 / **3** / 2 | 4 | 0 |
+| `1-2-2\|1-3-2` | 1 / **2** / 2 | 1 / **3** / 2 | 4 | 0 |
 
-**Not whitelisted:** **`p_A+p_B>5`** · **`t_A=0` and `t_B=0`** · **`0-4-1`** · **`0-4-2`** · **all C4 secondary** · **7–4 / 4–7** segments · **`3-0-3`** · **`t=0` vs `t=3`** on majority segments.
+**Not whitelisted:** **`p_A+p_B>5`** · **`t_A=0` and `t_B=0`** · **`0-4-1`** · **`0-4-2`** · **7–4 / 4–7** · heavier **AR\*=1** C4 shapes (v32 trim) · any player listed in **two pools** on the same franchise.
+
+**Debug (web):** enable **C4 debug trace** on split-pool toolbar; diagnostics show **C4 preflight** dry-run per pair after Generate.
 
 ---
 
@@ -362,3 +380,4 @@ Single table of every **§5.0–5.3** pair for audit. **Total: 26** (23 primary 
 | **v30** | Package A rare trim: drop **7–4/4–7** (10), all **`3-0-3`** (10), **`t=0` vs `t=3`** on 6–5/5–6 (4); **38** pairs; C2/C3/C4 segments narrowed in catalog |
 | **v31** | Drop C1 cross-profile duplicate pairs `3-1-2|2-1-2`, `2-1-2|3-1-2` (same strings on C2/C3); C1 **6** pairs; total **36** |
 | **v32** | **Option C** secondary trim: drop all **C4 S** (8) + **S with `t=0`** (`2-1-3|0-3-2`, `0-3-2|2-1-3`); keep **3 S** on C2/C3 only; total **26** (23 P + 3 S); catalog synced |
+| **v33** | **C4 §5.3** rules table + `audit_c4_whitelist.py`; generator **C4 preflight** dry-run, **C4 debug trace**, duplicate-pick detection per slot |

@@ -622,6 +622,40 @@
     if (bowl < 1) {
       reasons.push("Split pools: need at least 1 bowler in P3.");
     }
+    const teamAName = window.teamASelect?.value || "";
+    const teamBName = window.teamBSelect?.value || "";
+    const poolForCheck =
+      typeof window.iplBuildGeneratorPoolForMode === "function"
+        ? window.iplBuildGeneratorPoolForMode(STRATEGY_ID_SPLIT_POOL)
+        : [];
+    const keyToRow = window.iplMakeRowLookupByKey(poolForCheck);
+    const sp = window.state.splitPools;
+    const feasible = buildFeasiblePairMap(cat, sp, teamAName, teamBName, keyToRow);
+    const counts = summarizeFeasiblePairs(feasible);
+    (cat.PROFILE_ORDER || ["C1", "C2", "C3", "C4"]).forEach((id) => {
+      if ((counts[id] || 0) === 0) {
+        reasons.push(
+          `${id}: no triplet pair fits your P1/P2/P3 pools (per-pool counts and unique players per franchise). C4 needs many picks from P2+P3 on the same side — avoid listing the same player in both P2 and P3.`
+        );
+      }
+    });
+    const cross = splitPoolCrossPoolDuplicates(sp);
+    if (cross.length) {
+      reasons.push(
+        `Split pools: ${cross.length} player(s) appear in more than one pool on the same franchise (e.g. P2+P3). C4 needs 5–6 unique names per side — move each player to a single pool.`
+      );
+    }
+    const poolForKeys =
+      typeof window.iplBuildGeneratorPoolForMode === "function"
+        ? window.iplBuildGeneratorPoolForMode(STRATEGY_ID_SPLIT_POOL)
+        : [];
+    const keyToRowBlock = window.iplMakeRowLookupByKey(poolForKeys);
+    const crossKeys = splitPoolCrossPoolKeyDuplicates(sp, keyToRowBlock);
+    if (crossKeys.length) {
+      reasons.push(
+        `Split pools: ${crossKeys.length} player(s) are assigned to multiple pools under different ids (same person in P1 and P2). C4 needs 3 separate P2 picks after P1 — use one pool per player (move buttons).`
+      );
+    }
     return reasons;
   }
 
@@ -629,42 +663,322 @@
     return ids.map((id) => keyToRow.get(id)).filter(Boolean);
   }
 
-  function pickSplitPoolSubset(rows, k, appearanceCounts, tuning) {
-    if (k <= 0) {
-      return [];
-    }
-    if (!rows.length || rows.length < k) {
-      return null;
-    }
-    if (rows.length === k) {
-      return [...rows];
-    }
-    const fn = window.iplPickWeightedPoolSubset;
-    if (typeof fn === "function") {
-      return fn(rows, k, appearanceCounts, tuning);
-    }
-    const copy = [...rows];
+  function franchisePoolRows(sp, side, poolKey, franchise, keyToRow) {
+    const seen = new Set();
     const out = [];
-    for (let i = 0; i < k; i += 1) {
-      const j = Math.floor(Math.random() * copy.length);
-      out.push(copy.splice(j, 1)[0]);
-    }
+    rowsFromPoolIds(sp[side][poolKey], keyToRow)
+      .filter((r) => r.team === franchise)
+      .forEach((r) => {
+        const k = window.iplPoolPlayerKey(r);
+        if (seen.has(k)) {
+          return;
+        }
+        seen.add(k);
+        out.push(r);
+      });
     return out;
   }
 
-  function fillP3Slots(teamName, pCount, needAr, poolIds, keyToRow, appearanceCounts, tuning) {
+  /** Unique ticked players across P1+P2+P3 on one franchise (same id in two pools counts once). */
+  function uniqueFranchisePoolCount(sp, side, franchise, keyToRow) {
+    const seen = new Set();
+    ["p1", "p2", "p3"].forEach((poolKey) => {
+      franchisePoolRows(sp, side, poolKey, franchise, keyToRow).forEach((r) => {
+        seen.add(window.iplPoolPlayerKey(r));
+      });
+    });
+    return seen.size;
+  }
+
+  function pairMeetsUniqueXiCapacity(pair, sp, teamA, teamB, keyToRow) {
+    const needA = pair.tA + pair.rA + pair.pA;
+    const needB = pair.tB + pair.rB + pair.pB;
+    return (
+      uniqueFranchisePoolCount(sp, "teamA", teamA, keyToRow) >= needA &&
+      uniqueFranchisePoolCount(sp, "teamB", teamB, keyToRow) >= needB
+    );
+  }
+
+  function franchisePoolKeySet(sp, side, poolKey, franchise, keyToRow) {
+    const keys = new Set();
+    franchisePoolRows(sp, side, poolKey, franchise, keyToRow).forEach((r) => {
+      keys.add(window.iplPoolPlayerKey(r));
+    });
+    return keys;
+  }
+
+  /**
+   * P1 is filled before P2 on each franchise; picks must be distinct player keys.
+   * Per-pool counts alone are insufficient when the same name is in P1 and P2 (different ids).
+   */
+  function sideMeetsSequentialP1P2(sp, side, franchise, keyToRow, tNeed, rNeed) {
+    const t = Math.max(0, Math.floor(Number(tNeed) || 0));
+    const r = Math.max(0, Math.floor(Number(rNeed) || 0));
+    if (r <= 0) {
+      return t <= 0 || franchisePoolRows(sp, side, "p1", franchise, keyToRow).length >= t;
+    }
+    if (t <= 0) {
+      return franchisePoolRows(sp, side, "p2", franchise, keyToRow).length >= r;
+    }
+    const p1Keys = franchisePoolKeySet(sp, side, "p1", franchise, keyToRow);
+    const p2Keys = [...franchisePoolKeySet(sp, side, "p2", franchise, keyToRow)];
+    if (p1Keys.size < t || p2Keys.length < r) {
+      return false;
+    }
+    const union = new Set([...p1Keys, ...p2Keys]);
+    if (union.size < t + r) {
+      return false;
+    }
+    const overlap = p2Keys.filter((k) => p1Keys.has(k)).length;
+    const maxP2Loss = Math.min(t, overlap);
+    return p2Keys.length - maxP2Loss >= r;
+  }
+
+  /** Nominal P1/P2 capacity (per-pool counts + sequential distinct-key fill). */
+  function pairMeetsP1P2Capacity(pair, sp, teamA, teamB, keyToRow) {
+    return (
+      sideMeetsSequentialP1P2(sp, "teamA", teamA, keyToRow, pair.tA, pair.rA) &&
+      sideMeetsSequentialP1P2(sp, "teamB", teamB, keyToRow, pair.tB, pair.rB)
+    );
+  }
+
+  /** Nominal P3 capacity (bowler + AR counts) for a pair. */
+  function pairMeetsP3Capacity(pair, sp, teamA, teamB, keyToRow) {
+    const cat = window.SplitPoolCatalog;
+    const needAr = Math.max(
+      cat.arStar(pair.pA, pair.pB),
+      minProfileArForXi(pair, sp, keyToRow)
+    );
+    let arBudget = needAr;
+    const sides = [
+      { side: "teamA", franchise: teamA, p: pair.pA },
+      { side: "teamB", franchise: teamB, p: pair.pB },
+    ];
+    for (const { side, franchise, p } of sides) {
+      if (p <= 0) {
+        continue;
+      }
+      const rows = franchisePoolRows(sp, side, "p3", franchise, keyToRow);
+      const ar = rows.filter(
+        (r) => window.iplGetRawProfileRole(r.team, r.player) === "all_rounder"
+      ).length;
+      const bowl = rows.filter(
+        (r) => window.iplGetRawProfileRole(r.team, r.player) === "bowler"
+      ).length;
+      if (rows.length < p) {
+        return false;
+      }
+      const arTake = Math.min(ar, arBudget, p);
+      arBudget -= arTake;
+      if (p - arTake > bowl) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function pairMeetsPoolCapacity(pair, sp, teamA, teamB, keyToRow) {
+    return (
+      pairMeetsP1P2Capacity(pair, sp, teamA, teamB, keyToRow) &&
+      pairMeetsP3Capacity(pair, sp, teamA, teamB, keyToRow) &&
+      pairMeetsUniqueXiCapacity(pair, sp, teamA, teamB, keyToRow)
+    );
+  }
+
+  function splitPoolCrossPoolDuplicates(sp) {
+    const dups = [];
+    ["teamA", "teamB"].forEach((side) => {
+      const idToPools = new Map();
+      ["p1", "p2", "p3"].forEach((pk) => {
+        (sp[side][pk] || []).forEach((id) => {
+          if (!idToPools.has(id)) {
+            idToPools.set(id, []);
+          }
+          idToPools.get(id).push(pk);
+        });
+      });
+      idToPools.forEach((pools, id) => {
+        const uniq = [...new Set(pools)];
+        if (uniq.length > 1) {
+          dups.push({ side, id, pools: uniq });
+        }
+      });
+    });
+    return dups;
+  }
+
+  /** Same player key listed in multiple pools (different ids) — breaks sequential P1→P2 fill. */
+  function splitPoolCrossPoolKeyDuplicates(sp, keyToRow) {
+    const dups = [];
+    const teamA = window.teamASelect?.value || "";
+    const teamB = window.teamBSelect?.value || "";
+    ["teamA", "teamB"].forEach((side) => {
+      const franchise = side === "teamA" ? teamA : teamB;
+      const keyToPools = new Map();
+      ["p1", "p2", "p3"].forEach((pk) => {
+        franchisePoolRows(sp, side, pk, franchise, keyToRow).forEach((r) => {
+          const k = window.iplPoolPlayerKey(r);
+          if (!keyToPools.has(k)) {
+            keyToPools.set(k, []);
+          }
+          keyToPools.get(k).push(pk);
+        });
+      });
+      keyToPools.forEach((pools, key) => {
+        const uniq = [...new Set(pools)];
+        if (uniq.length > 1) {
+          dups.push({ side, key, pools: uniq });
+        }
+      });
+    });
+    return dups;
+  }
+
+  /** profileId → segmentKey → feasible pair strings for current pools. */
+  function buildFeasiblePairMap(cat, sp, teamA, teamB, keyToRow) {
+    const out = {};
+    (cat.PROFILE_ORDER || ["C1", "C2", "C3", "C4"]).forEach((profileId) => {
+      out[profileId] = {};
+      const segs = cat.PROFILES[profileId]?.segments || [];
+      segs.forEach((segKey) => {
+        const feasible = (cat.listPairStrings(profileId, segKey) || []).filter((pairStr) => {
+          const pair = cat.parsePair(pairStr);
+          return pairMeetsPoolCapacity(pair, sp, teamA, teamB, keyToRow);
+        });
+        out[profileId][segKey] = feasible;
+      });
+    });
+    return out;
+  }
+
+  function profileHasFeasiblePair(feasibleMap, profileId) {
+    const segs = feasibleMap[profileId];
+    if (!segs) {
+      return false;
+    }
+    return Object.values(segs).some((list) => list.length > 0);
+  }
+
+  /**
+   * Round-robin a feasible pair for the target profile slot; alternate segment;
+   * if target profile has no feasible pairs (e.g. C4 needs 3×P2), use next profile with capacity.
+   */
+  function selectRotatingFeasiblePair(
+    cat,
+    targetProfileId,
+    profileCounts,
+    feasibleMap,
+    pairRotationCounts
+  ) {
+    const order = cat.PROFILE_ORDER || ["C1", "C2", "C3", "C4"];
+    const startIdx = Math.max(0, order.indexOf(targetProfileId));
+    for (let o = 0; o < order.length; o += 1) {
+      const profileId = order[(startIdx + o) % order.length];
+      if (!profileHasFeasiblePair(feasibleMap, profileId)) {
+        continue;
+      }
+      const prof = cat.PROFILES[profileId];
+      const primarySeg = cat.segmentForProfileTeam(profileId, profileCounts[profileId]);
+      const segOrder = [primarySeg, ...(prof?.segments || []).filter((s) => s !== primarySeg)];
+      for (const segKey of segOrder) {
+        const list = feasibleMap[profileId]?.[segKey] || [];
+        if (!list.length) {
+          continue;
+        }
+        const rotKey = `${profileId}:${segKey}`;
+        const rotIdx = pairRotationCounts[rotKey] || 0;
+        pairRotationCounts[rotKey] = rotIdx + 1;
+        return {
+          profileId,
+          segKey,
+          pair: cat.parsePair(list[rotIdx % list.length]),
+          substituted: profileId !== targetProfileId,
+          targetProfileId,
+        };
+      }
+    }
+    return null;
+  }
+
+  function summarizeFeasiblePairs(feasibleMap) {
+    const counts = {};
+    Object.keys(feasibleMap || {}).forEach((profileId) => {
+      let n = 0;
+      Object.values(feasibleMap[profileId] || {}).forEach((list) => {
+        n += list.length;
+      });
+      counts[profileId] = n;
+    });
+    return counts;
+  }
+
+  function uniformPickSubset(rows, k) {
+    const copy = [...rows];
+    const picked = [];
+    for (let i = 0; i < k && copy.length; i += 1) {
+      const j = Math.floor(Math.random() * copy.length);
+      picked.push(copy.splice(j, 1)[0]);
+    }
+    return picked.length === k ? picked : null;
+  }
+
+  function pickSplitPoolSubset(rows, k, appearanceCounts, tuning, excludeKeys) {
+    const need = Math.max(0, Math.floor(Number(k) || 0));
+    if (excludeKeys && excludeKeys.size) {
+      rows = rows.filter((r) => !excludeKeys.has(window.iplPoolPlayerKey(r)));
+    }
+    if (need <= 0) {
+      return [];
+    }
+    if (!rows.length || rows.length < need) {
+      return null;
+    }
+    if (rows.length === need) {
+      return [...rows];
+    }
+    const fn = window.iplPickWeightedPoolSubset;
+    let picked = null;
+    if (typeof fn === "function") {
+      picked = fn(rows, need, appearanceCounts, tuning);
+    }
+    if (!picked || picked.length !== need) {
+      picked = uniformPickSubset(rows, need);
+    }
+    return picked;
+  }
+
+  function fillP3Slots(teamName, pCount, needAr, poolIds, keyToRow, appearanceCounts, tuning, excludeKeys) {
     if (pCount <= 0) {
       return [];
     }
-    const rows = rowsFromPoolIds(poolIds, keyToRow).filter((r) => r.team === teamName);
+    const seen = new Set();
+    let rows = [];
+    rowsFromPoolIds(poolIds, keyToRow)
+      .filter((r) => r.team === teamName)
+      .forEach((r) => {
+        const k = window.iplPoolPlayerKey(r);
+        if (excludeKeys && excludeKeys.has(k)) {
+          return;
+        }
+        if (seen.has(k)) {
+          return;
+        }
+        seen.add(k);
+        rows.push(r);
+      });
     const arRows = rows.filter((r) => window.iplGetRawProfileRole(r.team, r.player) === "all_rounder");
     const bowlRows = rows.filter((r) => window.iplGetRawProfileRole(r.team, r.player) === "bowler");
     if (arRows.length + bowlRows.length < pCount) {
       return null;
     }
-    const arPick = pickSplitPoolSubset(arRows, needAr, appearanceCounts, tuning);
-    const bowlPick = pickSplitPoolSubset(bowlRows, pCount - needAr, appearanceCounts, tuning);
-    if (!arPick || !bowlPick || arPick.length + bowlPick.length !== pCount) {
+    const localUsed = new Set(excludeKeys || []);
+    const arPick = pickSplitPoolSubset(arRows, needAr, appearanceCounts, tuning, localUsed);
+    if (!arPick) {
+      return null;
+    }
+    arPick.forEach((r) => localUsed.add(window.iplPoolPlayerKey(r)));
+    const bowlPick = pickSplitPoolSubset(bowlRows, pCount - needAr, appearanceCounts, tuning, localUsed);
+    if (!bowlPick || arPick.length + bowlPick.length !== pCount) {
       return null;
     }
     return [...arPick, ...bowlPick];
@@ -689,7 +1003,7 @@
     return Math.min(1, pair.pA + pair.pB);
   }
 
-  function pickP3ForPair(pair, keyToRow, appearanceCounts, tuning, sp) {
+  function pickP3ForPair(pair, keyToRow, appearanceCounts, tuning, sp, excludeKeys) {
     const teamA = window.teamASelect?.value || "";
     const teamB = window.teamBSelect?.value || "";
     const needAr = Math.max(
@@ -710,8 +1024,26 @@
       if (arB < 0 || arB > pair.pB) {
         continue;
       }
-      const p3A = fillP3Slots(teamA, pair.pA, arA, sp.teamA.p3, keyToRow, appearanceCounts, tuning);
-      const p3B = fillP3Slots(teamB, pair.pB, arB, sp.teamB.p3, keyToRow, appearanceCounts, tuning);
+      const p3A = fillP3Slots(
+        teamA,
+        pair.pA,
+        arA,
+        sp.teamA.p3,
+        keyToRow,
+        appearanceCounts,
+        tuning,
+        excludeKeys
+      );
+      const p3B = fillP3Slots(
+        teamB,
+        pair.pB,
+        arB,
+        sp.teamB.p3,
+        keyToRow,
+        appearanceCounts,
+        tuning,
+        excludeKeys
+      );
       if (p3A && p3B) {
         return { p3A, p3B };
       }
@@ -719,42 +1051,203 @@
     return null;
   }
 
-  function buildXiFromPair(pair, keyToRow, appearanceCounts, tuning, poolOpts) {
+  function poolFillDiag(sp, side, poolKey, franchise, keyToRow, excludeKeys) {
+    let rows = franchisePoolRows(sp, side, poolKey, franchise, keyToRow);
+    const total = rows.length;
+    if (excludeKeys && excludeKeys.size) {
+      rows = rows.filter((r) => !excludeKeys.has(window.iplPoolPlayerKey(r)));
+    }
+    return { assigned: sp[side][poolKey].length, resolved: total, available: rows.length };
+  }
+
+  function formatPickLabels(rows) {
+    return (rows || []).map((r) => `${r.player} (${r.team})`);
+  }
+
+  /** Append picks to XI; detect duplicate player keys immediately with slot label. */
+  function appendPicks(team, slotLabel, picked, usedKeys, needK) {
+    if (picked === null) {
+      return {
+        error: "p1p2_fill",
+        fillSlot: slotLabel,
+        need: needK,
+      };
+    }
+    if (needK > 0 && picked.length !== needK) {
+      return {
+        error: "p1p2_fill",
+        fillSlot: slotLabel,
+        need: needK,
+        got: picked.length,
+        hint: "pick_returned_short",
+      };
+    }
+    const duplicatePicks = [];
+    for (const r of picked) {
+      const k = window.iplPoolPlayerKey(r);
+      if (usedKeys.has(k)) {
+        duplicatePicks.push({ slot: slotLabel, key: k, player: r.player, team: r.team });
+      } else {
+        usedKeys.add(k);
+        team.push(r);
+      }
+    }
+    if (duplicatePicks.length) {
+      return {
+        error: "xi_overlap",
+        fillSlot: slotLabel,
+        need: needK,
+        got: picked.length,
+        duplicatePicks,
+        teamLen: team.length,
+        unique: usedKeys.size,
+        hint: "player_already_used_in_another_pool_slot",
+      };
+    }
+    return {
+      ok: true,
+      labels: formatPickLabels(picked),
+    };
+  }
+
+  function buildXiFromPair(pair, keyToRow, appearanceCounts, tuning, poolOpts, traceOut) {
     const teamA = window.teamASelect?.value || "";
     const teamB = window.teamBSelect?.value || "";
     const sp = effectiveSplitPoolsForBuild(poolOpts?.useReduced, poolOpts?.excludeSet);
-    const p3 = pickP3ForPair(pair, keyToRow, appearanceCounts, tuning, sp);
+    const usedKeys = new Set();
+    const team = [];
+    const trace = traceOut || null;
+    const pairLabel = `${pair.a}|${pair.b}`;
+
+    if (trace) {
+      trace.pair = pairLabel;
+      trace.need = { tA: pair.tA, rA: pair.rA, pA: pair.pA, tB: pair.tB, rB: pair.rB, pB: pair.pB };
+      trace.steps = [];
+      trace.crossPoolDups = splitPoolCrossPoolDuplicates(sp).length;
+    }
+
+    const stepDefs = [
+      ["p1A", "teamA", "p1", teamA, pair.tA],
+      ["p2A", "teamA", "p2", teamA, pair.rA],
+      ["p1B", "teamB", "p1", teamB, pair.tB],
+      ["p2B", "teamB", "p2", teamB, pair.rB],
+    ];
+
+    for (const [slot, side, poolKey, franchise, needK] of stepDefs) {
+      const need = Math.max(0, Math.floor(Number(needK) || 0));
+      const poolRows = franchisePoolRows(sp, side, poolKey, franchise, keyToRow);
+      const picked = pickSplitPoolSubset(poolRows, need, appearanceCounts, tuning, usedKeys);
+      const append = appendPicks(team, slot, picked, usedKeys, need);
+      if (trace) {
+        const afterEx =
+          usedKeys && usedKeys.size
+            ? poolRows.filter((r) => !usedKeys.has(window.iplPoolPlayerKey(r)))
+            : poolRows;
+        trace.steps.push({
+          slot,
+          need,
+          diag: poolFillDiag(sp, side, poolKey, franchise, keyToRow, usedKeys),
+          poolRows: poolRows.length,
+          eligible: afterEx.length,
+          pickedLen: picked ? picked.length : null,
+          ...(append.ok ? { picks: append.labels } : append),
+        });
+      }
+      if (!append.ok) {
+        if (append.error === "p1p2_fill") {
+          append.diag = poolFillDiag(sp, side, poolKey, franchise, keyToRow, usedKeys);
+        }
+        return append;
+      }
+    }
+
+    const p3 = pickP3ForPair(pair, keyToRow, appearanceCounts, tuning, sp, usedKeys);
     if (!p3) {
+      if (trace) {
+        trace.steps.push({ slot: "p3", error: "p3_fill", needAr: window.SplitPoolCatalog.arStar(pair.pA, pair.pB) });
+      }
       return { error: "p3_fill" };
     }
-    const p1A = pickSplitPoolSubset(
-      rowsFromPoolIds(sp.teamA.p1, keyToRow).filter((r) => r.team === teamA),
-      pair.tA,
-      appearanceCounts,
-      tuning
-    );
-    const p2A = pickSplitPoolSubset(
-      rowsFromPoolIds(sp.teamA.p2, keyToRow).filter((r) => r.team === teamA),
-      pair.rA,
-      appearanceCounts,
-      tuning
-    );
-    const p1B = pickSplitPoolSubset(
-      rowsFromPoolIds(sp.teamB.p1, keyToRow).filter((r) => r.team === teamB),
-      pair.tB,
-      appearanceCounts,
-      tuning
-    );
-    const p2B = pickSplitPoolSubset(
-      rowsFromPoolIds(sp.teamB.p2, keyToRow).filter((r) => r.team === teamB),
-      pair.rB,
-      appearanceCounts,
-      tuning
-    );
-    if (!p1A || !p2A || !p1B || !p2B) {
-      return { error: "p1p2_fill" };
+
+    for (const [slot, picked, needK] of [
+      ["p3A", p3.p3A, pair.pA],
+      ["p3B", p3.p3B, pair.pB],
+    ]) {
+      const append = appendPicks(team, slot, picked, usedKeys, needK);
+      if (trace) {
+        trace.steps.push({
+          slot,
+          need: needK,
+          ...(append.ok ? { picks: append.labels } : append),
+        });
+      }
+      if (!append.ok) {
+        return append;
+      }
     }
-    return { team: [...p1A, ...p2A, ...p3.p3A, ...p1B, ...p2B, ...p3.p3B] };
+
+    if (team.length !== 11 || usedKeys.size !== 11) {
+      return {
+        error: "xi_size_mismatch",
+        gotLen: team.length,
+        unique: usedKeys.size,
+        hint:
+          team.length !== usedKeys.size
+            ? "duplicate_player_in_xi"
+            : team.length < 11
+              ? "pick_returned_short"
+              : "too_many_picks",
+        trace,
+      };
+    }
+    if (trace) {
+      trace.ok = true;
+      trace.teamLen = team.length;
+      trace.unique = usedKeys.size;
+    }
+    return { team };
+  }
+
+  /** Dry-run all C4 whitelist pairs against live pools (preflight for UI / logs). */
+  function diagnoseC4PoolBuild(keyToRow, poolOpts) {
+    const cat = window.SplitPoolCatalog;
+    const teamA = window.teamASelect?.value || "";
+    const teamB = window.teamBSelect?.value || "";
+    const sp = effectiveSplitPoolsForBuild(poolOpts?.useReduced, poolOpts?.excludeSet);
+    const cross = splitPoolCrossPoolDuplicates(sp);
+    const crossKeys = splitPoolCrossPoolKeyDuplicates(sp, keyToRow);
+    const rows = [];
+    ["65", "56"].forEach((segKey) => {
+      (cat.listPairStrings("C4", segKey) || []).forEach((pairStr) => {
+        const pair = cat.parsePair(pairStr);
+        const trace = { segment: segKey };
+        const built = buildXiFromPair(pair, keyToRow, new Map(), window.DEFAULT_GENERATOR_TUNING || {}, poolOpts, trace);
+        rows.push({
+          segment: segKey,
+          pair: pairStr,
+          ok: Boolean(built.team),
+          error: built.error || null,
+          fillSlot: built.fillSlot,
+          got: built.got,
+          gotLen: built.gotLen,
+          unique: built.unique,
+          hint: built.hint,
+          duplicatePicks: built.duplicatePicks,
+          traceSteps: trace.steps,
+        });
+      });
+    });
+    return {
+      teamA,
+      teamB,
+      crossPoolDuplicates: cross.length,
+      cross,
+      crossPoolKeyDuplicates: crossKeys.length,
+      crossKeys,
+      uniqA: uniqueFranchisePoolCount(sp, "teamA", teamA, keyToRow),
+      uniqB: uniqueFranchisePoolCount(sp, "teamB", teamB, keyToRow),
+      pairResults: rows,
+    };
   }
 
   async function generateSplitPoolTeamsForStrategy(
@@ -793,12 +1286,26 @@
     let attempts = 0;
     const hardAttemptCap = numTeams * window.ATTEMPTS_MULTIPLIER * SPLIT_POOL_ATTEMPTS_MULTIPLIER;
     const verboseLog = Boolean(document.getElementById("splitPoolVerboseLogCheckbox")?.checked);
+    const c4Verbose = Boolean(document.getElementById("splitPoolC4VerboseCheckbox")?.checked);
+    const teamAName = window.teamASelect?.value || "";
+    const teamBName = window.teamBSelect?.value || "";
+    const c4DebugLog = [];
+    const c4Preflight = diagnoseC4PoolBuild(keyToRow, {
+      useReduced: false,
+      excludeSet: excludePlayerSet,
+    });
+    if (c4Verbose) {
+      console.info("[split_pool C4 preflight]", c4Preflight);
+    }
     const rejectStats = {
       no_pair: 0,
+      no_feasible_pair: 0,
       pair_psum: 0,
       pair_t33: 0,
       p3_fill: 0,
       p1p2_fill: 0,
+      xi_overlap: 0,
+      xi_size_mismatch: 0,
       overlap_keys: 0,
       cvc_none: 0,
       dedupe_collision: 0,
@@ -810,6 +1317,23 @@
     const maxRejectSamples = 35;
     const stageReports = [];
     const cvPairCounts = new Map();
+    let feasibleMapFull = null;
+    let feasibleMapReduced = null;
+    let profileSubstitutions = 0;
+
+    function feasibleMapForBuild(useReduced) {
+      const sp = effectiveSplitPoolsForBuild(useReduced, excludePlayerSet);
+      if (useReduced) {
+        if (!feasibleMapReduced) {
+          feasibleMapReduced = buildFeasiblePairMap(cat, sp, teamAName, teamBName, keyToRow);
+        }
+        return feasibleMapReduced;
+      }
+      if (!feasibleMapFull) {
+        feasibleMapFull = buildFeasiblePairMap(cat, sp, teamAName, teamBName, keyToRow);
+      }
+      return feasibleMapFull;
+    }
 
     function recordSplitReject(code, extra = {}) {
       if (String(code).startsWith("xi_")) {
@@ -819,6 +1343,13 @@
       }
       if (verboseLog && rejectSamples.length < maxRejectSamples) {
         rejectSamples.push({ code, ...extra });
+      }
+      if (
+        c4Verbose &&
+        c4DebugLog.length < 20 &&
+        (extra.profileId === "C4" || extra.targetProfileId === "C4")
+      ) {
+        c4DebugLog.push({ code, ...extra });
       }
     }
 
@@ -839,17 +1370,29 @@
             { attemptCap: hardAttemptCap, phase: `dup pass ${stageIdx + 1}` }
           );
         }
-        const profileId = cat.profileAtTeamIndex(teams.length, profilePlan);
-        const segKey = cat.segmentForProfileTeam(profileId, profileCounts[profileId]);
-        const pairRotKey = `${profileId}:${segKey}`;
-        const pairRotIdx = pairRotationCounts[pairRotKey] || 0;
-        pairRotationCounts[pairRotKey] = pairRotIdx + 1;
-        const pair = cat.pickPair(profileId, segKey, pairRotIdx);
-        const pairLabel = pair ? `${pair.a}|${pair.b}` : "";
-        if (!pair) {
-          recordSplitReject("no_pair", { profileId, segKey, stage: maxDupPerXi });
+        const targetProfileId = cat.profileAtTeamIndex(teams.length, profilePlan);
+        const useReduced = teams.length >= fullPoolTeamCount;
+        const feasibleMap = feasibleMapForBuild(useReduced);
+        const picked = selectRotatingFeasiblePair(
+          cat,
+          targetProfileId,
+          profileCounts,
+          feasibleMap,
+          pairRotationCounts
+        );
+        if (!picked) {
+          recordSplitReject("no_feasible_pair", {
+            targetProfileId,
+            stage: maxDupPerXi,
+            reduced: useReduced,
+          });
           continue;
         }
+        const { profileId, segKey, pair, substituted } = picked;
+        if (substituted) {
+          profileSubstitutions += 1;
+        }
+        const pairLabel = `${pair.a}|${pair.b}`;
         const prof = cat.PROFILES[profileId];
         if (prof.pSumMax != null && pair.pA + pair.pB > prof.pSumMax) {
           recordSplitReject("pair_psum", { profileId, segKey, pair: pairLabel, stage: maxDupPerXi });
@@ -859,18 +1402,57 @@
           recordSplitReject("pair_t33", { profileId, segKey, pair: pairLabel, stage: maxDupPerXi });
           continue;
         }
-        const useReduced = teams.length >= fullPoolTeamCount;
-        const built = buildXiFromPair(pair, keyToRow, counts, t, {
-          useReduced,
-          excludeSet: excludePlayerSet,
-        });
+        const buildTrace =
+          c4Verbose && (profileId === "C4" || targetProfileId === "C4") ? {} : null;
+        const built = buildXiFromPair(
+          pair,
+          keyToRow,
+          counts,
+          t,
+          {
+            useReduced,
+            excludeSet: excludePlayerSet,
+          },
+          buildTrace
+        );
         if (built.error) {
-          recordSplitReject(built.error, { profileId, segKey, pair: pairLabel, stage: maxDupPerXi, reduced: useReduced });
+          recordSplitReject(built.error, {
+            profileId,
+            targetProfileId,
+            segKey,
+            pair: pairLabel,
+            stage: maxDupPerXi,
+            reduced: useReduced,
+            fillSlot: built.fillSlot,
+            need: built.need,
+            diag: built.diag,
+            gotLen: built.gotLen,
+            unique: built.unique,
+            duplicatePicks: built.duplicatePicks,
+            hint: built.hint,
+            c4Trace: buildTrace,
+          });
+          if (c4Verbose && buildTrace && c4DebugLog.length < 20) {
+            console.info("[split_pool C4 build fail]", {
+              pair: pairLabel,
+              error: built.error,
+              fillSlot: built.fillSlot,
+              duplicatePicks: built.duplicatePicks,
+              trace: buildTrace,
+            });
+          }
           continue;
         }
         const team = built.team;
         if (!team || team.length !== 11) {
-          recordSplitReject("p1p2_fill", { profileId, segKey, pair: pairLabel, stage: maxDupPerXi, gotLen: team?.length });
+          recordSplitReject("xi_size_mismatch", {
+            profileId,
+            segKey,
+            pair: pairLabel,
+            stage: maxDupPerXi,
+            gotLen: team?.length,
+            hint: "built_team_wrong_length",
+          });
           continue;
         }
         const uniq = new Set(team.map(window.iplPoolPlayerKey));
@@ -941,6 +1523,7 @@
         teams.push({
           strategy: STRATEGY_ID_SPLIT_POOL,
           splitProfile: profileId,
+          splitProfileTarget: substituted ? targetProfileId : undefined,
           splitSegment: segKey,
           splitPair: pairLabel,
           highScoreScenario: scenarioId,
@@ -983,6 +1566,13 @@
       profileCounts: { ...profileCounts },
       profileTargetCounts: { ...(profilePlan.counts || {}) },
       profilePercents: { ...(profilePlan.percents || getSplitPoolProfilePercentsFromUi()) },
+      feasiblePairsFull: summarizeFeasiblePairs(feasibleMapFull),
+      feasiblePairsReduced: feasibleMapReduced
+        ? summarizeFeasiblePairs(feasibleMapReduced)
+        : null,
+      profileSubstitutions,
+      c4Preflight,
+      c4DebugLog: [...c4DebugLog],
       teamsFromFullPool: fullPoolTeamCount,
       teamsFromReducedPool: Math.max(0, numTeams - fullPoolTeamCount),
       reducedExcludeCount: excludePlayerSet.size,
@@ -1015,6 +1605,7 @@
     autoFillSplitPoolsFromSelection,
     getSplitPoolOnlyBlockers,
     generateSplitPoolTeamsForStrategy,
+    diagnoseC4PoolBuild,
     getSplitPoolFullPoolPercentFromUi,
     getSplitPoolProfilePercentsFromUi,
     applySplitPoolProfilePercentsToUi,
